@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Fragment, Component} from 'react';
 import {
   Button,
   View,
@@ -10,13 +10,15 @@ import {
   TouchableOpacity,
   Linking,
   Dimensions,
-  Alert
+  Alert,
+  SafeAreaView,
+  NativeModules
 } from 'react-native';
 import Image from 'react-native-scalable-image';
 import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Calendar from './src/components/Calendar';
-import NewDirections from './src/components/NewDirections';
+import Directions from './src/components/Directions';
 import HomeScreen from './src/components/HomeScreen';
 import Lillys from './src/components/Lillys';
 import LillysCarousel from './src/components/galleries/LillysCarousel';
@@ -29,7 +31,6 @@ import cio from 'cheerio-without-node-native';
 
 
 
-
 export default class App extends Component {
   constructor(){
     super();
@@ -38,9 +39,20 @@ export default class App extends Component {
     }
   }
   componentWillMount (){
-
       console.disableYellowBox = true;
   }
+  showNav(){
+    var navDemo = NativeModules.NavDemo;
+    navDemo.renderNaviDemo(
+      (originLat = 41.3282668),
+      (originLon = -72.9248731),
+      (originName = 'Current Location'),
+      (destinationLat = 41.311587),
+      (destinationLon = -72.929541),
+      (destinationName = "Toad's Place"),
+    );
+  }
+
   render() {
     const HomeStack = createStackNavigator({
       HomeScreen: {
@@ -128,7 +140,7 @@ export default class App extends Component {
     });
 
     const DirectionStack = createStackNavigator({
-      Directions: { screen: NewDirections,
+      Directions: { screen: Directions,
         navigationOptions: {
           title: "Toad's Place",
           headerStyle: {
@@ -199,7 +211,7 @@ export default class App extends Component {
                 icon = <Icon name={iconName} size={30} style={styles.glow}/>
               } else if (routeName === 'Directions'){
                 iconName = 'location-arrow';
-                icon = <Icon name={iconName} size={30} style={styles.glow}/>
+                icon = <Icon onClick={this.showNav} name={iconName} size={30} style={styles.glow}/>
               } else if (routeName ==='Lillys'){
                 iconName = 'glass-martini';
                 icon = <Icon name={iconName} size={30} style={styles.glow}/>
