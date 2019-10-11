@@ -15,7 +15,6 @@ import Mapbox
 
 @objc(NavDemo)
 class NavDemo: NSObject {
-
   @objc
   func renderNaviDemo(_ originLat: NSNumber, oriLon originLon: NSNumber, oriName originName: NSString, destLat destinationLat: NSNumber, destLon destinationLon: NSNumber, destName destinationName: NSString) {
 
@@ -30,7 +29,6 @@ class NavDemo: NSObject {
       let navigationService = MapboxNavigationService(route: route, simulating: .never)
       let navigationOptions = NavigationOptions(navigationService: navigationService)
 
-      CancelButton.appearance().isHidden = true
 
       let viewController = NavigationViewController(for: route, options: navigationOptions)
       let appDelegate = UIApplication.shared.delegate

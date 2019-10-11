@@ -41,19 +41,10 @@ export default class App extends Component {
   componentWillMount (){
       console.disableYellowBox = true;
   }
-  showNav(){
-    var navDemo = NativeModules.NavDemo;
-    navDemo.renderNaviDemo(
-      (originLat = 41.3282668),
-      (originLon = -72.9248731),
-      (originName = 'Current Location'),
-      (destinationLat = 41.311587),
-      (destinationLon = -72.929541),
-      (destinationName = "Toad's Place"),
-    );
-  }
 
   render() {
+
+
     const HomeStack = createStackNavigator({
       HomeScreen: {
         screen: HomeScreen,
@@ -211,7 +202,7 @@ export default class App extends Component {
                 icon = <Icon name={iconName} size={30} style={styles.glow}/>
               } else if (routeName === 'Directions'){
                 iconName = 'location-arrow';
-                icon = <Icon onClick={this.showNav} name={iconName} size={30} style={styles.glow}/>
+                icon = <Icon name={iconName} size={30} style={styles.glow}/>
               } else if (routeName ==='Lillys'){
                 iconName = 'glass-martini';
                 icon = <Icon name={iconName} size={30} style={styles.glow}/>
@@ -228,7 +219,8 @@ export default class App extends Component {
             inactiveBackgroundColor: 'black',
             activeBackgroundColor: '#272727',
             style:{
-              height: 65
+              height: 65,
+              zIndex: 1000
             }
           }
         }

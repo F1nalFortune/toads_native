@@ -16,34 +16,34 @@ export default class Lillys extends Component {
       <View
         style={{
           borderBottomColor: color,
-          borderBottomWidth: 1
+          borderBottomWidth: 1,
+          width: '90%',
+          paddingTop: 10,
+          marginBottom: 10
         }}
       />
     );
     return (
       <ScrollView>
-      <View style={styles.imgWrapper}>
-      </View>
         <View style={styles.container}>
-          <ImageBackground
-             style={{width: '100%', resizeMode: 'cover'}}
-             source={require("../../assets/images/Lilly/lilly_6.jpg")}
-          >
-            <Text style={styles.title}>Lilly's Pad</Text>
-            <Text style={styles.subtitle}>Available for Private Parties</Text>
-            <ColoredLine color="green" />
-          </ImageBackground>
-          <View>
+          <Text style={styles.header}>Lilly's Pad</Text>
+          <Text style={styles.subhead}>Available for Private Parties (21+)</Text>
+          <ColoredLine color="green" />
+          <Text style={{fontSize: 18}}>Looking for a place to have your next party?</Text>
+          <Text style={styles.info}>
+            For information regarding rentals, please fill out our contact form
+            or call (203) 562 - 5589 x10.
+          </Text>
+          <View style={styles.button}>
             <TouchableOpacity
-              style={styles.button}
               onPress={() => this.props.navigation.navigate('LillysScreen')}
             >
               <Text>Lilly's Pad</Text>
             </TouchableOpacity>
           </View>
-          <View>
+          <Text> We also have our Rainforest Room Available to Rent!</Text>
+          <View style={styles.button}>
             <TouchableOpacity
-              style={styles.button}
               onPress={() => this.props.navigation.navigate('RainforestScreen')}
             >
               <Text>Rainforest Room</Text>
@@ -57,11 +57,22 @@ export default class Lillys extends Component {
 
 
 const styles = StyleSheet.create({
+  header:{
+    fontSize: 24,
+    textAlign: 'center',
+    fontFamily: "Merriweather-Light"
+  },
+  subhead:{
+    textAlign: 'center',
+    fontFamily: "Merriweather-Light",
+    color: 'red',
+    paddingTop: 5
+  },
   container:{
      flex: 1,
-     justifyContent: "center",
+     // justifyContent: "center",
      alignItems: "center",
-     marginTop: 100
+     marginTop: 10
   },
   button:{
     borderColor: 'green',
@@ -78,18 +89,7 @@ const styles = StyleSheet.create({
   imgWrapper:{
     width: '100%'
   },
-  title: {
-    fontSize: 20,
-    textAlign: 'center',
-    lineHeight: 25,
-    fontWeight: 'bold',
-    color: 'white',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 1,
-    shadowColor: 'black',
-    shadowOpacity: 0.8,
-  },
+  info:{
+    paddingTop: 10
+  }
 })
