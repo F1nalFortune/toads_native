@@ -25,6 +25,7 @@ import LillysCarousel from './src/components/galleries/LillysCarousel';
 import RainforestCarousel from './src/components/galleries/RainforestCarousel'
 import Dance from './src/components/Dance';
 import About from './src/components/About';
+import Tickets from './src/components/Tickets';
 import AddressScreen from './src/components/AddressScreen';
 import ShowDetails from './src/components/ShowDetails';
 import cio from 'cheerio-without-node-native';
@@ -185,7 +186,8 @@ export default class App extends Component {
           Calendar: { screen: CalendarStack },
           Directions: { screen: DirectionStack},
           Lillys: { screen: LillyStack},
-          Dance: { screen: Dance }
+          // Dance: { screen: Dance },
+          Tickets: { screen: Tickets}
         },
         {
           defaultNavigationOptions: ({ navigation }) => ({
@@ -208,6 +210,9 @@ export default class App extends Component {
                 icon = <Icon name={iconName} size={30} style={styles.glow}/>
               } else if(routeName ==='Dance'){
                 iconName = 'compact-disc';
+                icon = <Icon name={iconName} size={30} style={styles.glow}/>
+              } else if(routeName ==='Tickets'){
+                iconName= 'ticket-alt';
                 icon = <Icon name={iconName} size={30} style={styles.glow}/>
               }
               return icon;
