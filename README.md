@@ -74,4 +74,9 @@ Install NPM packages and pods
 rm -rf node_modules && npm i && cd ios/ && pod repo update && pod install && cd ../
 ```
 
+Update Carthage packages
+```
+carthage update --platform iOS
+```
+
 Open NavDemo.xcworkspace in XCODE and Build to iPhone iOS version 11.0+
