@@ -86,36 +86,55 @@ export default class ShowDetails extends Component {
             style: 'cancel',
           },
           {text: 'OK', onPress: () => {
-            RNCalendarEvents.saveEvent(this.state.item.title, {
-              location:"Toad's Place, 300 York St, New Haven CT 06510",
-              notes: this.state.item.information[2],
-              description: this.state.item.title + " live at Toad's!",
-              startDate: startDate.toISOString(),
-              endDate: endDate.toISOString(),
-              alarms: [{
-                date: -120
-              }]
-            })
-            .then(() => {
-              Alert.alert(
-                'Event Added',
-                'Event successfully added to calendar!',
-                [
-                  {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ],
-                {cancelable: false},
-              );
+
+            RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
+            .then((promise) => {
+              if (promise[0].title == this.state.item.title){
+                Alert.alert(
+                  'Woops!',
+                  'Event already saved in calendar.',
+                  [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ],
+                  {cancelable: false},
+                );
+              }
+
             })
             .catch(error => {
-              Alert.alert(
-                'Error',
-                'Please try again.',
-                [
-                  {text: 'OK', onPress: () => console.log('OK Pressed')},
-                ],
-                {cancelable: false},
-              );
+              RNCalendarEvents.saveEvent(this.state.item.title, {
+                location:"Toad's Place, 300 York St, New Haven CT 06510",
+                notes: this.state.item.information[2],
+                description: this.state.item.title + " live at Toad's!",
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString(),
+                alarms: [{
+                  date: -120
+                }]
+              })
+              .then(() => {
+                Alert.alert(
+                  'Event Added',
+                  'Event successfully added to calendar!',
+                  [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ],
+                  {cancelable: false},
+                );
+              })
+              .catch(error => {
+                Alert.alert(
+                  'Error',
+                  'Please try again.',
+                  [
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                  ],
+                  {cancelable: false},
+                );
+              })
             })
+
+
           }},
         ],
         {cancelable: false},
