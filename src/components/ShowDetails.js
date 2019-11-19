@@ -42,6 +42,51 @@ export default class ShowDetails extends Component {
     this.setState({
       item: this.props.navigation.state.params.item
     })
+
+
+    const item = this.props.navigation.state.params.item;
+    handleCreateDate = (date) => {
+      var month = date[0];
+      var year = new Date().getFullYear();
+      var day = date[1];
+      var eventDate = day + " " + month + " " + year;
+      return eventDate;
+    }
+    handleCreateTime = (time) => {
+      //ADD 0 PLACEHOLDER
+      var showtime = time.replace("SHOW STARTS @ ", "");
+      var minutes = showtime.substring(showtime.length - 3)
+      showtime = showtime.substring(0, showtime.length - 3)
+      showtime = parseInt(showtime) + 12
+      showtime = showtime.toString();
+      showtime = showtime + minutes
+      return showtime
+    }
+    // console.log(this.state.item.information[3])
+
+    var eventDate = handleCreateDate(item.date);
+    var eventTime = handleCreateTime(item.information[3])
+    var fullDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
+    var startDate = new Date(fullDate)
+    var endDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
+    endDate = new Date(endDate)
+    endDate.setHours(endDate.getHours() + 1)
+
+    RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
+    .then((promise) => {
+      if (promise[0].title == item.title){
+        this.setState({
+          savedInCalendar: true,
+          buttonText: 'REMOVE EVENT FROM CALENDAR'
+        })
+      }
+    })
+    .catch(error => {
+      this.setState({
+        savedInCalendar: false,
+        buttonText: 'ADD EVENT TO CALENDAR'
+      })
+    })
   }
   handleAddEvent = () => {
     // console.log(JSON.stringify(props,0,2))
@@ -76,69 +121,124 @@ export default class ShowDetails extends Component {
       // console.log("Start Date: " + startDate)
       // console.log("End Date: " + endDate)
       // console.log("Title: " + this.state.item.title)
-      Alert.alert(
-        'Confirm',
-        'Add event to calendar?',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => {
-
-            RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
-            .then((promise) => {
-              if (promise[0].title == this.state.item.title){
-                Alert.alert(
-                  'Woops!',
-                  'Event already saved in calendar.',
-                  [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
-                  ],
-                  {cancelable: false},
-                );
-              }
-
-            })
-            .catch(error => {
-              RNCalendarEvents.saveEvent(this.state.item.title, {
-                location:"Toad's Place, 300 York St, New Haven CT 06510",
-                notes: this.state.item.information[2],
-                description: this.state.item.title + " live at Toad's!",
-                startDate: startDate.toISOString(),
-                endDate: endDate.toISOString(),
-                alarms: [{
-                  date: -120
-                }]
-              })
-              .then(() => {
-                Alert.alert(
-                  'Event Added',
-                  'Event successfully added to calendar!',
-                  [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
-                  ],
-                  {cancelable: false},
-                );
+      if (this.state.savedInCalendar){
+        Alert.alert(
+          'Confirm',
+          'Remove event to calendar?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => {
+              RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
+              .then((promise) => {
+                var id = promise[0]['id']
+                RNCalendarEvents.removeEvent(id)
+                .then(() => {
+                  Alert.alert(
+                    'Event Removed',
+                    'Event successfully removed from calendar.',
+                    [
+                      {text: 'OK', onPress: () => {
+                        console.log('OK Pressed')
+                      }},
+                    ],
+                    {cancelable: false},
+                  );
+                })
+                this.setState({
+                  savedInCalendar: false,
+                  buttonText: 'ADD EVENT TO CALENDAR'
+                })
               })
               .catch(error => {
                 Alert.alert(
                   'Error',
-                  'Please try again.',
+                  'Please try again',
                   [
-                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    {text: 'OK'},
                   ],
                   {cancelable: false},
                 );
               })
-            })
+            }},
+          ],
+          {cancelable: false},
+        );
+      }else{
+        Alert.alert(
+          'Confirm',
+          'Add event to calendar?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {text: 'OK', onPress: () => {
+
+              RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
+              .then((promise) => {
+                if (promise[0].title == this.state.item.title){
+                  Alert.alert(
+                    'Woops!',
+                    'Event already saved in calendar.',
+                    [
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    {cancelable: false},
+                  );
+                }
+
+              })
+              .catch(error => {
+                RNCalendarEvents.saveEvent(this.state.item.title, {
+                  location:"Toad's Place, 300 York St, New Haven CT 06510",
+                  notes: this.state.item.information[2],
+                  description: this.state.item.title + " live at Toad's!",
+                  startDate: startDate.toISOString(),
+                  endDate: endDate.toISOString(),
+                  alarms: [{
+                    date: -120
+                  }]
+                })
+                .then(() => {
+                  Alert.alert(
+                    'Event Added',
+                    'Event successfully added to calendar!',
+                    [
+                      {text: 'OK', onPress: () => {
+                        console.log('OK Pressed')
+                      }},
+                    ],
+                    {cancelable: false},
+                  );
+                  this.setState({
+                    savedInCalendar: true,
+                    buttonText: 'REMOVE EVENT FROM CALENDAR'
+                  })
+                })
+                .catch(error => {
+                  Alert.alert(
+                    'Error',
+                    'Please try again.',
+                    [
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    {cancelable: false},
+                  );
+                })
+              })
 
 
-          }},
-        ],
-        {cancelable: false},
-      );
+            }},
+          ],
+          {cancelable: false},
+        );
+      }
+
     } else {
       Alert.alert(
         'Allow Access',
@@ -240,10 +340,10 @@ export default class ShowDetails extends Component {
         </View>
         <View>
           <TouchableOpacity
-            style={styles.button}
+            style={this.state.savedInCalendar ? styles.delButton : styles.button}
             onPress={() => this.handleAddEvent()}
           >
-            <Text>ADD EVENT TO CALENDAR</Text>
+            <Text>{this.state.buttonText}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -260,6 +360,18 @@ const styles = StyleSheet.create ({
   },
   button:{
     borderColor: 'green',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    padding: 10,
+    textTransform: 'uppercase',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10
+  },
+  delButton:{
+    borderColor: '#b53838',
     borderRadius: 10,
     borderWidth: 1,
     borderStyle: 'solid',
