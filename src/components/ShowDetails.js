@@ -17,7 +17,25 @@ export default class ShowDetails extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
     return {
-      title: params.item.title
+      title: "Event Info",
+      headerStyle: {
+        backgroundColor: "#000000cc",
+        opacity: .8
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        color: "#fff",
+        textShadowColor: "#66ff66",
+        textShadowOffset: {width: -1, height: 1},
+        textShadowRadius: 10,
+        shadowOpacity: .58,
+        textAlign: 'center',
+        fontFamily: "Merriweather-Bold",
+        textTransform: 'uppercase',
+        fontSize: 24,
+        padding: 10
+      },
+      headerBackTitle: "Back"
     };
   };
 
@@ -277,7 +295,17 @@ export default class ShowDetails extends Component {
 
 
   render(){
-
+    const ColoredLine = ({ color }) => (
+      <View
+        style={{
+          borderBottomColor: color,
+          borderBottomWidth: 1,
+          width: '90%',
+          paddingTop: 10,
+          marginBottom: 10
+        }}
+      />
+    );
     const item = this.props.navigation.state.params.item;
     console.log(item.date)
 
@@ -296,6 +324,8 @@ export default class ShowDetails extends Component {
         </TouchableOpacity>
         <View
           style={styles.dateWrapper}>
+          <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+          <ColoredLine color="green" />
           <Text
             style={styles.date}>
               {item.date[2]} \\
@@ -393,6 +423,12 @@ const styles = StyleSheet.create ({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  eventTitle:{
+    paddingTop: 10,
+    fontSize:26,
+    fontFamily: "Merriweather-Bold",
+    textTransform: 'uppercase'
   },
   footer:{
     flex: 1,

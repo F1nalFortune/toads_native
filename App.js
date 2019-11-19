@@ -125,7 +125,7 @@ export default class App extends Component {
       Calendar: {
         screen: Calendar,
         navigationOptions: {
-          title: "Toad's Place",
+          title: "Calendar",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8
@@ -146,7 +146,9 @@ export default class App extends Component {
           headerBackTitle: "Events"
         }
       },
-      Details: { screen: ShowDetails }
+      Details: {
+        screen: ShowDetails
+      }
     });
 
     const LillyStack = createStackNavigator({
