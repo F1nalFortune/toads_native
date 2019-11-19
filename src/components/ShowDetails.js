@@ -196,7 +196,7 @@ export default class ShowDetails extends Component {
               style: 'cancel',
             },
             {text: 'OK', onPress: () => {
-
+              console.log(JSON.stringify(this.state.item, null, 2))
               RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
               .then((promise) => {
                 if (promise[0].title == this.state.item.title){
@@ -212,9 +212,17 @@ export default class ShowDetails extends Component {
 
               })
               .catch(error => {
+                var item_details = this.state.item
+                var acts = ""
+                for(i=0; i<this.state.item.acts.length;i++){
+                  acts.concat(this.state.item.acts[i]);
+                  acts.concat("\n");
+                }
                 RNCalendarEvents.saveEvent(this.state.item.title, {
                   location:"Toad's Place, 300 York St, New Haven CT 06510",
-                  notes: this.state.item.information[2],
+                  notes: "EVENT DETAILS: \n\n" + item_details.information[2] +
+                    "\n" + item_details.information[3] + "\n\n" + acts + item_details.information[4] +
+                    "\n\n" + "TICKETS: " + "\n" + item_details.information[1] + "\n" + item_details.information[0],
                   description: this.state.item.title + " live at Toad's!",
                   startDate: startDate.toISOString(),
                   endDate: endDate.toISOString(),
@@ -428,7 +436,8 @@ const styles = StyleSheet.create ({
     paddingTop: 10,
     fontSize:26,
     fontFamily: "Merriweather-Bold",
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    textAlign: 'center'
   },
   footer:{
     flex: 1,
