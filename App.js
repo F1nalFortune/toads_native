@@ -174,8 +174,54 @@ export default class App extends Component {
           headerBackTitle: "Back"
         }
       },
-      LillysScreen: { screen: LillysCarousel },
-      RainforestScreen: { screen: RainforestCarousel }
+      LillysScreen: {
+        screen: LillysCarousel,
+        navigationOptions: {
+          title: "Lilly's Pad",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          },
+          headerBackTitle: "Back"
+        }
+       },
+      RainforestScreen: {
+        screen: RainforestCarousel,
+        navigationOptions: {
+          title: "Rainforest Room",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          },
+          headerBackTitle: "Back"
+        }
+      }
     });
 
     const DirectionStack = createStackNavigator({

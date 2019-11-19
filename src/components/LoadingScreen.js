@@ -12,7 +12,6 @@ import {
 
 export default class LoadingScreen extends Component {
   render() {
-
     return (
       <View style={styles.container}>
         <Image
@@ -21,7 +20,6 @@ export default class LoadingScreen extends Component {
           Loading ...
         </Text>
       </View>
-
     );
   }
 }
