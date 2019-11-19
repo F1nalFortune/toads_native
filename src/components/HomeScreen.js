@@ -42,8 +42,9 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.btn}>Venue Info</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.item}>
-            <Text style={styles.btn}>Email Us</Text>
+            style={styles.item}
+            onPress={() => this.props.navigation.navigate('Gallery')}>
+            <Text style={styles.btn}>Gallery</Text>
           </TouchableOpacity>
       </View>
       </ImageBackground>

@@ -28,8 +28,8 @@ import About from './src/components/About';
 import Tickets from './src/components/Tickets';
 import AddressScreen from './src/components/AddressScreen';
 import ShowDetails from './src/components/ShowDetails';
+import PhotoGallery from './src/components/galleries/PhotoGallery';
 import cio from 'cheerio-without-node-native';
-
 
 
 export default class App extends Component {
@@ -71,7 +71,54 @@ export default class App extends Component {
           headerBackTitle: "Back"
         }
       },
-      About: { screen: About }
+      About: {
+        screen: About,
+        navigationOptions: {
+          title: "Venue Info",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          },
+          headerBackTitle: "Back"
+        }
+      },
+      Gallery: {
+        screen: PhotoGallery,
+        navigationOptions: {
+          title: "Gallery",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          },
+          headerBackTitle: "Back"
+        }
+      }
     });
 
     const CalendarStack = createStackNavigator({
@@ -186,8 +233,8 @@ export default class App extends Component {
           Calendar: { screen: CalendarStack },
           Directions: { screen: DirectionStack},
           Lillys: { screen: LillyStack},
-          // Dance: { screen: Dance },
-          Tickets: { screen: Tickets}
+          Dance: { screen: Dance }
+          // Tickets: { screen: Tickets}
         },
         {
           defaultNavigationOptions: ({ navigation }) => ({
