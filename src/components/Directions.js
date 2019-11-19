@@ -45,7 +45,7 @@ export default class Directions extends Component {
                {"\n"}
              </Text>
              <ColoredLine color="green" />
-             <Text>
+             <Text style={{padding: 10}}>
               Directions to our front doors is as easy as pressing the button below.
              </Text>
              <View>
