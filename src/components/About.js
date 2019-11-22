@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
-
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  Linking
+} from 'react-native';
+const width = '40%';
+const height = '20%';
 export default class About extends Component {
   render() {
     return (
     <ScrollView style={styles.background}>
+      <View style={styles.imgWrapper}>
+          <Image
+            styles={{width: 50, height: 50}}
+            source={require("../../assets/images/toads_banner.png")}/>
+      </View>
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-
         <Text style={styles.wrapper}>
           Toad's Place has been hoppin' since 1975, establishing itself as one
           of the premier music halls in the country. Virtually every major
@@ -29,6 +43,13 @@ export default class About extends Component {
           Toad's Place...where the legends play!
         </Text>
         <View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => Linking.openURL("https://www.toadsplacemerch.com/")}>
+            <Text style={{color:'black'}}>Official Merchandise</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
           <Text style={styles.toads}>Toad's Place</Text>
           <Text  style={styles.contact}>
             300 York St, New Haven, CT 06511{"\n"}
@@ -47,9 +68,23 @@ const styles = StyleSheet.create({
   background:{
     backgroundColor: '#c0dfc066'
   },
-  wrapper:{
-    padding: 15,
-    fontSize: 16
+  box:{
+    width: width,
+    height: height,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F3D1B0',
+  },
+  button:{
+    borderColor: 'green',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    padding: 10,
+    textTransform: 'uppercase',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10
   },
   contact: {
     textAlign: 'center',
@@ -57,11 +92,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 16
   },
+  image: {
+      width: 50,
+      resizeMode: 'contain',
+      height: 50
+  },
+  imgWrapper:{
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   toads: {
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 16,
     fontWeight: 'bold'
+  },
+  wrapper:{
+      padding: 15,
+      fontSize: 16
   }
 })
