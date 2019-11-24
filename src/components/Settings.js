@@ -4,8 +4,9 @@ import { Text, View } from 'react-native';
 export default class Dance extends Component {
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Dance!</Text>
+      <View style={{ flex: 1}}>
+        <Text>Please select your musical preferences to receive notifications
+        when your favorite genre is on our stage!</Text>
       </View>
     );
   }

@@ -26,7 +26,6 @@ export default class Lillys extends Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.header}>Lilly's Pad</Text>
           <Text style={styles.subhead}>Available for Private Parties (21+)</Text>
           <ColoredLine color="green" />
           <Text style={{fontSize: 18}}>Looking for a place to have your next party?</Text>
