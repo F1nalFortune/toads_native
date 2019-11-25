@@ -15,19 +15,25 @@ import {
   NativeModules
 } from 'react-native';
 import Application from './src/components/Application'
-import Login from './src/components/Login'
+import GeneralStatusBarColor from './src/components/GeneralStatusBarColor';
 
+import Routes from './src/Routes';
 // return <Application />
 export default class App extends Component {
 
   render() {
-    return <Login />
+
+    return(
+      <Routes />
+    )
   }
 }
 
 const styles = StyleSheet.create ({
   container:{
     backgroundColor: '#FAFAFA',
-    flex: 1
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })

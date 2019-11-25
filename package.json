@@ -19,6 +19,7 @@
     "react-native-gesture-handler": "^1.4.1",
     "react-native-launch-navigator": "^1.0.6",
     "react-native-parallax": "^0.3.0",
+    "react-native-router-flux": "^4.0.6",
     "react-native-scalable-image": "^0.5.1",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^3.11.1",
