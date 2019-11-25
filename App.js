@@ -16,15 +16,28 @@ import {
 } from 'react-native';
 import Application from './src/components/Application'
 import GeneralStatusBarColor from './src/components/GeneralStatusBarColor';
+import {Provider} from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 
-import Routes from './src/Routes';
+import Main from './src/Main'
+
+import Routes from './src/components/Routes';
+import persist from './src/config/store';
+
+const persistStore = persist();
+
+console.log(persist)
 // return <Application />
-export default class App extends Component {
+export default class App extends Component<Props> {
 
   render() {
 
     return(
-      <Routes />
+      <Provider store={persistStore.store}>
+        <PersistGate loading={null} persistor={persistStore.persistor}>
+          <Main />
+        </PersistGate>
+      </Provider>
     )
   }
 }
