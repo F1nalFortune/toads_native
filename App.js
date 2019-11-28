@@ -14,7 +14,7 @@ import {
   SafeAreaView,
   NativeModules
 } from 'react-native';
-import Application from './src/components/Application'
+// import Application from './src/components/Application'
 import GeneralStatusBarColor from './src/components/GeneralStatusBarColor';
 import {Provider} from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -22,22 +22,15 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Main from './src/Main'
 
 import Routes from './src/components/Routes';
-import persist from './src/config/store';
 
-const persistStore = persist();
 
-console.log(persist)
 // return <Application />
-export default class App extends Component<Props> {
+export default class App extends Component {
 
   render() {
 
     return(
-      <Provider store={persistStore.store}>
-        <PersistGate loading={null} persistor={persistStore.persistor}>
           <Main />
-        </PersistGate>
-      </Provider>
     )
   }
 }

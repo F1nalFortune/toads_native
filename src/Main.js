@@ -13,7 +13,7 @@ import {connect} from "react-redux";
 import Routes from './components/Routes';
 
 
-class Main extends Component {
+export default class Main extends Component {
   componentWillMount (){
       console.disableYellowBox = true;
   }
@@ -36,5 +36,3 @@ const styles = StyleSheet.create({
     flex:1
   }
 });
-
-export default connect(null, null)(Main)

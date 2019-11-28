@@ -16,12 +16,9 @@ import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
 
 import {Actions} from 'react-native-router-flux';
 export default class Login extends Component {
-  componentWillMount (){
-      console.disableYellowBox = true;
-  }
 
   signup(){
-    Actions.signup()
+    Actions.pop()
   }
 
   render() {
