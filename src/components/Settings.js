@@ -86,23 +86,29 @@ export default class Dance extends Component {
   render() {
 
 
-    const SwitchContainer = ({ genre }) => {
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleSwitch}
-            value = {this.state.switchValue}/>
-          <Text style={styles.genre}>Genre</Text>
-        </View>
-    }
+    const ColoredLine = ({ color }) => (
+      <View
+        style={{
+          borderBottomColor: color,
+          borderBottomWidth: 1,
+          width: '90%',
+          paddingTop: 10,
+          marginBottom: 10
+        }}
+      />
+    );
 
     const { currentUser } = this.state
     return (
     <ScrollView>
       <View style={styles.container}>
-        <Text>
-          Current User: {currentUser && currentUser.email}
+        <Text style={styles.currentUser}>
+          Logged in as: {currentUser && currentUser.email}
         </Text>
+        <Text style={styles.title}>
+          Genres
+        </Text>
+        <ColoredLine color="green" />
         <Text>Please select your musical preferences to receive notifications
         when your favorite genre is on our stage!</Text>
 
@@ -110,7 +116,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleFunk}
-            value = {this.state.funk}/>
+            value = {this.state.funk}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Funk</Text>
         </View>
 
@@ -118,7 +125,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleHip}
-            value = {this.state.hip_hop}/>
+            value = {this.state.hip_hop}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Hip-Hop</Text>
         </View>
 
@@ -126,7 +134,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleMetal}
-            value = {this.state.metal}/>
+            value = {this.state.metal}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Metal</Text>
         </View>
 
@@ -134,7 +143,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleDance}
-            value = {this.state.dance}/>
+            value = {this.state.dance}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Dance</Text>
         </View>
 
@@ -142,7 +152,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleReggae}
-            value = {this.state.reggae}/>
+            value = {this.state.reggae}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Reggae</Text>
         </View>
 
@@ -150,7 +161,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleBlues}
-            value = {this.state.blues}/>
+            value = {this.state.blues}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Blues</Text>
         </View>
 
@@ -158,7 +170,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleJazz}
-            value = {this.state.jazz}/>
+            value = {this.state.jazz}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Jazz</Text>
         </View>
 
@@ -166,7 +179,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleRock}
-            value = {this.state.rock}/>
+            value = {this.state.rock}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Rock</Text>
         </View>
 
@@ -174,7 +188,8 @@ export default class Dance extends Component {
           <Switch
             style={{marginTop:30}}
             onValueChange = {this.toggleSka}
-            value = {this.state.ska}/>
+            value = {this.state.ska}
+            trackColor={{true: '#008000b3'}}/>
           <Text style={styles.genre}>Ska</Text>
         </View>
 
@@ -208,6 +223,9 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10
   },
+  currentUser:{
+    textAlign: 'right'
+  },
   genre: {
     fontSize: 18,
     padding: 5
@@ -215,5 +233,9 @@ const styles = StyleSheet.create({
   switchContainer:{
     flexDirection: 'row',
     alignItems: 'flex-end'
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold'
   }
 })
