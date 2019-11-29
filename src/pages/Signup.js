@@ -128,6 +128,7 @@ export default class SignUp extends Component {
       <SafeAreaView style={styles.container}>
         <Logo />
         <View style={styles.container}>
+        
           <TextInput
             style={styles.inputBox}
             placeholder="Email"

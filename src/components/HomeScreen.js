@@ -26,9 +26,6 @@ export default class HomeScreen extends React.Component {
         style={{width: '100%', height: '100%'}}
       >
       <View style={styles.container}>
-          <Text>
-            Hello {currentUser && currentUser.email}
-          </Text>
           <TouchableOpacity
             style={styles.item}
             onPress={() => Linking.openURL("tel:+1-203-624-8623")}>
