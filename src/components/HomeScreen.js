@@ -7,29 +7,28 @@ import {
   TouchableOpacity,
   Linking
 } from 'react-native';
+import firebase from 'react-native-firebase'
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Home',
-    headerStyle: {
-      backgroundColor: '#f4511e',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
+  state = { currentUser: null }
+  componentDidMount() {
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
   }
-
   handlePhoneCall = () => {
     Linking.openUrl(this.state.phone)
   }
   render() {
+    const { currentUser } = this.state
     return (
       <ImageBackground
         source={require('../../mobile_mic.jpg')}
         style={{width: '100%', height: '100%'}}
       >
       <View style={styles.container}>
+          <Text>
+            Hello {currentUser && currentUser.email}
+          </Text>
           <TouchableOpacity
             style={styles.item}
             onPress={() => Linking.openURL("tel:+1-203-624-8623")}>

@@ -11,8 +11,6 @@ import {
 
 
 export default class LoginForm extends Component {
-
-
   render() {
     return (
       <View style={styles.container}>
@@ -22,18 +20,18 @@ export default class LoginForm extends Component {
           placeholderTextColor="white"
           selectionColor="#345f3f"
           keyboardType="email-address"
-          onSubmitEditing={() => this.password.focus()}/>
+          onSubmitEditing={() => this.password.focus()}
+          onChangeText={text => this.props.changeText(text, 'email')}
+          />
         <TextInput
           style={styles.inputBox}
           placeholder="Password"
           placeholderTextColor="white"
           secureTextEntry={true}
           selectionColor="#345f3f"
-          ref={(input) => this.password = input}/>
-        <TouchableOpacity
-          style={styles.button}>
-          <Text style={styles.buttonText}>{this.props.type}</Text>
-        </TouchableOpacity>
+          ref={(input) => this.password = input}
+          onChangeText={text => this.props.changeText(text, 'password')}
+          />
       </View>
     );
   }

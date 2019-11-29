@@ -18,9 +18,6 @@ export default class Main extends Component {
       console.disableYellowBox = true;
   }
 
-  goBack(){
-    Actions.pop()
-  }
 
   render() {
     return (

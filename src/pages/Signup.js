@@ -4,8 +4,10 @@ import {
   View,
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput
   } from 'react-native';
+
 
 import {connect} from 'react-redux'
 import {compose} from 'redux'
@@ -75,19 +77,25 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class Signup extends Component {
+export default class SignUp extends Component {
+    // Initialize empty state here
+  state = {
+    email: '',
+    password: '',
+    errorMsg: ''
+  };
 
+// Add this method here, type will be either email or password and the text will be whatever you type
 
-  login(){
-    Actions.login()
-  }
-
-  createNewUser = (values) => {
-    firebase.auth().createUserWithEmailAndPassword(email, password).then(res => {
-      //Do something here. like display message "Sucessfully registered"
-    }).cathc(err => {
-      //handle erors
-    });
+  createNewUser = () => {
+    const {email, password} = this.state;
+    console.log("Email: ", email)
+    console.log("Password; ", password)
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => this.props.navigation.navigate('HomeScreen'))
+      .catch(error => console.log(error))
   }
 
   onSubmit = (values) => {
@@ -119,11 +127,36 @@ export default class Signup extends Component {
             barStyle="light-content"/>
       <SafeAreaView style={styles.container}>
         <Logo />
-        <LoginForm type="Signup"/>
+        <View style={styles.container}>
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Email"
+            placeholderTextColor="white"
+            selectionColor="#345f3f"
+            keyboardType="email-address"
+            onSubmitEditing={() => this.password.focus()}
+            onChangeText={email => this.setState({ email })}
+            value={this.state.email}
+            />
+          <TextInput
+            style={styles.inputBox}
+            placeholder="Password"
+            placeholderTextColor="white"
+            secureTextEntry={true}
+            selectionColor="#345f3f"
+            ref={(input) => this.password = input}
+            onChangeText={password => this.setState({ password })}
+            value={this.state.password}
+            />
+        </View>
+        <TouchableOpacity
+            onPress={() => this.createNewUser()}>
+            <Text style={styles.signupButton}> Sign Up</Text>
+        </TouchableOpacity>
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Already have an account?</Text>
           <TouchableOpacity
-            onPress={this.login}>
+            onPress={() => this.props.navigation.navigate('Login')}>
             <Text style={styles.signupButton}> Sign in</Text>
           </TouchableOpacity>
         </View>

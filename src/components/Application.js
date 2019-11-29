@@ -15,7 +15,7 @@ import {
   NativeModules
 } from 'react-native';
 import Image from 'react-native-scalable-image';
-import { createStackNavigator, createBottomTabNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createBottomTabNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Calendar from './Calendar';
 import Directions from './Directions';
@@ -31,6 +31,9 @@ import ShowDetails from './ShowDetails';
 import PhotoGallery from './galleries/PhotoGallery';
 import cio from 'cheerio-without-node-native';
 
+import Loading from './Loading'
+import SignUp from '../pages/SignUp'
+import Login from '../pages/Login'
 
 export default class Application extends Component {
   constructor(){
@@ -280,9 +283,25 @@ export default class Application extends Component {
       }
     })
 
-    const AppContainer = createAppContainer(
-      createBottomTabNavigator(
+    const AppContainer = createAppContainer(createBottomTabNavigator(
         {
+          Loading: {
+            screen: Loading,
+            navigationOptions: {
+              tabBarVisible: false
+            }
+           },
+          SignUp: { screen: SignUp,
+            navigationOptions: {
+              tabBarVisible: false
+            }
+          },
+          Login: {
+            screen: Login,
+            navigationOptions: {
+              tabBarVisible: false
+            }
+          },
           HomeScreen: {
             screen: HomeStack,
             navigationOptions: {
@@ -336,6 +355,10 @@ export default class Application extends Component {
               } else if(routeName ==='Gallery'){
                 iconName= 'camera-retro';
                 icon = <Icon name={iconName} size={30} style={styles.glow}/>
+              } else{
+                iconName= 'camera-retro';
+                icon = <Icon name={iconName} size={30} style={{display: 'none'}}/>
+
               }
               return icon;
             },
@@ -350,13 +373,16 @@ export default class Application extends Component {
               zIndex: 1000
             }
           }
+        },
+        {
+          initialRouteName: 'Loading'
         }
-      )
-    );
-
+      ));
     return <AppContainer />;
   }
 }
+
+
 
 const styles = StyleSheet.create ({
   act:{

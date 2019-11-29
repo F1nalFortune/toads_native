@@ -19,18 +19,16 @@ import GeneralStatusBarColor from './src/components/GeneralStatusBarColor';
 import {Provider} from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import Main from './src/Main'
+import Application from './src/components/Application'
 
-import Routes from './src/components/Routes';
+// import Main from './src/Main';
 
-
-// return <Application />
 export default class App extends Component {
 
   render() {
 
     return(
-          <Main />
+          <Application />
     )
   }
 }

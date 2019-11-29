@@ -6,8 +6,10 @@ import {
   SafeAreaView,
   Image,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert // add this here
   } from 'react-native';
+import firebase from 'react-native-firebase'; // import firebase
 
 
 import Logo from '../components/Logo'
@@ -16,10 +18,35 @@ import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
 
 import {Actions} from 'react-native-router-flux';
 export default class Login extends Component {
+  // Initialize empty state here
+   state = {
+    email: '',
+    password: '',
+    errorMsg: ''
+  };
+
+// Add this method here, type will be either email or password and the text will be whatever you type
+  handleChangeText = (text, type) => {
+    this.setState({
+      [type]: text
+    });
+  }
+
+  handleSignIn = () => {
+    const { email, password } = this.state
+    console.log("Email: ", email)
+    console.log("Password; ", password)
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => this.props.navigation.navigate('HomeScreen'))
+      .catch(error => console.log(error))
+  }
 
   signup(){
     Actions.pop()
   }
+
 
   render() {
     return (
@@ -28,11 +55,17 @@ export default class Login extends Component {
             barStyle="light-content"/>
       <SafeAreaView style={styles.container}>
         <Logo />
-        <LoginForm type="Login"/>
+        <LoginForm
+          changeText={(text, type) => this.handleChangeText(text, type)} // Added new props here & also removed the type props
+        />
+        <TouchableOpacity
+            onPress={() => this.handleSignIn()}>
+            <Text style={styles.signupButton}> Sign In</Text>
+          </TouchableOpacity>
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Don't have an account yet?</Text>
           <TouchableOpacity
-            onPress={this.signup}
+            onPress={() => this.props.navigation.navigate('SignUp')}
           >
             <Text style={styles.signupButton}> Signup</Text>
           </TouchableOpacity>
