@@ -128,7 +128,7 @@ export default class SignUp extends Component {
       <SafeAreaView style={styles.container}>
         <Logo />
         <View style={styles.container}>
-        
+
           <TextInput
             style={styles.inputBox}
             placeholder="Email"
@@ -151,8 +151,9 @@ export default class SignUp extends Component {
             />
         </View>
         <TouchableOpacity
-            onPress={() => this.createNewUser()}>
-            <Text style={styles.signupButton}> Sign Up</Text>
+            onPress={() => this.createNewUser()}
+            style={styles.button}>
+            <Text style={styles.buttonText}> Sign Up</Text>
         </TouchableOpacity>
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Already have an account?</Text>

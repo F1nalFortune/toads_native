@@ -43,10 +43,6 @@ export default class Login extends Component {
       .catch(error => console.log(error))
   }
 
-  signup(){
-    Actions.pop()
-  }
-
 
   render() {
     return (
@@ -59,8 +55,9 @@ export default class Login extends Component {
           changeText={(text, type) => this.handleChangeText(text, type)} // Added new props here & also removed the type props
         />
         <TouchableOpacity
-            onPress={() => this.handleSignIn()}>
-            <Text style={styles.signupButton}> Sign In</Text>
+            onPress={() => this.handleSignIn()}
+            style={styles.button}>
+            <Text style={styles.buttonText}> Sign In</Text>
           </TouchableOpacity>
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Don't have an account yet?</Text>

@@ -9,8 +9,33 @@ import {
   ScrollView
 } from 'react-native';
 import firebase from 'react-native-firebase';
+import RNCalendarEvents from 'react-native-calendar-events';
 
 export default class Dance extends Component {
+  componentWillMount(){
+    RNCalendarEvents.authorizationStatus()
+     .then(status => {
+       // if the status was previous accepted, set the authorized status to state
+       this.setState({ cal_auth: status })
+       if (status === 'authorized'){
+         this.setState({ calendar: true })
+       } else {
+         this.setState({ calendar: false })
+       }
+       console.log("Status: ", status)
+       if(status === 'undetermined') {
+         // if we made it this far, we need to ask the user for access
+         RNCalendarEvents.authorizeEventStore()
+         .then((out) => {
+           if(out == 'authorized') {
+             // set the new status to the auth state
+             this.setState({ cal_auth: out })
+           }
+         })
+        }
+      })
+    .catch(error => console.warn('Auth Error: ', error));
+  }
   state = {
     currentUser: null,
     funk:false,
@@ -21,7 +46,8 @@ export default class Dance extends Component {
     blues:false,
     jazz:false,
     rock:false,
-    ska:false
+    ska:false,
+    location:false
   }
   componentDidMount() {
     const { currentUser } = firebase.auth()
@@ -73,6 +99,16 @@ export default class Dance extends Component {
     console.log(value)
   }
 
+  toggleLocation = (value) => {
+    this.setState({location: value})
+    console.log(value)
+  }
+
+  toggleCalendar = (value) => {
+    this.setState({valendar: value})
+    console.log(value)
+  }
+
   signOutUser = async () => {
     try {
         await firebase.auth().signOut();
@@ -105,92 +141,118 @@ export default class Dance extends Component {
         <Text style={styles.currentUser}>
           Logged in as: {currentUser && currentUser.email}
         </Text>
-        <Text style={styles.title}>
-          Genres
-        </Text>
-        <ColoredLine color="green" />
-        <Text>Please select your musical preferences to receive notifications
-        when your favorite genre is on our stage!</Text>
-
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleFunk}
-            value = {this.state.funk}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Funk</Text>
+        <View>
+          <Text style={styles.title}>
+            Genres
+          </Text>
+          <ColoredLine color="green" />
+          <Text>Please select your musical preferences to receive notifications
+          when your favorite genre is on our stage!</Text>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleFunk}
+              value = {this.state.funk}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Funk</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleHip}
+              value = {this.state.hip_hop}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Hip-Hop</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleMetal}
+              value = {this.state.metal}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Metal</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleDance}
+              value = {this.state.dance}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Dance</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleReggae}
+              value = {this.state.reggae}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Reggae</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleBlues}
+              value = {this.state.blues}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Blues</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleJazz}
+              value = {this.state.jazz}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Jazz</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleRock}
+              value = {this.state.rock}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Rock</Text>
+          </View>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleSka}
+              value = {this.state.ska}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Ska</Text>
+          </View>
         </View>
 
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleHip}
-            value = {this.state.hip_hop}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Hip-Hop</Text>
+        <View>
+          <Text style={styles.title}>
+            Location
+          </Text>
+          <ColoredLine color="green" />
+          <Text>Turn on location services to use our built-in GPS feature for navigation
+          to our front doors.</Text>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleLocation}
+              value = {this.state.location}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Location</Text>
+          </View>
         </View>
 
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleMetal}
-            value = {this.state.metal}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Metal</Text>
-        </View>
-
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleDance}
-            value = {this.state.dance}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Dance</Text>
-        </View>
-
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleReggae}
-            value = {this.state.reggae}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Reggae</Text>
-        </View>
-
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleBlues}
-            value = {this.state.blues}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Blues</Text>
-        </View>
-
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleJazz}
-            value = {this.state.jazz}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Jazz</Text>
-        </View>
-
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleRock}
-            value = {this.state.rock}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Rock</Text>
-        </View>
-
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleSka}
-            value = {this.state.ska}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Ska</Text>
+        <View>
+          <Text style={styles.title}>
+            Calendar
+          </Text>
+          <ColoredLine color="green" />
+          <Text>Allow access to your calendar to add an events with the click of a button.</Text>
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleCalendar}
+              value = {this.state.calendar}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Calendar</Text>
+          </View>
         </View>
 
         <View>
@@ -236,6 +298,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginTop: 15
   }
 })

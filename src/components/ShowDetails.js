@@ -315,7 +315,6 @@ export default class ShowDetails extends Component {
       />
     );
     const item = this.props.navigation.state.params.item;
-    console.log(item.date)
 
     return(
       <ScrollView>
