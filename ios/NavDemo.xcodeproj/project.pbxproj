@@ -33,6 +33,8 @@
 		6D9D7D1329052F8AD50A258B /* libPods-NavDemo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DD188144F40F415B630CD2F /* libPods-NavDemo-tvOS.a */; };
 		878A5A8439BB44089AFDA462 /* Merriweather-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D313774C37654607A85B8727 /* Merriweather-Regular.ttf */; };
 		8CAF681838B34FAB892F1ADC /* Merriweather-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9FFD0E442B59EF5AB2B /* Merriweather-Light.ttf */; };
+		8E251BBC23977FA60027CD3B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E251BBB23977FA60027CD3B /* UserNotifications.framework */; };
+		8E251BC0239787D40027CD3B /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E251BBF239787D40027CD3B /* libRNFirebase.a */; };
 		8E3C2BA323444509008E5FE2 /* NavDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA223444509008E5FE2 /* NavDemo.swift */; };
 		8E3C2BA523444592008E5FE2 /* NavDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA423444592008E5FE2 /* NavDemo.m */; };
 		8E3C2BFD23444CC8008E5FE2 /* NavDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA223444509008E5FE2 /* NavDemo.swift */; };
@@ -76,6 +78,13 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "NavDemo-tvOS";
 		};
+		8E251BB923977F5C0027CD3B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8E251BB523977F5C0027CD3B /* RNFirebase.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFirebase;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +118,10 @@
 		78E6069744E24D3199E1B759 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		7D684AD258964D0E9788A73E /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		886FFAFCD93C4BC49B06590F /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		8E251BB4239777F30027CD3B /* NavDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NavDemo.entitlements; path = NavDemo/NavDemo.entitlements; sourceTree = "<group>"; };
+		8E251BB523977F5C0027CD3B /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
+		8E251BBB23977FA60027CD3B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		8E251BBF239787D40027CD3B /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNFirebase.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E3C2BA123444509008E5FE2 /* NavDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NavDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		8E3C2BA223444509008E5FE2 /* NavDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavDemo.swift; sourceTree = "<group>"; };
 		8E3C2BA423444592008E5FE2 /* NavDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NavDemo.m; sourceTree = "<group>"; };
@@ -191,6 +204,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E251BC0239787D40027CD3B /* libRNFirebase.a in Frameworks */,
+				8E251BBC23977FA60027CD3B /* UserNotifications.framework in Frameworks */,
 				8EC3B1E32363AAC10051E7FD /* MapboxNavigationNative.framework in Frameworks */,
 				8EC3B1E42363AAC10051E7FD /* MapboxNavigation.framework in Frameworks */,
 				8EC3B1E52363AAC10051E7FD /* MapboxCoreNavigation.framework in Frameworks */,
@@ -259,6 +274,7 @@
 		13B07FAE1A68108700A75B9A /* NavDemo */ = {
 			isa = PBXGroup;
 			children = (
+				8E251BB4239777F30027CD3B /* NavDemo.entitlements */,
 				8E5A717223903E910097E8AB /* GoogleService-Info.plist */,
 				8E3C2BA123444509008E5FE2 /* NavDemo-Bridging-Header.h */,
 				8E3C2BA423444592008E5FE2 /* NavDemo.m */,
@@ -277,6 +293,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8E251BBF239787D40027CD3B /* libRNFirebase.a */,
+				8E251BBB23977FA60027CD3B /* UserNotifications.framework */,
 				8E3C2BA723444C63008E5FE2 /* iOS */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
@@ -322,6 +340,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				8E251BB523977F5C0027CD3B /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -349,6 +368,14 @@
 				00E356EE1AD99517003FC87E /* NavDemoTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* NavDemo-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* NavDemo-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8E251BB623977F5C0027CD3B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8E251BBA23977F5C0027CD3B /* libRNFirebase.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -505,6 +532,9 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -530,6 +560,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8E251BB623977F5C0027CD3B /* Products */;
+					ProjectRef = 8E251BB523977F5C0027CD3B /* RNFirebase.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* NavDemo */,
@@ -539,6 +575,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8E251BBA23977F5C0027CD3B /* libRNFirebase.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFirebase.a;
+			remoteRef = 8E251BB923977F5C0027CD3B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -921,12 +967,55 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NavDemo/NavDemo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = W6WFB3GN9H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalyticsInterop\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuthInterop\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
+					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
+					"\"${PODS_ROOT}/Headers/Public/RNFirebase\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNLaunchNavigator\"",
+					"\"${PODS_ROOT}/Headers/Public/RNVectorIcons\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-DevSupport\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTAnimation\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTImage\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTLinking\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTNetwork\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTSettings\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTVibration\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTWebSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-calendar-events\"",
+					"\"${PODS_ROOT}/Headers/Public/yoga\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase",
 				);
 				INFOPLIST_FILE = NavDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -954,11 +1043,54 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NavDemo/NavDemo.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W6WFB3GN9H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalyticsInterop\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseAuthInterop\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
+					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
+					"\"${PODS_ROOT}/Headers/Public/RNFirebase\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNLaunchNavigator\"",
+					"\"${PODS_ROOT}/Headers/Public/RNVectorIcons\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-DevSupport\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTActionSheet\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTAnimation\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTBlob\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTImage\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTLinking\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTNetwork\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTSettings\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTVibration\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTWebSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-calendar-events\"",
+					"\"${PODS_ROOT}/Headers/Public/yoga\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase",
 				);
 				INFOPLIST_FILE = NavDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

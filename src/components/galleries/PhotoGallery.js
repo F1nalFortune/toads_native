@@ -3,6 +3,9 @@ import { Text, View } from 'react-native';
 import GallerySwiper from "react-native-gallery-swiper";
 
 export default class PhotoGallery extends Component {
+
+  //// TODO:
+  // add infinite scroll
   render() {
     var images = [
       {
@@ -65,6 +68,7 @@ export default class PhotoGallery extends Component {
 
     };
     shuffle(images)
+    // add infinite scroll here
     return (
         <GallerySwiper
             style={{ flex: 1, backgroundColor: "black" }}

@@ -42,13 +42,23 @@ export default class About extends Component {
           under 21, don't despair...come in and kick it with us on our All Ages nights.
           Toad's Place...where the legends play!
         </Text>
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => Linking.openURL("https://www.toadsplacemerch.com/")}>
-            <Text style={{color:'black'}}>Official Merchandise</Text>
-          </TouchableOpacity>
+
+
+        <View style={{
+          flexDirection: 'row'
+        }}>
+          <Text style={styles.socialIcon}>
+            Facebook
+          </Text>
+          <Text style={styles.socialIcon}>
+            Instagram
+          </Text>
+          <Text style={styles.socialIcon}>
+            Twitter
+          </Text>
         </View>
+
+
         <View>
           <Text style={styles.toads}>Toad's Place</Text>
           <Text  style={styles.contact}>
@@ -57,6 +67,17 @@ export default class About extends Component {
             toadsplac@aol.com
           </Text>
         </View>
+
+        
+        <View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => Linking.openURL("https://www.toadsplacemerch.com/")}>
+            <Text style={{color:'black'}}>Official Merchandise</Text>
+          </TouchableOpacity>
+        </View>
+
+
       </View>
     </ScrollView>
     );
@@ -101,6 +122,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  socialTitle:{
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  socialIcon:{
+    padding: 5
   },
   toads: {
     textAlign: 'center',

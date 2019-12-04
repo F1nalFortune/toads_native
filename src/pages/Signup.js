@@ -103,7 +103,19 @@ export default class SignUp extends Component {
   }
 
   renderTextInput = (field) => {
-    const { meta: {touched, error}, label, secureTextEntry, maxLength, keyboardType, placeholder, input: {onChange, ...restInput}} = field;
+    const {
+      meta: {
+        touched, error
+      },
+      label,
+      secureTextEntry,
+      maxLength,
+      keyboardType,
+      placeholder,
+      input: {
+        onChange, ...restInput
+      }
+    } = field;
     return (
       <View>
         <InputText
@@ -128,7 +140,6 @@ export default class SignUp extends Component {
       <SafeAreaView style={styles.container}>
         <Logo />
         <View style={styles.container}>
-
           <TextInput
             style={styles.inputBox}
             placeholder="Email"
@@ -139,6 +150,7 @@ export default class SignUp extends Component {
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
             />
+          {(touched && error) && <Text style={styles.error}>{error}</Text>}
           <TextInput
             style={styles.inputBox}
             placeholder="Password"

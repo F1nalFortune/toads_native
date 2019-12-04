@@ -105,7 +105,12 @@ export default class Dance extends Component {
   }
 
   toggleCalendar = (value) => {
-    this.setState({valendar: value})
+    this.setState({calendar: value})
+    console.log(value)
+  }
+
+  toggleNotifications = (value) => {
+    this.setState({notifications: value})
     console.log(value)
   }
 
@@ -138,9 +143,23 @@ export default class Dance extends Component {
     return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={styles.currentUser}>
-          Logged in as: {currentUser && currentUser.email}
+
+      <View>
+        <Text style={styles.title}>
+          Push Notifications
         </Text>
+        <ColoredLine color="green" />
+        <Text>Turn on to allow push notifications while using the app.</Text>
+        <View style={styles.switchContainer}>
+          <Switch
+            style={{marginTop:30}}
+            onValueChange = {this.toggleNotifications}
+            value = {this.state.notifications}
+            trackColor={{true: '#008000b3'}}/>
+          <Text style={styles.genre}>Push Notifications</Text>
+        </View>
+      </View>
+      
         <View>
           <Text style={styles.title}>
             Genres
@@ -222,6 +241,8 @@ export default class Dance extends Component {
           </View>
         </View>
 
+
+
         <View>
           <Text style={styles.title}>
             Location
@@ -255,14 +276,22 @@ export default class Dance extends Component {
           </View>
         </View>
 
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.signOutUser()}
-          >
-            <Text>Signout</Text>
-          </TouchableOpacity>
+
+
+        <View style={styles.bottomFooter}>
+          <Text style={styles.currentUser}>
+            Logged in as: {currentUser && currentUser.email}
+          </Text>
+          <View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.signOutUser()}
+            >
+              <Text>Signout</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+
       </View>
     </ScrollView>
     );
@@ -280,6 +309,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 10
+  },
+  bottomFooter:{
+    marginTop: 25
   },
   container:{
     flex: 1,

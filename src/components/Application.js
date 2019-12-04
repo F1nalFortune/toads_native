@@ -30,10 +30,14 @@ import AddressScreen from './AddressScreen';
 import ShowDetails from './ShowDetails';
 import PhotoGallery from './galleries/PhotoGallery';
 import cio from 'cheerio-without-node-native';
+import firebase from 'react-native-firebase';
+import { AsyncStorage } from 'react-native';
 
 import Loading from './Loading'
 import SignUp from '../pages/SignUp'
 import Login from '../pages/Login'
+
+import BottomTabBar from 'react-navigation-selective-tab-bar';
 
 export default class Application extends Component {
   constructor(){
@@ -42,8 +46,93 @@ export default class Application extends Component {
       cal_auth: ''
     }
   }
-  componentWillMount (){
-      console.disableYellowBox = true;
+  async componentDidMount() {
+    this.checkPermission();
+    this.createNotificationListeners();
+    console.disableYellowBox = true;
+  }
+//Remove listeners allocated in createNotificationListeners()
+  componentWillUnmount() {
+    this.notificationListener();
+    this.notificationOpenedListener();
+  }
+
+  async createNotificationListeners() {
+    /*
+    * Triggered when a particular notification has been received in foreground
+    * */
+    this.notificationListener = firebase.notifications().onNotification((notification) => {
+        const { title, body } = notification;
+        this.showAlert(title, body);
+    });
+
+    /*
+    * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
+    * */
+    this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+        const { title, body } = notificationOpen.notification;
+        this.showAlert(title, body);
+    });
+
+    /*
+    * If your app is closed, you can check if it was opened by a notification being clicked / tapped / opened as follows:
+    * */
+    const notificationOpen = await firebase.notifications().getInitialNotification();
+    if (notificationOpen) {
+        const { title, body } = notificationOpen.notification;
+        this.showAlert(title, body);
+    }
+    /*
+    * Triggered for data only payload in foreground
+    * */
+    this.messageListener = firebase.messaging().onMessage((message) => {
+      //process data message
+      console.log(JSON.stringify(message));
+    });
+  }
+
+  showAlert(title, body) {
+    Alert.alert(
+      title, body,
+      [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+      ],
+      { cancelable: false },
+    );
+  }
+
+    //1
+  async checkPermission() {
+    const enabled = await firebase.messaging().hasPermission();
+    if (enabled) {
+        this.getToken();
+    } else {
+        this.requestPermission();
+    }
+  }
+
+    //3
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+        fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            // user has a device token
+            await AsyncStorage.setItem('fcmToken', fcmToken);
+        }
+    }
+  }
+
+    //2
+  async requestPermission() {
+    try {
+        await firebase.messaging().requestPermission();
+        // User has authorised
+        this.getToken();
+    } catch (error) {
+        // User has rejected permissions
+        console.log('permission rejected');
+    }
   }
 
   render() {
@@ -328,7 +417,6 @@ export default class Application extends Component {
           Directions: { screen: DirectionStack},
           Lillys: { screen: LillyStack},
           Gallery: { screen: GalleryStack}
-          // Tickets: { screen: Tickets}
         },
         {
           defaultNavigationOptions: ({ navigation }) => ({
@@ -358,7 +446,6 @@ export default class Application extends Component {
               } else{
                 iconName= 'camera-retro';
                 icon = <Icon name={iconName} size={30} style={{display: 'none'}}/>
-
               }
               return icon;
             },
@@ -372,6 +459,16 @@ export default class Application extends Component {
               height: 65,
               zIndex: 1000
             }
+          }
+        },
+        {
+          tabBarComponent: props => {
+            return (
+              <BottomTabBar
+                {...props}
+                display={["HomeScreen", "Calendar", "Directions", "Lillys", "Gallery"]} // Required
+              />
+            );
           }
         },
         {
