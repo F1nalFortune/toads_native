@@ -14,7 +14,7 @@ import RNCalendarEvents from 'react-native-calendar-events';
 export default class Dance extends Component {
   componentWillMount(){
     RNCalendarEvents.authorizationStatus()
-     .then(status => {
+    .then(status => {
        // if the status was previous accepted, set the authorized status to state
        this.setState({ cal_auth: status })
        if (status === 'authorized'){
@@ -35,6 +35,15 @@ export default class Dance extends Component {
         }
       })
     .catch(error => console.warn('Auth Error: ', error));
+
+    firebase.messaging().hasPermission()
+    .then(enabled => {
+      if (enabled) {
+        this.setState({notifications: true})
+      } else {
+        this.setState({notifications: false})
+      }
+    });
   }
   state = {
     currentUser: null,
@@ -109,10 +118,19 @@ export default class Dance extends Component {
     console.log(value)
   }
 
+
+
   toggleNotifications = (value) => {
-    this.setState({notifications: value})
-    console.log(value)
+    if(this.state.notifications){
+      this.setState({notifications: value})
+      console.log(value)
+      // TODO remove notifications
+    }else{
+      this.requestPermission()
+    }
   }
+
+
 
   signOutUser = async () => {
     try {
@@ -120,6 +138,31 @@ export default class Dance extends Component {
         this.props.navigation.navigate('Login')
     } catch (e) {
         console.log(e);
+    }
+  }
+
+
+    //3
+  async getToken() {
+    let fcmToken = await AsyncStorage.getItem('fcmToken');
+    if (!fcmToken) {
+        fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            // user has a device token
+            await AsyncStorage.setItem('fcmToken', fcmToken);
+        }
+    }
+  }
+
+    //2
+  async requestPermission() {
+    try {
+        await firebase.messaging().requestPermission();
+        // User has authorised
+        this.getToken();
+    } catch (error) {
+        // User has rejected permissions
+        console.log('permission rejected');
     }
   }
 
@@ -159,7 +202,7 @@ export default class Dance extends Component {
           <Text style={styles.genre}>Push Notifications</Text>
         </View>
       </View>
-      
+
         <View>
           <Text style={styles.title}>
             Genres

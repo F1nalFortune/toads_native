@@ -113,13 +113,12 @@ export default class Application extends Component {
 
     //3
   async getToken() {
-    let fcmToken = await AsyncStorage.getItem('fcmToken');
-    if (!fcmToken) {
-        fcmToken = await firebase.messaging().getToken();
-        if (fcmToken) {
-            // user has a device token
-            await AsyncStorage.setItem('fcmToken', fcmToken);
-        }
+    const fcmToken = await firebase.messaging().getToken()
+    if (fcmToken) {
+      console.log(fcmToken);
+      this.showAlert('Your Firebase Token is:', fcmToken);
+    } else {
+      this.showAlert('Failed', 'No token received');
     }
   }
 
