@@ -13,16 +13,34 @@ import LoadingScreen from './LoadingScreen';
 import cio from 'cheerio-without-node-native';
 import {useNetInfo} from "@react-native-community/netinfo";
 
+import { db } from '../../Firebase';
 
+let addItem = (item) => {
+  db.ref('/events').push({
+    date: item.date,
+    title: item.title,
+    subtitle: item.subtitle,
+    img: item.img,
+    information: item.information,
+    ticket: item.ticket,
+    acts: item.acts,
+    infoLinks: item.infoLinks,
+    starInfo: item.starInfo
+  });
+};
 
 export default class Calendar extends Component {
+
   constructor(props) {
     super(props);
+    this.unsubscribe = null;
     this.state = {
       items: [],
       isLoading: true
     }
   }
+
+
   async componentDidMount(){
 
     const searchUrl = "http://www.toadsplace.com";
@@ -90,7 +108,6 @@ export default class Calendar extends Component {
         .replace("&quot;", '"')
         .replace("&quot;", '"')
         .split("<br>")
-
 
       var new_acts = []
       var info_links = []
@@ -172,7 +189,7 @@ export default class Calendar extends Component {
         starInfo: starInfo
       }
       shows.push(current_show)
-
+      addItem(current_show)
     })
     this.setState({
       items: shows,
@@ -186,7 +203,6 @@ export default class Calendar extends Component {
 
   render(){
 
-
     const ColoredLine = ({ color }) => (
       <View
         style={{
@@ -195,17 +211,12 @@ export default class Calendar extends Component {
         }}
       />
     );
-
-
     if (this.state.isLoading) {
       return <LoadingScreen />;
     }
 
-
     return(
-
       <ScrollView>
-
         {this.state.items.map(item =>
           <View key={this.state.items.indexOf(item)}>
             <TouchableOpacity
