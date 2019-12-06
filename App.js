@@ -26,7 +26,14 @@ import Application from './src/components/Application'
 export default class App extends Component {
 
   render() {
-
+    var Config = {
+        apiKey: "<API_KEY>",
+        authDomain: "<PROJECT_ID>.firebaseapp.com",
+        databaseURL: "https://<DATABASE_NAME>.firebaseio.com",
+        projectId: "<PROJECT_ID>",
+        storageBucket: "<BUCKET>.appspot.com",
+        messagingSenderId: "<SENDER_ID>",
+      };
     return(
           <Application />
     )

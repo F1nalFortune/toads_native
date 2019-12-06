@@ -9,14 +9,16 @@ import {
   ImageBackground,
   Image,
   Dimensions,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from 'react-native';
 //import all the components we are going to use.
-
-
+//TODO
+// set state with authorization of location and then fetch current location
 export default class Directions extends Component {
 
   render(){
+
     const ColoredLine = ({ color }) => (
       <View
         style={{
@@ -38,6 +40,7 @@ export default class Directions extends Component {
         }}
         imageStyle= {{opacity:0.05}}
         >
+        <ScrollView>
            <SafeAreaView>
              <Text style={styles.address}>
                300 York Street{"\n"}{"\n"}
@@ -66,6 +69,7 @@ export default class Directions extends Component {
                </TouchableOpacity>
              </View>
            </SafeAreaView>
+        </ScrollView>
       </ImageBackground>
 
 

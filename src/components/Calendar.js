@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import LoadingScreen from './LoadingScreen';
 import cio from 'cheerio-without-node-native';
-
+import {useNetInfo} from "@react-native-community/netinfo";
 
 export default class Calendar extends Component {
   constructor(props) {
@@ -22,6 +22,7 @@ export default class Calendar extends Component {
     }
   }
   async componentDidMount(){
+
     const searchUrl = "http://www.toadsplace.com";
     const response = await fetch(searchUrl);  // fetch page
 
@@ -162,7 +163,9 @@ export default class Calendar extends Component {
     const items = shows
     return { items }
   }
+
   render(){
+    const netInfo = useNetInfo();
     const ColoredLine = ({ color }) => (
       <View
         style={{
@@ -171,12 +174,13 @@ export default class Calendar extends Component {
         }}
       />
     );
-
     if (this.state.isLoading) {
       return <LoadingScreen />;
     }
     return(
+
       <ScrollView>
+        <Text>Is Connected? {netInfo.isConnected.toString()}</Text>
         {this.state.items.map(item =>
           <View key={this.state.items.indexOf(item)}>
             <TouchableOpacity

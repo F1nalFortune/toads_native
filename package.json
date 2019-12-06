@@ -8,6 +8,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/netinfo": "^4.6.1",
     "carthage": "^1.0.6",
     "cheerio-without-node-native": "^0.20.2",
     "express": "^4.17.1",

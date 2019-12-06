@@ -102,34 +102,7 @@ export default class SignUp extends Component {
     // this.createNewUser(values);
   }
 
-  renderTextInput = (field) => {
-    const {
-      meta: {
-        touched, error
-      },
-      label,
-      secureTextEntry,
-      maxLength,
-      keyboardType,
-      placeholder,
-      input: {
-        onChange, ...restInput
-      }
-    } = field;
-    return (
-      <View>
-        <InputText
-          onChangeText={onChange}
-          maxLength={maxLength}
-          placeholder={placeholder}
-          keyboardType={keyboardType}
-          secureTextEntry={secureTextEntry}
-          label={label}
-          {...restInput} />
-        {(touched && error) && <Text style={styles.error}>{error}</Text>}
-      </View>
-    );
-  }
+
 
   render() {
     const { handleSubmit } = this.props
@@ -150,7 +123,6 @@ export default class SignUp extends Component {
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
             />
-          {(touched && error) && <Text style={styles.error}>{error}</Text>}
           <TextInput
             style={styles.inputBox}
             placeholder="Password"

@@ -36,14 +36,6 @@ export default class Dance extends Component {
       })
     .catch(error => console.warn('Auth Error: ', error));
 
-    firebase.messaging().hasPermission()
-    .then(enabled => {
-      if (enabled) {
-        this.setState({notifications: true})
-      } else {
-        this.setState({notifications: false})
-      }
-    });
   }
   state = {
     currentUser: null,
@@ -119,50 +111,12 @@ export default class Dance extends Component {
   }
 
 
-
-  toggleNotifications = (value) => {
-    if(this.state.notifications){
-      this.setState({notifications: value})
-      console.log(value)
-      // TODO remove notifications
-    }else{
-      this.requestPermission()
-    }
-  }
-
-
-
   signOutUser = async () => {
     try {
         await firebase.auth().signOut();
         this.props.navigation.navigate('Login')
     } catch (e) {
         console.log(e);
-    }
-  }
-
-
-    //3
-  async getToken() {
-    let fcmToken = await AsyncStorage.getItem('fcmToken');
-    if (!fcmToken) {
-        fcmToken = await firebase.messaging().getToken();
-        if (fcmToken) {
-            // user has a device token
-            await AsyncStorage.setItem('fcmToken', fcmToken);
-        }
-    }
-  }
-
-    //2
-  async requestPermission() {
-    try {
-        await firebase.messaging().requestPermission();
-        // User has authorised
-        this.getToken();
-    } catch (error) {
-        // User has rejected permissions
-        console.log('permission rejected');
     }
   }
 
@@ -186,22 +140,6 @@ export default class Dance extends Component {
     return (
     <ScrollView>
       <View style={styles.container}>
-
-      <View>
-        <Text style={styles.title}>
-          Push Notifications
-        </Text>
-        <ColoredLine color="green" />
-        <Text>Turn on to allow push notifications while using the app.</Text>
-        <View style={styles.switchContainer}>
-          <Switch
-            style={{marginTop:30}}
-            onValueChange = {this.toggleNotifications}
-            value = {this.state.notifications}
-            trackColor={{true: '#008000b3'}}/>
-          <Text style={styles.genre}>Push Notifications</Text>
-        </View>
-      </View>
 
         <View>
           <Text style={styles.title}>

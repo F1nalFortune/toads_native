@@ -33,16 +33,18 @@ export default class Lillys extends Component {
             For information regarding rentals, please fill out our contact form
             or call (203) 562 - 5589 x10.
           </Text>
-          <View style={styles.button}>
+          <View>
             <TouchableOpacity
+              style={styles.button}
               onPress={() => this.props.navigation.navigate('LillysScreen')}
             >
               <Text>Lilly's Pad</Text>
             </TouchableOpacity>
           </View>
           <Text> We also have our Rainforest Room Available to Rent!</Text>
-          <View style={styles.button}>
+          <View>
             <TouchableOpacity
+              style={styles.button}
               onPress={() => this.props.navigation.navigate('RainforestScreen')}
             >
               <Text>Rainforest Room</Text>
@@ -80,7 +82,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     padding: 10,
     textTransform: 'uppercase',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 10

@@ -9,6 +9,8 @@ import {
   Dimensions,
   Linking
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 const width = '40%';
 const height = '20%';
 export default class About extends Component {
@@ -42,43 +44,51 @@ export default class About extends Component {
           under 21, don't despair...come in and kick it with us on our All Ages nights.
           Toad's Place...where the legends play!
         </Text>
-
-
-        <View style={{
-          flexDirection: 'row'
-        }}>
-          <Text style={styles.socialIcon}>
-            Facebook
-          </Text>
-          <Text style={styles.socialIcon}>
-            Instagram
-          </Text>
-          <Text style={styles.socialIcon}>
-            Twitter
-          </Text>
-        </View>
-
-
-        <View>
-          <Text style={styles.toads}>Toad's Place</Text>
-          <Text  style={styles.contact}>
-            300 York St, New Haven, CT 06511{"\n"}
-            203-624-8623{"\n"}
-            toadsplac@aol.com
-          </Text>
-        </View>
-
-        
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => Linking.openURL("https://www.toadsplacemerch.com/")}>
-            <Text style={{color:'black'}}>Official Merchandise</Text>
-          </TouchableOpacity>
-        </View>
-
-
       </View>
+
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginVertical: 15
+      }}>
+        <Text style={styles.socialIcon}>
+          <Icon
+            onPress={() => Linking.openURL("https://www.facebook.com/toadsplaceofficial/")}
+            name={'facebook-f'}
+            size={30}
+            style={styles.icon}/>
+        </Text>
+        <Text style={styles.socialIcon}>
+          <Icon
+            onPress={() => Linking.openURL("https://www.instagram.com/toadsplace/")}
+            name={'instagram'}
+            size={30}
+            style={styles.icon}/>
+        </Text>
+        <Text style={styles.socialIcon}>
+          <Icon
+            onPress={() => Linking.openURL("https://twitter.com/toadsplace")}
+            name={'twitter'}
+            size={30}
+            style={styles.icon}/>
+        </Text>
+      </View>
+      <View>
+        <Text style={styles.toads}>Toad's Place</Text>
+        <Text  style={styles.contact}>
+          300 York St, New Haven, CT 06511{"\n"}
+          203-624-8623{"\n"}
+          toadsplac@aol.com
+        </Text>
+      </View>
+      <View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => Linking.openURL("https://www.toadsplacemerch.com/")}>
+          <Text style={{color:'black'}}>Official Merchandise</Text>
+        </TouchableOpacity>
+      </View>
+      
     </ScrollView>
     );
   }
@@ -112,6 +122,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 16
+  },
+  icon:{
+    marginHorizontal: 100
   },
   image: {
       width: 50,
