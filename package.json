@@ -12,6 +12,7 @@
     "carthage": "^1.0.6",
     "cheerio-without-node-native": "^0.20.2",
     "express": "^4.17.1",
+    "he": "^1.2.0",
     "opentype.js": "^1.1.0",
     "react": "16.8.6",
     "react-native": "0.60.5",

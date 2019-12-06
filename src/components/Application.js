@@ -80,7 +80,9 @@ export default class Application extends Component {
           title: "Venue Info",
           headerStyle: {
             backgroundColor: "#000000cc",
-            opacity: .8
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -104,7 +106,9 @@ export default class Application extends Component {
           title: "Settings",
           headerStyle: {
             backgroundColor: "#000000cc",
-            opacity: .8
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -131,7 +135,9 @@ export default class Application extends Component {
           title: "Calendar",
           headerStyle: {
             backgroundColor: "#000000cc",
-            opacity: .8
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -161,7 +167,9 @@ export default class Application extends Component {
           title: "Lilly's Pad",
           headerStyle: {
             backgroundColor: "#000000cc",
-            opacity: .8
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -185,7 +193,9 @@ export default class Application extends Component {
           title: "Lilly's Pad",
           headerStyle: {
             backgroundColor: "#000000cc",
-            opacity: .8
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -209,7 +219,9 @@ export default class Application extends Component {
           title: "Rainforest Room",
           headerStyle: {
             backgroundColor: "#000000cc",
-            opacity: .8
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -235,7 +247,9 @@ export default class Application extends Component {
           title: "Directions",
           headerStyle: {
             backgroundColor: "#000000cc",
-            opacity: .8
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -263,7 +277,9 @@ export default class Application extends Component {
           title: "Gallery",
           headerStyle: {
             backgroundColor: "#000000cc",
-            opacity: .8
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -302,28 +318,7 @@ export default class Application extends Component {
               tabBarVisible: false
             }
           },
-          HomeScreen: {
-            screen: HomeStack,
-            navigationOptions: {
-              title: "Toad's Place",
-              headerStyle: {
-                backgroundColor: "#000000cc",
-                opacity: .8
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                color: "#fff",
-                textShadowColor: "#66ff66",
-                textShadowOffset: {width: -1, height: 1},
-                textShadowRadius: 10,
-                textAlign: 'center',
-                fontFamily: "Merriweather-Bold",
-                textTransform: 'uppercase',
-                fontSize: 24,
-                padding: 10
-              }
-            }
-           },
+          HomeScreen: { screen: HomeStack },
           Calendar: { screen: CalendarStack },
           Directions: { screen: DirectionStack},
           Lillys: { screen: LillyStack},

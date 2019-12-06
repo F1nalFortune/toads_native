@@ -13,6 +13,8 @@ import LoadingScreen from './LoadingScreen';
 import cio from 'cheerio-without-node-native';
 import {useNetInfo} from "@react-native-community/netinfo";
 
+
+
 export default class Calendar extends Component {
   constructor(props) {
     super(props);
@@ -85,11 +87,16 @@ export default class Calendar extends Component {
         .replace("&amp;", "&")
         .replace("&apos;", "'")
         .replace("&#xF1;", "ñ")
+        .replace("&quot;", '"')
+        .replace("&quot;", '"')
         .split("<br>")
+
+
       var new_acts = []
       var info_links = []
       var cleaned_acts = []
       var starInfo = []
+      var subtitle = []
       for (i=0; i<show_acts.length;i++){
         show_acts[i] = show_acts[i].replace("</center>", "")
         if(show_acts[i].replace(/\s/g, "") != ""){
@@ -97,6 +104,12 @@ export default class Calendar extends Component {
         }
       }
       var show_acts = cleaned_acts
+      for(i=0; i<show_acts.length;i++){
+        if(show_acts[i].includes("\t")){
+          show_act = show_acts[i]
+          console.log(show_acts)
+        }
+      }
       for(i=0; i<show_acts.length;i++){
         if(show_acts[i].match(/[a-z]/i)
         && !show_acts[i].includes("\n")
@@ -125,6 +138,8 @@ export default class Calendar extends Component {
             show_acts[i] = show_acts[i].replace("&amp;", "&").replace("&apos;", "'").replace("&#xF1;", "ñ")
             new_acts.push(show_acts[i])
           }
+        } else if(show_acts[i].includes("\t")){
+          subtitle.push(show_acts[i].replace("\t", ""))
         }
       }
       show_acts = new_acts
@@ -143,9 +158,12 @@ export default class Calendar extends Component {
         .find('.showinfo')
         .find('a')
         .attr('href')
+      console.log("Subtitle: ")
+      console.log(subtitle)
       var current_show = {
         date: show_date,
         title: title,
+        subtitle: subtitle,
         img: img,
         information: information,
         ticket: ticket_link,
@@ -164,8 +182,11 @@ export default class Calendar extends Component {
     return { items }
   }
 
+
+
   render(){
-    const netInfo = useNetInfo();
+
+
     const ColoredLine = ({ color }) => (
       <View
         style={{
@@ -174,13 +195,17 @@ export default class Calendar extends Component {
         }}
       />
     );
+
+
     if (this.state.isLoading) {
       return <LoadingScreen />;
     }
+
+
     return(
 
       <ScrollView>
-        <Text>Is Connected? {netInfo.isConnected.toString()}</Text>
+
         {this.state.items.map(item =>
           <View key={this.state.items.indexOf(item)}>
             <TouchableOpacity
@@ -199,6 +224,7 @@ export default class Calendar extends Component {
                 </View>
                 <View style={styles.titleWrapper}>
                   <Text style={styles.title}>{item.title}</Text>
+                  {(item.subtitle.length > 0) ? <Text style={styles.subtitle}>{item.subtitle}{"\n"}</Text> : <Text></Text>}
                   <Text style={styles.info}>{item.information[2]}</Text>
                   <Text style={styles.info}>{item.information[3]}</Text>
                 </View>

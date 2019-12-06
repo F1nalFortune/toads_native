@@ -332,6 +332,7 @@ export default class ShowDetails extends Component {
         <View
           style={styles.dateWrapper}>
           <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+          {(item.subtitle.length > 0) ? <Text style={styles.subtitle}>{item.subtitle}{"\n"}</Text> : <Text></Text>}
           <ColoredLine color="green" />
           <Text
             style={styles.date}>
