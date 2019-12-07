@@ -12,25 +12,12 @@ import {
 import LoadingScreen from './LoadingScreen';
 import cio from 'cheerio-without-node-native';
 import {useNetInfo} from "@react-native-community/netinfo";
-
+import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
 
-let addItem = (item) => {
-  db.ref('/events').push({
-    date: item.date,
-    title: item.title,
-    subtitle: item.subtitle,
-    img: item.img,
-    information: item.information,
-    ticket: item.ticket,
-    acts: item.acts,
-    infoLinks: item.infoLinks,
-    starInfo: item.starInfo
-  });
-};
+
 
 export default class Calendar extends Component {
-
   constructor(props) {
     super(props);
     this.unsubscribe = null;
@@ -49,6 +36,7 @@ export default class Calendar extends Component {
     const htmlString = await response.text() // get response text
     const $ = cio.load(htmlString);
     var shows = new Array();
+
     $('.show').each((i, el) => {
       function info(){
         var info = $(el)
@@ -122,12 +110,6 @@ export default class Calendar extends Component {
       }
       var show_acts = cleaned_acts
       for(i=0; i<show_acts.length;i++){
-        if(show_acts[i].includes("\t")){
-          show_act = show_acts[i]
-          console.log(show_acts)
-        }
-      }
-      for(i=0; i<show_acts.length;i++){
         if(show_acts[i].match(/[a-z]/i)
         && !show_acts[i].includes("\n")
         && !show_acts[i].includes("\t")){
@@ -189,13 +171,33 @@ export default class Calendar extends Component {
         starInfo: starInfo
       }
       shows.push(current_show)
-      addItem(current_show)
     })
     this.setState({
       items: shows,
       isLoading: false
     })
     const items = shows
+
+
+    db.ref('events').orderByChild('user').equalTo(firebase.auth().currentUser.uid,).once("value", function(snapshot) {
+      var string = JSON.stringify(snapshot)
+      var z = JSON.parse(string)
+
+      if(z[Object.keys(z)[0]]['user']==firebase.auth().currentUser.uid){
+        console.log("ALREADY EXISTS")
+      } else {
+        console.log("ID: ", z[Object.keys(z)[0]]['user'])
+        db.ref('/events').push({
+          user: firebase.auth().currentUser.uid,
+          events: shows
+        })
+      }
+    });
+
+
+
+
+
     return { items }
   }
 
