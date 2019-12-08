@@ -157,8 +157,6 @@ export default class Calendar extends Component {
         .find('.showinfo')
         .find('a')
         .attr('href')
-      console.log("Subtitle: ")
-      console.log(subtitle)
       var current_show = {
         date: show_date,
         title: title,
@@ -177,18 +175,28 @@ export default class Calendar extends Component {
       isLoading: false
     })
     const items = shows
+    const user_id = firebase.auth().currentUser.uid
 
+    db.ref('events').orderByChild('user').equalTo(user_id).once("value", function(snapshot) {
 
-    db.ref('events').orderByChild('user').equalTo(firebase.auth().currentUser.uid,).once("value", function(snapshot) {
-      var string = JSON.stringify(snapshot)
-      var z = JSON.parse(string)
-
-      if(z[Object.keys(z)[0]]['user']==firebase.auth().currentUser.uid){
-        console.log("ALREADY EXISTS")
-      } else {
-        console.log("ID: ", z[Object.keys(z)[0]]['user'])
+      try{
+        var string = JSON.stringify(snapshot)
+        var z = JSON.parse(string)
+        if(z[Object.keys(z)[0]]['user']==user_id){
+          var event_key = Object.keys(z)[0]
+          console.log("Event Key: ", event_key)
+          console.log("ALREADY EXISTS")
+          var updates = {}
+          updates['user'] = user_id
+          updates['events'] = shows
+          db.ref(`events/${event_key}`).update(updates);
+          console.log("Successfully Updated Data")
+        }
+      }
+      catch(err){
+        console.log(err.message)
         db.ref('/events').push({
-          user: firebase.auth().currentUser.uid,
+          user: user_id,
           events: shows
         })
       }
