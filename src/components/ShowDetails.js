@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Image from 'react-native-scalable-image';
 import RNCalendarEvents from 'react-native-calendar-events';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 export default class ShowDetails extends Component {
@@ -95,14 +96,14 @@ export default class ShowDetails extends Component {
       if (promise[0].title == item.title){
         this.setState({
           savedInCalendar: true,
-          buttonText: 'REMOVE EVENT FROM CALENDAR'
+          buttonText: 'REMOVE FROM CALENDAR'
         })
       }
     })
     .catch(error => {
       this.setState({
         savedInCalendar: false,
-        buttonText: 'ADD EVENT TO CALENDAR'
+        buttonText: 'ADD TO CALENDAR'
       })
     })
   }
@@ -142,7 +143,7 @@ export default class ShowDetails extends Component {
       if (this.state.savedInCalendar){
         Alert.alert(
           'Confirm',
-          'Remove event to calendar?',
+          'Remove event from calendar?',
           [
             {
               text: 'Cancel',
@@ -243,7 +244,7 @@ export default class ShowDetails extends Component {
                   );
                   this.setState({
                     savedInCalendar: true,
-                    buttonText: 'REMOVE EVENT FROM CALENDAR'
+                    buttonText: 'REMOVE FROM CALENDAR'
                   })
                 })
                 .catch(error => {
@@ -332,7 +333,6 @@ export default class ShowDetails extends Component {
         <View
           style={styles.dateWrapper}>
           <Text style={styles.eventTitle}>{this.state.item.title}</Text>
-          {(item.subtitle.length > 0) ? <Text style={styles.subtitle}>{item.subtitle}{"\n"}</Text> : <Text></Text>}
           <ColoredLine color="green" />
           <Text
             style={styles.date}>
@@ -344,7 +344,7 @@ export default class ShowDetails extends Component {
         </View>
         <View style={styles.wrapper}>
           <View style={styles.act}>
-            {item.acts.map(act => <Text key={item.acts.indexOf(act)}>{act}</Text>)}
+            {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)}>{act}</Text>) : <Text></Text>}
           </View>
           <View style={styles.info}>
             <Text>{item.information[0]}</Text>
@@ -357,32 +357,61 @@ export default class ShowDetails extends Component {
           <Text style={styles.starDetail}>{item.starInfo}</Text>
         </View>
         <View style={styles.starDetail}>
-          {item.infoLinks.map(infoLink =>
+          {item.infoLinks ? item.infoLinks.map(infoLink =>
             <Text
               key={item.infoLinks.indexOf(infoLink)}
               style={styles.infoLink}
             >
               {infoLink.text}**
-            </Text>)}
+            </Text>) : <Text></Text>}
         </View>
         <View style={styles.footer}>
           <Text>{item.information[4]}</Text>
         </View>
-        <View>
+        <View
+          style={{flexDirection: 'row'}}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => Linking.openURL(item.ticket)}
           >
             <Text>GET TIX</Text>
           </TouchableOpacity>
-        </View>
-        <View>
           <TouchableOpacity
             style={this.state.savedInCalendar ? styles.delButton : styles.button}
             onPress={() => this.handleAddEvent()}
           >
-            <Text>{this.state.buttonText}</Text>
+            <Text style={{textAlign: 'center'}}>{this.state.buttonText}</Text>
           </TouchableOpacity>
+        </View>
+
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          marginVertical: 25
+        }}>
+          <Icon
+            onPress={() => Linking.openURL("https://www.facebook.com/toadsplaceofficial/")}
+            name={'facebook-square'}
+            size={40}
+            style={styles.facebook}/>
+          <Icon
+            onPress={() => Linking.openURL("https://www.instagram.com/toadsplace/")}
+            name={'instagram'}
+            size={40}
+            style={styles.instagram}/>
+          <Icon
+            onPress={() => Linking.openURL("https://twitter.com/toadsplace")}
+            name={'twitter'}
+            size={40}
+            style={styles.twitter}/>
+        </View>
+
+        <View
+          style={{marginVertical: 15}}>
+          <Text
+            style={{justifyContent: 'center', textAlign: 'center'}}>
+            Share event with your friends !
+          </Text>
         </View>
       </ScrollView>
     )
@@ -508,5 +537,17 @@ const styles = StyleSheet.create ({
     paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10
+  },
+  facebook:{
+    color: '#4968ad',
+    marginHorizontal: 100
+  },
+  instagram:{
+    color: 'black',
+    marginHorizontal: 100
+  },
+  twitter:{
+    color: '#49a1eb',
+    marginHorizontal: 100
   }
 })

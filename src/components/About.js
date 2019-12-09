@@ -49,28 +49,28 @@ export default class About extends Component {
       <View style={{
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginVertical: 15
+        marginVertical: 50
       }}>
         <Text style={styles.socialIcon}>
           <Icon
             onPress={() => Linking.openURL("https://www.facebook.com/toadsplaceofficial/")}
-            name={'facebook-f'}
-            size={30}
-            style={styles.icon}/>
+            name={'facebook-square'}
+            size={40}
+            style={styles.facebook}/>
         </Text>
         <Text style={styles.socialIcon}>
           <Icon
             onPress={() => Linking.openURL("https://www.instagram.com/toadsplace/")}
             name={'instagram'}
-            size={30}
-            style={styles.icon}/>
+            size={40}
+            style={styles.instagram}/>
         </Text>
         <Text style={styles.socialIcon}>
           <Icon
             onPress={() => Linking.openURL("https://twitter.com/toadsplace")}
             name={'twitter'}
-            size={30}
-            style={styles.icon}/>
+            size={40}
+            style={styles.twitter}/>
         </Text>
       </View>
       <View>
@@ -88,7 +88,7 @@ export default class About extends Component {
           <Text style={{color:'black'}}>Official Merchandise</Text>
         </TouchableOpacity>
       </View>
-      
+
     </ScrollView>
     );
   }
@@ -123,7 +123,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 16
   },
-  icon:{
+  facebook:{
+    color: '#4968ad',
+    marginHorizontal: 100
+  },
+  instagram:{
+    color: 'black',
+    marginHorizontal: 100
+  },
+  twitter:{
+    color: '#49a1eb',
     marginHorizontal: 100
   },
   image: {

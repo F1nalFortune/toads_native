@@ -140,7 +140,6 @@ export default class Dance extends Component {
     return (
     <ScrollView>
       <View style={styles.container}>
-
         <View>
           <Text style={styles.title}>
             Genres
