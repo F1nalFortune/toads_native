@@ -10,9 +10,12 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import RNCalendarEvents from 'react-native-calendar-events';
+import { db } from '../../Firebase';
+
 
 export default class Dance extends Component {
   componentWillMount(){
+    //Authorize Calendar Events
     RNCalendarEvents.authorizationStatus()
     .then(status => {
        // if the status was previous accepted, set the authorized status to state
@@ -35,70 +38,140 @@ export default class Dance extends Component {
         }
       })
     .catch(error => console.warn('Auth Error: ', error));
-
   }
   state = {
     currentUser: null,
-    funk:false,
-    hip_hop:false,
+    alternative: false,
+    location:false,
+    alternative: false,
+    alternative_rock: false,
+    classic_rock: false,
+    comedy: false,
+    dance: false,
+    hip_hop: false,
+    funk: false,
+    indie: false,
     metal: false,
-    dance:false,
-    reggae:false,
-    blues:false,
-    jazz:false,
-    rock:false,
-    ska:false,
-    location:false
+    musical_theatre: false,
+    pop: false,
+    reggae: false,
+    r_n_b: false,
+    ska: false
   }
   componentDidMount() {
     const { currentUser } = firebase.auth()
     this.setState({ currentUser })
+
+    //Pull Genre Prefs from Database
+    var user_id = firebase.auth().currentUser.uid
+    db.ref(`users/${user_id}/genrePref`).once('value')
+      .then((dataSnapShot) => {
+
+
+        var string = JSON.stringify(dataSnapShot, null, 2)
+        var object = JSON.parse(string)
+        this.setState(object)
+      })
+
   }
 
-  toggleFunk = (value) => {
-    this.setState({funk: value})
-    console.log(value)
+
+  updatePrefs = () => {
+    genrePref = {
+      alternative: this.state.alternative,
+      alternative_rock: this.state.alternative_rock,
+      classic_rock: this.state.classic_rock,
+      comedy: this.state.comedy,
+      dance: this.state.dance,
+      hip_hop: this.state.hip_hop,
+      funk: this.state.funk,
+      indie: this.state.indie,
+      metal: this.state.metal,
+      musical_theatre: this.state.musical_theatre,
+      pop: this.state.pop,
+      reggae: this.state.reggae,
+      r_n_b: this.state.r_n_b,
+      ska: this.state.ska
+    }
+    var user_id = firebase.auth().currentUser.uid
+    db.ref(`users/${user_id}/genrePref`).set(genrePref)
+      .then(() => {
+        console.log("New data sent!")
+      })
+      .catch(error => console.log("Error when creating new data.", error));
   }
 
-  toggleHip = (value) => {
-    this.setState({hip_hop: value})
-    console.log(value)
+  toggleAlternative = (value)=>{
+    this.setState({alternative: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleAlternative_rock = (value)=>{
+    this.setState({alternative_rock: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleClassic_rock = (value)=>{
+    this.setState({classic_rock: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleComedy = (value)=>{
+    this.setState({comedy: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleDance = (value)=>{
+    this.setState({dance: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleHip = (value)=>{
+    this.setState({hip_hop: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleFunk = (value)=>{
+    this.setState({funk: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleIndie = (value)=>{
+    this.setState({indie: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleMetal = (value)=>{
+    this.setState({metal: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleMusical_theatre = (value)=>{
+    this.setState({musical_theatre: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  togglePop = (value)=>{
+    this.setState({pop: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleReggae = (value)=>{
+    this.setState({reggae: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleR_n_b = (value)=>{
+    this.setState({r_n_b: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleSka = (value)=>{
+    this.setState({ska: value}, () =>{
+      this.updatePrefs()
+    })
   }
 
-  toggleMetal = (value) => {
-    this.setState({metal: value})
-    console.log(value)
-  }
-
-  toggleDance = (value) => {
-    this.setState({dance: value})
-    console.log(value)
-  }
-
-  toggleReggae = (value) => {
-    this.setState({reggae: value})
-    console.log(value)
-  }
-
-  toggleBlues = (value) => {
-    this.setState({blues: value})
-    console.log(value)
-  }
-
-  toggleJazz = (value) => {
-    this.setState({jazz: value})
-    console.log(value)
-  }
-
-  toggleRock = (value) => {
-    this.setState({rock: value})
-    console.log(value)
-  }
-
-  toggleSka = (value) => {
-    this.setState({ska: value})
-    console.log(value)
-  }
 
   toggleLocation = (value) => {
     this.setState({location: value})
@@ -150,27 +223,22 @@ export default class Dance extends Component {
           <View style={styles.switchContainer}>
             <Switch
               style={{marginTop:30}}
-              onValueChange = {this.toggleFunk}
-              value = {this.state.funk}
+              onValueChange = {this.toggleAlternative}
+              value = {this.state.alternative}
               trackColor={{true: '#008000b3'}}/>
-            <Text style={styles.genre}>Funk</Text>
+            <Text style={styles.genre}>Alternative</Text>
           </View>
+
           <View style={styles.switchContainer}>
             <Switch
               style={{marginTop:30}}
-              onValueChange = {this.toggleHip}
-              value = {this.state.hip_hop}
+              onValueChange = {this.toggleAlternative_rock}
+              value = {this.state.alternative_rock}
               trackColor={{true: '#008000b3'}}/>
-            <Text style={styles.genre}>Hip-Hop</Text>
+            <Text style={styles.genre}>Alternative Rock</Text>
           </View>
-          <View style={styles.switchContainer}>
-            <Switch
-              style={{marginTop:30}}
-              onValueChange = {this.toggleMetal}
-              value = {this.state.metal}
-              trackColor={{true: '#008000b3'}}/>
-            <Text style={styles.genre}>Metal</Text>
-          </View>
+
+
           <View style={styles.switchContainer}>
             <Switch
               style={{marginTop:30}}
@@ -179,6 +247,80 @@ export default class Dance extends Component {
               trackColor={{true: '#008000b3'}}/>
             <Text style={styles.genre}>Dance</Text>
           </View>
+
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleClassic_rock}
+              value = {this.state.classic_rock}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Classic Rock</Text>
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleComedy}
+              value = {this.state.comedy}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Comedy</Text>
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleFunk}
+              value = {this.state.funk}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Funk</Text>
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleHip}
+              value = {this.state.hip_hop}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Hip-Hop</Text>
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleIndie}
+              value = {this.state.indie}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Indie</Text>
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleMetal}
+              value = {this.state.metal}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Metal</Text>
+          </View>
+
+
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleMusical_theatre}
+              value = {this.state.musical_theatre}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Musical Theatre</Text>
+          </View>
+
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.togglePop}
+              value = {this.state.pop}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>Pop</Text>
+          </View>
+
           <View style={styles.switchContainer}>
             <Switch
               style={{marginTop:30}}
@@ -187,30 +329,16 @@ export default class Dance extends Component {
               trackColor={{true: '#008000b3'}}/>
             <Text style={styles.genre}>Reggae</Text>
           </View>
+
           <View style={styles.switchContainer}>
             <Switch
               style={{marginTop:30}}
-              onValueChange = {this.toggleBlues}
-              value = {this.state.blues}
+              onValueChange = {this.toggleR_n_b}
+              value = {this.state.r_n_b}
               trackColor={{true: '#008000b3'}}/>
-            <Text style={styles.genre}>Blues</Text>
+            <Text style={styles.genre}>R & B</Text>
           </View>
-          <View style={styles.switchContainer}>
-            <Switch
-              style={{marginTop:30}}
-              onValueChange = {this.toggleJazz}
-              value = {this.state.jazz}
-              trackColor={{true: '#008000b3'}}/>
-            <Text style={styles.genre}>Jazz</Text>
-          </View>
-          <View style={styles.switchContainer}>
-            <Switch
-              style={{marginTop:30}}
-              onValueChange = {this.toggleRock}
-              value = {this.state.rock}
-              trackColor={{true: '#008000b3'}}/>
-            <Text style={styles.genre}>Rock</Text>
-          </View>
+
           <View style={styles.switchContainer}>
             <Switch
               style={{marginTop:30}}

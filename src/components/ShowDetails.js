@@ -301,8 +301,6 @@ export default class ShowDetails extends Component {
 
     }
 
-
-
   render(){
     const ColoredLine = ({ color }) => (
       <View
@@ -420,7 +418,8 @@ export default class ShowDetails extends Component {
 
 const styles = StyleSheet.create ({
   act:{
-    width: '50%'
+    width: '45%',
+    marginRight: '2.5%'
   },
   bold:{
     fontWeight: 'bold'
@@ -487,7 +486,8 @@ const styles = StyleSheet.create ({
     paddingTop: 10
   },
   info:{
-    width: '50%'
+    width: '45%',
+    marginLeft: '2.5%'
   },
   icon:{
 

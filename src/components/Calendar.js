@@ -128,7 +128,7 @@ const styles = StyleSheet.create ({
    paddingTop: 10,
    width: '20%',
    marginLeft: 10,
-   paddingRight: 5,
+   paddingRight: 10,
  },
  date:{
    height: 30,
@@ -165,7 +165,8 @@ const styles = StyleSheet.create ({
  footer:{
    flex: 1,
    justifyContent: 'center',
-   alignItems: 'center'
+   alignItems: 'center',
+   marginVertical: 10
  },
  info:{
 

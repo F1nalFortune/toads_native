@@ -30,7 +30,7 @@
 		8E3C2BA523444592008E5FE2 /* NavDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA423444592008E5FE2 /* NavDemo.m */; };
 		8E3C2BFD23444CC8008E5FE2 /* NavDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA223444509008E5FE2 /* NavDemo.swift */; };
 		8E3C2BFE23444CCA008E5FE2 /* NavDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA423444592008E5FE2 /* NavDemo.m */; };
-		8E5A717323903E910097E8AB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E5A717223903E910097E8AB /* GoogleService-Info.plist */; };
+		8E9A960F23A14A5F003A3311 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9A960E23A14A5F003A3311 /* GoogleService-Info.plist */; };
 		8EC3B1E32363AAC10051E7FD /* MapboxNavigationNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BAD23444C63008E5FE2 /* MapboxNavigationNative.framework */; };
 		8EC3B1E42363AAC10051E7FD /* MapboxNavigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BC923444C63008E5FE2 /* MapboxNavigation.framework */; };
 		8EC3B1E52363AAC10051E7FD /* MapboxCoreNavigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BC823444C63008E5FE2 /* MapboxCoreNavigation.framework */; };
@@ -151,7 +151,7 @@
 		8E3C2BCF23444C63008E5FE2 /* E9F3B657-B406-3CC7-8389-7FF6C1D19109.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "E9F3B657-B406-3CC7-8389-7FF6C1D19109.bcsymbolmap"; sourceTree = "<group>"; };
 		8E3C2BD023444C63008E5FE2 /* MapboxSpeech.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = MapboxSpeech.framework.dSYM; sourceTree = "<group>"; };
 		8E3C2BD123444C63008E5FE2 /* 5AC46010-EE2D-3CC7-8D23-7849503DA59C.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "5AC46010-EE2D-3CC7-8D23-7849503DA59C.bcsymbolmap"; sourceTree = "<group>"; };
-		8E5A717223903E910097E8AB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8E9A960E23A14A5F003A3311 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		939F0FFAD0D14D7A4CFFCEB0 /* Pods-NavDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-NavDemoTests/Pods-NavDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		94C68EF3A45F32ABE2529756 /* libPods-NavDemoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NavDemoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94E3BA3B468B9F69EDF00E32 /* Pods-NavDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavDemoTests.release.xcconfig"; path = "Target Support Files/Pods-NavDemoTests/Pods-NavDemoTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -258,8 +258,8 @@
 		13B07FAE1A68108700A75B9A /* NavDemo */ = {
 			isa = PBXGroup;
 			children = (
+				8E9A960E23A14A5F003A3311 /* GoogleService-Info.plist */,
 				8E251BB4239777F30027CD3B /* NavDemo.entitlements */,
-				8E5A717223903E910097E8AB /* GoogleService-Info.plist */,
 				8E3C2BA123444509008E5FE2 /* NavDemo-Bridging-Header.h */,
 				8E3C2BA423444592008E5FE2 /* NavDemo.m */,
 				8E3C2BA223444509008E5FE2 /* NavDemo.swift */,
@@ -590,9 +590,9 @@
 				5CDD31B3D4EC493E813D0382 /* Merriweather-BoldItalic.ttf in Resources */,
 				A78E3F6B251246D5A72E839E /* Merriweather-Italic.ttf in Resources */,
 				8CAF681838B34FAB892F1ADC /* Merriweather-Light.ttf in Resources */,
+				8E9A960F23A14A5F003A3311 /* GoogleService-Info.plist in Resources */,
 				E58FB3EE101A426F92F4D424 /* Merriweather-LightItalic.ttf in Resources */,
 				878A5A8439BB44089AFDA462 /* Merriweather-Regular.ttf in Resources */,
-				8E5A717323903E910097E8AB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

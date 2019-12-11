@@ -5,17 +5,47 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
-  Linking
+  Linking,
+  Alert
 } from 'react-native';
 import firebase from 'react-native-firebase'
+import { db } from '../../Firebase';
 
 export default class HomeScreen extends React.Component {
-
   async componentDidMount() {
-    this.checkPermission();
-    this.createNotificationListeners();
-    console.disableYellowBox = true;
-  }
+      const enabled = await firebase.messaging().hasPermission();
+      if (enabled) {
+        firebase
+          .messaging()
+          .getToken()
+          .then(fcmToken => {
+            if (fcmToken) {
+              console.log(fcmToken);
+              var uid = firebase.auth().currentUser.uid
+              firebase
+                .database()
+                .ref("/users/" + uid)
+                .set({
+                  email: firebase.auth().currentUser.email,
+                  token: fcmToken,
+                  created_at: Date.now(),
+                })
+                .then(res => {
+                  console.log(res);
+                  console.log(JSON.stringify(res, null, 2))
+                });
+            } else {
+            console.log("user doesn't have a device token yet");
+            }
+          });
+      } else {
+        console.log("no");
+      }
+      this.checkPermission();
+      this.createNotificationListeners();
+      console.disableYellowBox = true;
+    }
+
 //Remove listeners allocated in createNotificationListeners()
   componentWillUnmount() {
     this.notificationListener();
@@ -68,6 +98,7 @@ export default class HomeScreen extends React.Component {
 
     //1
   async checkPermission() {
+    console.log("Check Permission!")
     const enabled = await firebase.messaging().hasPermission();
     if (enabled) {
         this.getToken();
@@ -82,21 +113,48 @@ export default class HomeScreen extends React.Component {
       .messaging()
       .getToken()
       .then(fcmToken => {
+        console.log("Get Token Success!")
         if (fcmToken) {
           userId = firebase.auth().currentUser.uid;
           if (userId) {
-            firebase.database().ref('users/' + userId).set({
+            db.ref('users/' + userId).set({
               token: fcmToken,
+              email: firebase.auth().currentUser.email,
               created_at: Date.now(),
+              notification: true,
+              genrePref:{
+                alternative: false,
+                alternative_rock: false,
+                classic_rock: false,
+                comedy: false,
+                dance: false,
+                hip_hop: false,
+                funk: false,
+                indie: false,
+                metal: false,
+                musical_theatre: false,
+                pop: false,
+                reggae: false,
+                r_n_b: false,
+                ska: false
+              }
+            })
+            .catch((err)=>{
+              console.log(err)
             })
           }
         }
-    });
+      })
+      .catch((err) =>{
+        console.log("Get Token Error!")
+        console.log(err)
+      })
   }
 
     //2
   async requestPermission() {
     try {
+        console.log("Request Permission!")
         await firebase.messaging().requestPermission();
         // User has authorised
         this.getToken();

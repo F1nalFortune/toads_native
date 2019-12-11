@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "react-native start --port 8000",
+    "start": "react-native start --port 8081",
     "test": "jest",
     "lint": "eslint ."
   },
@@ -12,6 +12,7 @@
     "carthage": "^1.0.6",
     "cheerio-without-node-native": "^0.20.2",
     "express": "^4.17.1",
+    "firebase-admin": "^8.8.0",
     "he": "^1.2.0",
     "opentype.js": "^1.1.0",
     "react": "16.8.6",

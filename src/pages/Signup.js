@@ -9,17 +9,13 @@ import {
   } from 'react-native';
 
 
-import {connect} from 'react-redux'
-import {compose} from 'redux'
-import { Field, reduxForm } from 'redux-form'
-
 import Logo from '../components/Logo'
 import LoginForm from '../components/LoginForm'
 import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
-import {Actions} from 'react-native-router-flux';
+
 import InputText from '../components/InputText';
 import firebase from 'react-native-firebase';
-
+import { db } from '../../Firebase';
 
 const styles = StyleSheet.create({
   container: {
@@ -94,7 +90,9 @@ export default class SignUp extends Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => this.props.navigation.navigate('HomeScreen'))
+      .then(() => {
+        this.props.navigation.navigate('HomeScreen')
+      })
       .catch(error => console.log(error))
   }
 

@@ -16,8 +16,6 @@ import {
 } from 'react-native';
 // import Application from './src/components/Application'
 import GeneralStatusBarColor from './src/components/GeneralStatusBarColor';
-import {Provider} from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
 
 import Application from './src/components/Application'
 
