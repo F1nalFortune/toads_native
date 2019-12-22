@@ -98,27 +98,39 @@ export default class HomeScreen extends React.Component {
         if (fcmToken) {
           userId = firebase.auth().currentUser.uid;
           if (userId) {
-            db.ref('users/' + userId).set({
-              token: fcmToken,
-              email: firebase.auth().currentUser.email,
-              created_at: Date.now(),
-              genrePref:{
-                alternative: false,
-                alternative_rock: false,
-                classic_rock: false,
-                comedy: false,
-                dance: false,
-                hip_hop: false,
-                funk: false,
-                indie: false,
-                metal: false,
-                musical_theatre: false,
-                pop: false,
-                reggae: false,
-                r_n_b: false,
-                ska: false
-              }
-            })
+            //search if current user already exists
+            db
+              .ref("users/" + userId)
+              .once('value')
+              .then((dataSnapShot) => {
+                var user_data = dataSnapShot
+                user_data = JSON.parse(JSON.stringify(dataSnapShot, null, 2))
+                console.log(user_data)
+                if(user_data == null){
+                  //create user if does not exist
+                  db.ref('users/' + userId).set({
+                    token: fcmToken,
+                    email: firebase.auth().currentUser.email,
+                    created_at: Date.now(),
+                    genrePref:{
+                      alternative: false,
+                      alternative_rock: false,
+                      classic_rock: false,
+                      comedy: false,
+                      dance: false,
+                      hip_hop: false,
+                      funk: false,
+                      indie: false,
+                      metal: false,
+                      musical_theatre: false,
+                      pop: false,
+                      reggae: false,
+                      r_n_b: false,
+                      ska: false
+                    }
+                  })
+                }
+              })
             .catch((err)=>{
               console.log(err)
             })
