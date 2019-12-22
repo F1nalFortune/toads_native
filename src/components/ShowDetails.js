@@ -7,18 +7,52 @@ import {
   StyleSheet,
   Dimensions,
   Alert,
-  Linking
+  Linking,
+  Share
 } from 'react-native';
 import Image from 'react-native-scalable-image';
 import RNCalendarEvents from 'react-native-calendar-events';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import ShareButton from './ShareButton'
 
 
 export default class ShowDetails extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
     return {
-      title: "Event Info",
+      headerTitle: "Event Info",
+      headerRight: <Icon
+        style={{
+          marginLeft:15,
+          color:'#fff',
+          textShadowColor: "#66ff66",
+          textShadowOffset: {width: -1, height: 1},
+          textShadowRadius: 10,
+          shadowOpacity: .58,
+          padding: 10
+         }}
+        name={'share-square'}
+        size={20}
+        onPress={async () => {
+          try {
+            const result = await Share.share({
+              message:
+                'React Native | A framework for building native apps using React',
+            });
+
+            if (result.action === Share.sharedAction) {
+              if (result.activityType) {
+                // shared with activity type of result.activityType
+              } else {
+                // shared
+              }
+            } else if (result.action === Share.dismissedAction) {
+
+            }
+          } catch (error) {
+            alert(error.message);
+          }
+        }}/>,
       headerStyle: {
         backgroundColor: "#000000cc",
         opacity: .8
@@ -82,7 +116,7 @@ export default class ShowDetails extends Component {
       return showtime
     }
     // console.log(this.state.item.information[3])
-
+    console.log("Item: ", item)
     var eventDate = handleCreateDate(item.date);
     var eventTime = handleCreateTime(item.information[3])
     var fullDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
@@ -97,6 +131,11 @@ export default class ShowDetails extends Component {
         this.setState({
           savedInCalendar: true,
           buttonText: 'REMOVE FROM CALENDAR'
+        })
+      } else {
+        this.setState({
+          savedInCalendar: false,
+          buttonText: 'ADD TO CALENDAR'
         })
       }
     })
@@ -215,9 +254,11 @@ export default class ShowDetails extends Component {
               .catch(error => {
                 var item_details = this.state.item
                 var acts = ""
-                for(i=0; i<this.state.item.acts.length;i++){
-                  acts.concat(this.state.item.acts[i]);
-                  acts.concat("\n");
+                if(this.state.item.acts){
+                  for(i=0; i<this.state.item.acts.length;i++){
+                    acts.concat(this.state.item.acts[i]);
+                    acts.concat("\n");
+                  }
                 }
                 RNCalendarEvents.saveEvent(this.state.item.title, {
                   location:"Toad's Place, 300 York St, New Haven CT 06510",
@@ -331,6 +372,7 @@ export default class ShowDetails extends Component {
         <View
           style={styles.dateWrapper}>
           <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+          {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : <View></View>}
           <ColoredLine color="green" />
           <Text
             style={styles.date}>

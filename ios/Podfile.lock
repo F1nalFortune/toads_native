@@ -184,6 +184,8 @@ PODS:
     - React
   - RNLaunchNavigator (1.0.6):
     - React
+  - RNShare (2.0.0):
+    - React
   - RNVectorIcons (6.6.0):
     - React
   - yoga (0.60.5.React)
@@ -219,6 +221,7 @@ DEPENDENCIES:
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLaunchNavigator (from `../node_modules/react-native-launch-navigator`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -294,6 +297,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNLaunchNavigator:
     :path: "../node_modules/react-native-launch-navigator"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   yoga:
@@ -343,9 +348,10 @@ SPEC CHECKSUMS:
   RNFirebase: ac0de8b24c6f91ae9459575491ed6a77327619c6
   RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
   RNLaunchNavigator: 0b32d9e4b94591e6ea71ecde9cf5f9cbd654b580
+  RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: 55e3a62d026d81b8e734fbafaefdd23c2727e055
+PODFILE CHECKSUM: 053d1fb557c47f23d2dbb85c66876e6e24e1b518
 
 COCOAPODS: 1.8.4

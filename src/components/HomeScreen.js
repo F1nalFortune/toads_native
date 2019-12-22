@@ -10,37 +10,11 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase'
 import { db } from '../../Firebase';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 
 export default class HomeScreen extends React.Component {
   async componentDidMount() {
-      const enabled = await firebase.messaging().hasPermission();
-      if (enabled) {
-        firebase
-          .messaging()
-          .getToken()
-          .then(fcmToken => {
-            if (fcmToken) {
-              console.log(fcmToken);
-              var uid = firebase.auth().currentUser.uid
-              firebase
-                .database()
-                .ref("/users/" + uid)
-                .set({
-                  email: firebase.auth().currentUser.email,
-                  token: fcmToken,
-                  created_at: Date.now(),
-                })
-                .then(res => {
-                  console.log(res);
-                  console.log(JSON.stringify(res, null, 2))
-                });
-            } else {
-            console.log("user doesn't have a device token yet");
-            }
-          });
-      } else {
-        console.log("no");
-      }
       this.checkPermission();
       this.createNotificationListeners();
       console.disableYellowBox = true;
@@ -58,7 +32,8 @@ export default class HomeScreen extends React.Component {
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
         const { title, body } = notification;
-        this.showAlert(title, body);
+        const {item} = notification._data;
+        this.showAlert(title, body, item);
     });
 
     /*
@@ -66,7 +41,9 @@ export default class HomeScreen extends React.Component {
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
         const { title, body } = notificationOpen.notification;
-        this.showAlert(title, body);
+        console.log(notificationOpen)
+        const {item} = notificationOpen.notification._data;
+        this.showAlert(title, body, item);
     });
 
     /*
@@ -75,18 +52,22 @@ export default class HomeScreen extends React.Component {
     const notificationOpen = await firebase.notifications().getInitialNotification();
     if (notificationOpen) {
         const { title, body } = notificationOpen.notification;
-        this.showAlert(title, body);
+        const {item} = notificationOpen.notification._data;
+        this.showAlert(title, body, item);
     }
     /*
     * Triggered for data only payload in foreground
     * */
     this.messageListener = firebase.messaging().onMessage((message) => {
-      //process data message
       console.log(JSON.stringify(message));
     });
   }
 
-  showAlert(title, body) {
+  showAlert(title, body, item) {
+    if(item!=undefined){
+      item = JSON.parse(item)
+      this.props.navigation.navigate('Details', {item})
+    }
     Alert.alert(
       title, body,
       [
@@ -121,7 +102,6 @@ export default class HomeScreen extends React.Component {
               token: fcmToken,
               email: firebase.auth().currentUser.email,
               created_at: Date.now(),
-              notification: true,
               genrePref:{
                 alternative: false,
                 alternative_rock: false,

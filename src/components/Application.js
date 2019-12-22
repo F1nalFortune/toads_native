@@ -47,6 +47,7 @@ export default class Application extends Component {
   }
 
   render() {
+
     const HomeStack = createStackNavigator({
       HomeScreen: {
         screen: HomeScreen,
@@ -299,91 +300,73 @@ export default class Application extends Component {
       }
     })
 
-    const AppContainer = createAppContainer(createBottomTabNavigator(
-        {
-          Loading: {
-            screen: Loading,
-            navigationOptions: {
-              tabBarVisible: false
-            }
-           },
-          SignUp: { screen: SignUp,
-            navigationOptions: {
-              tabBarVisible: false
-            }
-          },
-          Login: {
-            screen: Login,
-            navigationOptions: {
-              tabBarVisible: false
-            }
-          },
-          HomeScreen: { screen: HomeStack },
-          Calendar: { screen: CalendarStack },
-          Directions: { screen: DirectionStack},
-          Lillys: { screen: LillyStack},
-          Gallery: { screen: GalleryStack}
-        },
-        {
-          defaultNavigationOptions: ({ navigation }) => ({
-            tabBarIcon: ({ focused, tintColor }) => {
-              const { routeName } = navigation.state;
-              let iconName;
-              if (routeName === 'HomeScreen') {
-                iconName = 'home';
-                icon = <Icon name={iconName} size={30} style={styles.glow}/>
-                // We want to add badges to home tab icon
-                // IconComponent = HomeIconWithBadge;
-              } else if (routeName === 'Calendar') {
-                iconName = 'calendar-alt'
-                icon = <Icon name={iconName} size={30} style={styles.glow}/>
-              } else if (routeName === 'Directions'){
-                iconName = 'location-arrow';
-                icon = <Icon name={iconName} size={30} style={styles.glow}/>
-              } else if (routeName ==='Lillys'){
-                iconName = 'glass-martini';
-                icon = <Icon name={iconName} size={30} style={styles.glow}/>
-              } else if(routeName ==='Tickets'){
-                iconName= 'ticket-alt';
-                icon = <Icon name={iconName} size={30} style={styles.glow}/>
-              } else if(routeName ==='Gallery'){
-                iconName= 'camera-retro';
-                icon = <Icon name={iconName} size={30} style={styles.glow}/>
-              } else{
-                iconName= 'camera-retro';
-                icon = <Icon name={iconName} size={30} style={{display: 'none'}}/>
-              }
-              return icon;
-            },
-          }),
-          tabBarOptions: {
-            borderTopColor: 'green',
-            borderTopWidth: 1,
-            activeTintColor: 'white',
-            inactiveTintColor: 'white',
-            inactiveBackgroundColor: 'black',
-            activeBackgroundColor: '#272727',
-            style:{
-              height: 65,
-              zIndex: 1000
-            }
+    const MainTabs = createBottomTabNavigator({
+        HomeScreen: { screen: HomeStack },
+        Calendar: { screen: CalendarStack },
+        Directions: { screen: DirectionStack},
+        Lillys: { screen: LillyStack},
+        Gallery: { screen: GalleryStack}
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => ({
+        tabBarIcon: ({ focused, tintColor }) => {
+          const { routeName } = navigation.state;
+          let iconName;
+          if (routeName === 'HomeScreen') {
+            iconName = 'home';
+            icon = <Icon name={iconName} size={30} style={styles.glow}/>
+            // We want to add badges to home tab icon
+            // IconComponent = HomeIconWithBadge;
+          } else if (routeName === 'Calendar') {
+            iconName = 'calendar-alt'
+            icon = <Icon name={iconName} size={30} style={styles.glow}/>
+          } else if (routeName === 'Directions'){
+            iconName = 'location-arrow';
+            icon = <Icon name={iconName} size={30} style={styles.glow}/>
+          } else if (routeName ==='Lillys'){
+            iconName = 'glass-martini';
+            icon = <Icon name={iconName} size={30} style={styles.glow}/>
+          } else if(routeName ==='Tickets'){
+            iconName= 'ticket-alt';
+            icon = <Icon name={iconName} size={30} style={styles.glow}/>
+          } else if(routeName ==='Gallery'){
+            iconName= 'camera-retro';
+            icon = <Icon name={iconName} size={30} style={styles.glow}/>
           }
+          return icon;
         },
-        {
-          tabBarComponent: props => {
-            return (
-              <BottomTabBar
-                {...props}
-                display={["HomeScreen", "Calendar", "Directions", "Lillys", "Gallery"]} // Required
-              />
-            );
-          }
-        },
-        {
-          initialRouteName: 'Loading'
+      }),
+      tabBarOptions: {
+        activeTintColor: 'white',
+        inactiveTintColor: 'white',
+        inactiveBackgroundColor: 'black',
+        activeBackgroundColor: '#272727',
+        style:{
+          height: 65,
+          zIndex: 1000
         }
-      ));
-    return <AppContainer />;
+      }
+    });
+
+    const Application = createAppContainer(createSwitchNavigator({
+      Loading: {
+        screen: Loading,
+      },
+      SignUp: {
+        screen: SignUp,
+      },
+      Login: {
+        screen: Login,
+      },
+      App: {
+        screen: MainTabs
+      }
+    },
+    {
+      initialRouteName: 'Loading'
+    }
+  ));
+    return <Application />;
   }
 }
 

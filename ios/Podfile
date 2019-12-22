@@ -33,6 +33,7 @@ target 'NavDemo' do
   pod 'Firebase/Messaging'
   pod 'Firebase/Database'
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
+  pod 'RNShare', :path => '../node_modules/react-native-share'
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   target 'NavDemoTests' do

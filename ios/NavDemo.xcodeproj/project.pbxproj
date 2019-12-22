@@ -26,21 +26,20 @@
 		8CAF681838B34FAB892F1ADC /* Merriweather-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A1CD9FFD0E442B59EF5AB2B /* Merriweather-Light.ttf */; };
 		8E251BBC23977FA60027CD3B /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E251BBB23977FA60027CD3B /* UserNotifications.framework */; };
 		8E251BC0239787D40027CD3B /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E251BBF239787D40027CD3B /* libRNFirebase.a */; };
+		8E3B1BF823AB2A4500A2D9B8 /* MapboxCoreNavigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BC823444C63008E5FE2 /* MapboxCoreNavigation.framework */; };
+		8E3B1BFA23AB2A4500A2D9B8 /* MapboxDirections.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BCE23444C63008E5FE2 /* MapboxDirections.framework */; };
+		8E3B1BFC23AB2A4500A2D9B8 /* MapboxMobileEvents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BA823444C63008E5FE2 /* MapboxMobileEvents.framework */; };
+		8E3B1BFE23AB2A4500A2D9B8 /* MapboxNavigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BC923444C63008E5FE2 /* MapboxNavigation.framework */; };
+		8E3B1C0223AB2A4500A2D9B8 /* MapboxSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BCA23444C63008E5FE2 /* MapboxSpeech.framework */; };
+		8E3B1C0423AB2A4500A2D9B8 /* Polyline.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BCC23444C63008E5FE2 /* Polyline.framework */; };
+		8E3B1C0623AB2A4500A2D9B8 /* Solar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BB223444C63008E5FE2 /* Solar.framework */; };
+		8E3B1C0823AB2A4500A2D9B8 /* Turf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BC723444C63008E5FE2 /* Turf.framework */; };
 		8E3C2BA323444509008E5FE2 /* NavDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA223444509008E5FE2 /* NavDemo.swift */; };
 		8E3C2BA523444592008E5FE2 /* NavDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA423444592008E5FE2 /* NavDemo.m */; };
 		8E3C2BFD23444CC8008E5FE2 /* NavDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA223444509008E5FE2 /* NavDemo.swift */; };
 		8E3C2BFE23444CCA008E5FE2 /* NavDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E3C2BA423444592008E5FE2 /* NavDemo.m */; };
+		8E421FFE23AB2B2100EE7F43 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BB523444C63008E5FE2 /* Mapbox.framework */; };
 		8E9A960F23A14A5F003A3311 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E9A960E23A14A5F003A3311 /* GoogleService-Info.plist */; };
-		8EC3B1E32363AAC10051E7FD /* MapboxNavigationNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BAD23444C63008E5FE2 /* MapboxNavigationNative.framework */; };
-		8EC3B1E42363AAC10051E7FD /* MapboxNavigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BC923444C63008E5FE2 /* MapboxNavigation.framework */; };
-		8EC3B1E52363AAC10051E7FD /* MapboxCoreNavigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BC823444C63008E5FE2 /* MapboxCoreNavigation.framework */; };
-		8EC3B1E62363AAC10051E7FD /* Turf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BC723444C63008E5FE2 /* Turf.framework */; };
-		8EC3B1E72363AAC10051E7FD /* Solar.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BB223444C63008E5FE2 /* Solar.framework */; };
-		8EC3B1E82363AAC10051E7FD /* MapboxDirections.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BCE23444C63008E5FE2 /* MapboxDirections.framework */; };
-		8EC3B1E92363AAC10051E7FD /* Polyline.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BCC23444C63008E5FE2 /* Polyline.framework */; };
-		8EC3B1EA2363AAC10051E7FD /* MapboxSpeech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BCA23444C63008E5FE2 /* MapboxSpeech.framework */; };
-		8EC3B1EB2363AAC10051E7FD /* MapboxMobileEvents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BA823444C63008E5FE2 /* MapboxMobileEvents.framework */; };
-		8EC3B1EC2363AAC10051E7FD /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E3C2BB523444C63008E5FE2 /* Mapbox.framework */; };
 		A78E3F6B251246D5A72E839E /* Merriweather-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 059CD520DB74445B86F163C0 /* Merriweather-Italic.ttf */; };
 		B707636F2842456493392115 /* Merriweather-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3A87625E8CA648DBBBFE0B1B /* Merriweather-BlackItalic.ttf */; };
 		E1A7379C8412C2C87E222213 /* libPods-NavDemoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94C68EF3A45F32ABE2529756 /* libPods-NavDemoTests.a */; };
@@ -188,19 +187,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E421FFE23AB2B2100EE7F43 /* Mapbox.framework in Frameworks */,
+				8E3B1BFE23AB2A4500A2D9B8 /* MapboxNavigation.framework in Frameworks */,
 				8E251BC0239787D40027CD3B /* libRNFirebase.a in Frameworks */,
+				8E3B1C0423AB2A4500A2D9B8 /* Polyline.framework in Frameworks */,
+				8E3B1C0823AB2A4500A2D9B8 /* Turf.framework in Frameworks */,
 				8E251BBC23977FA60027CD3B /* UserNotifications.framework in Frameworks */,
-				8EC3B1E32363AAC10051E7FD /* MapboxNavigationNative.framework in Frameworks */,
-				8EC3B1E42363AAC10051E7FD /* MapboxNavigation.framework in Frameworks */,
-				8EC3B1E52363AAC10051E7FD /* MapboxCoreNavigation.framework in Frameworks */,
-				8EC3B1E62363AAC10051E7FD /* Turf.framework in Frameworks */,
-				8EC3B1E72363AAC10051E7FD /* Solar.framework in Frameworks */,
-				8EC3B1E82363AAC10051E7FD /* MapboxDirections.framework in Frameworks */,
-				8EC3B1E92363AAC10051E7FD /* Polyline.framework in Frameworks */,
-				8EC3B1EA2363AAC10051E7FD /* MapboxSpeech.framework in Frameworks */,
-				8EC3B1EB2363AAC10051E7FD /* MapboxMobileEvents.framework in Frameworks */,
-				8EC3B1EC2363AAC10051E7FD /* Mapbox.framework in Frameworks */,
+				8E3B1C0623AB2A4500A2D9B8 /* Solar.framework in Frameworks */,
 				66FE44AE53E79B7CC1D9EB2D /* libPods-NavDemo.a in Frameworks */,
+				8E3B1BFA23AB2A4500A2D9B8 /* MapboxDirections.framework in Frameworks */,
+				8E3B1C0223AB2A4500A2D9B8 /* MapboxSpeech.framework in Frameworks */,
+				8E3B1BFC23AB2A4500A2D9B8 /* MapboxMobileEvents.framework in Frameworks */,
+				8E3B1BF823AB2A4500A2D9B8 /* MapboxCoreNavigation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

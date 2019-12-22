@@ -24,6 +24,15 @@ export default class Lillys extends Component {
       />
     );
     return (
+    <ImageBackground
+      source={require('../../assets/images/toad_logo.jpg')}
+      style={{flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'cover'
+      }}
+      imageStyle= {{opacity:0.05}}
+      >
       <ScrollView>
         <View style={styles.container}>
           <Text style={styles.subhead}>Available for Private Parties (21+)</Text>
@@ -52,6 +61,7 @@ export default class Lillys extends Component {
           </View>
         </View>
       </ScrollView>
+    </ImageBackground>
     );
   }
 }

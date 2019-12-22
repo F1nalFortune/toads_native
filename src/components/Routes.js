@@ -5,7 +5,7 @@ import {
   Scene
 } from 'react-native-router-flux';
 import Login from '../pages/Login';
-import Signup from '../pages/Signup';
+import SignUp from '../pages/SignUp';
 
 export default class Routes extends Component{
   render(){
@@ -13,7 +13,7 @@ export default class Routes extends Component{
       <Router>
         <Stack key="root" hideNavBar={true}>
           <Scene key="login" component={Login} title="Login" />
-          <Scene key="signup" component={Signup} title="Register" initial={true} />
+          <Scene key="signup" component={SignUp} title="Register" initial={true} />
         </Stack>
       </Router>
     )

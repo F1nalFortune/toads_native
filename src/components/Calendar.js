@@ -45,11 +45,7 @@ export default class Calendar extends Component {
         })
         // console.log(this.state.items)
       })
-
-    return { items }
   }
-
-
 
   render(){
 
