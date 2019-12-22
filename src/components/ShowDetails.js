@@ -135,14 +135,15 @@ export default class ShowDetails extends Component {
       } else {
         this.setState({
           savedInCalendar: false,
-          buttonText: 'ADD TO CALENDAR'
+          buttonText: 'ADD EVENT TO CALENDAR'
         })
       }
     })
     .catch(error => {
+      console.log("Error: ", error)
       this.setState({
         savedInCalendar: false,
-        buttonText: 'ADD TO CALENDAR'
+        buttonText: 'ADD EVENT TO CALENDAR'
       })
     })
   }
@@ -239,19 +240,22 @@ export default class ShowDetails extends Component {
               console.log(JSON.stringify(this.state.item, null, 2))
               RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
               .then((promise) => {
-                if (promise[0].title == this.state.item.title){
-                  Alert.alert(
-                    'Woops!',
-                    'Event already saved in calendar.',
-                    [
-                      {text: 'OK', onPress: () => console.log('OK Pressed')},
-                    ],
-                    {cancelable: false},
-                  );
-                }
+                console.log("Promise: ", promise)
 
-              })
-              .catch(error => {
+                for(i=0;i<promise.length;i++){
+                  if(promise[i].title == this.state.item.title){
+                    Alert.alert(
+                      'Woops!',
+                      'Event already saved in calendar.',
+                      [
+                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                      ],
+                      {cancelable: false},
+                    );
+                    break;
+                  }
+                }
+                //if event is not already inside user's Calendar
                 var item_details = this.state.item
                 var acts = ""
                 if(this.state.item.acts){
@@ -289,6 +293,7 @@ export default class ShowDetails extends Component {
                   })
                 })
                 .catch(error => {
+                  console.log("Error: ", error)
                   Alert.alert(
                     'Error',
                     'Please try again.',
@@ -298,6 +303,9 @@ export default class ShowDetails extends Component {
                     {cancelable: false},
                   );
                 })
+              })
+              .catch(error => {
+                console.log("Error: ", error)
               })
 
 
@@ -355,7 +363,6 @@ export default class ShowDetails extends Component {
       />
     );
     const item = this.props.navigation.state.params.item;
-
     return(
       <ScrollView>
         <TouchableOpacity
@@ -549,6 +556,10 @@ const styles = StyleSheet.create ({
     textAlign: 'center',
     paddingTop: 10,
     position: 'relative'
+  },
+  subtitle:{
+    textAlign: 'center',
+    justifyContent: 'center'
   },
   title: {
     fontSize: 24,
