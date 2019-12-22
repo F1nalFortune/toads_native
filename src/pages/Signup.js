@@ -5,7 +5,8 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  TextInput
+  TextInput,
+  Alert
   } from 'react-native';
 
 
@@ -93,7 +94,27 @@ export default class SignUp extends Component {
       .then(() => {
         this.props.navigation.navigate('HomeScreen')
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        console.log(typeof error)
+        console.log(JSON.stringify(error, null, 2))
+        console.log(error)
+        switch(error.code){
+          case "auth/email-already-in-use":
+            Alert.alert("Email already in use.", "The new user account cannot be created because the email is already in use.");
+            break;
+
+          case "auth/invalid-email":
+            Alert.alert("Invalid Email", "The specified email is not a valid email.");
+            break;
+
+          case "auth/weak-password":
+            Alert.alert("Weak Password", "The password must be 6 characters long or more.")
+            break;
+
+          default:
+            Alert.alert("Error", "Error creating user.");
+        }
+      })
   }
 
   onSubmit = (values) => {
@@ -120,6 +141,7 @@ export default class SignUp extends Component {
             onSubmitEditing={() => this.password.focus()}
             onChangeText={email => this.setState({ email })}
             value={this.state.email}
+            blurOnSubmit={false}
             />
           <TextInput
             style={styles.inputBox}

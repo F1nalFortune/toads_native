@@ -81,6 +81,7 @@ export default class Dance extends Component {
     genrePref = {
       alternative: this.state.alternative,
       alternative_rock: this.state.alternative_rock,
+      american_rock: this.state.american_rock,
       classic_rock: this.state.classic_rock,
       comedy: this.state.comedy,
       dance: this.state.dance,

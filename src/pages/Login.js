@@ -40,7 +40,22 @@ export default class Login extends Component {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => this.props.navigation.navigate('HomeScreen'))
-      .catch(error => console.log(error))
+      .catch(error => {
+        console.log(error)
+        console.log(JSON.stringify(error, null, 2))
+        switch(error.code){
+          case "auth/invalid-email":
+            Alert.alert("Invalid Email", "Email format is invalid.");
+            break;
+
+          case "auth/wrong-password":
+            Alert.alert("Incorrect Password", "Please try another password.");
+            break;
+
+          default:
+            Alert.alert("Error", "Invalid email and password combination.");
+        }
+      })
   }
 
 
