@@ -45,6 +45,7 @@ export default class Dance extends Component {
     location:false,
     alternative: false,
     alternative_rock: false,
+    american_rock: false,
     classic_rock: false,
     comedy: false,
     dance: false,
@@ -113,6 +114,11 @@ export default class Dance extends Component {
   }
   toggleClassic_rock = (value)=>{
     this.setState({classic_rock: value}, () =>{
+      this.updatePrefs()
+    })
+  }
+  toggleAmerican_rock = (value)=>{
+    this.setState({american_rock: value}, () =>{
       this.updatePrefs()
     })
   }
@@ -238,6 +244,14 @@ export default class Dance extends Component {
             <Text style={styles.genre}>Alternative Rock</Text>
           </View>
 
+          <View style={styles.switchContainer}>
+            <Switch
+              style={{marginTop:30}}
+              onValueChange = {this.toggleAmerican_rock}
+              value = {this.state.american_rock}
+              trackColor={{true: '#008000b3'}}/>
+            <Text style={styles.genre}>American Rock</Text>
+          </View>
 
           <View style={styles.switchContainer}>
             <Switch

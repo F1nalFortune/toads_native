@@ -12,13 +12,33 @@ import {
   TouchableOpacity,
   ScrollView
 } from 'react-native';
+import Geolocation from '@react-native-community/geolocation';
+
 //import all the components we are going to use.
 //TODO
 // set state with authorization of location and then fetch current location
 export default class Directions extends Component {
 
-  render(){
+  componentDidMount = () => {
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+       (position) => {
+          const currentLongitude = position.coords.longitude;
+          console.log("Longitude: " + JSON.stringify(position.coords.longitude))
+          //getting the Longitude from the location json
+          const currentLatitude = position.coords.latitude;
+          console.log("Latitude: " + JSON.stringify(position.coords.latitude));
+          //getting the Latitude from the location json
+          this.setState({ longitude:currentLongitude });
+          //Setting state Longitude to re re-render the Longitude Text
+          this.setState({ latitude:currentLatitude });
+       },
+       (error) => alert(error.message),
+       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  }
 
+  render(){
     const ColoredLine = ({ color }) => (
       <View
         style={{
@@ -57,8 +77,8 @@ export default class Directions extends Component {
                  onPress={() => {
                    var navDemo = NativeModules.NavDemo;
                    navDemo.renderNaviDemo(
-                     (originLat = 41.3282668),
-                     (originLon = -72.9248731),
+                     (originLat = this.state.latitude),
+                     (originLon = this.state.longitude),
                      (originName = 'Current Location'),
                      (destinationLat = 41.311587),
                      (destinationLon = -72.929541),

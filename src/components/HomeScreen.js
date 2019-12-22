@@ -115,6 +115,7 @@ export default class HomeScreen extends React.Component {
                     genrePref:{
                       alternative: false,
                       alternative_rock: false,
+                      american_rock: false,
                       classic_rock: false,
                       comedy: false,
                       dance: false,

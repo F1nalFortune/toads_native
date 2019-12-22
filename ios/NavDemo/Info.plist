@@ -42,7 +42,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Toad's Native needs access to your calendar to add events.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Toad's Native needs to access your location for navigation.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Merriweather-Black.ttf</string>
