@@ -76,7 +76,27 @@ rm -rf node_modules && npm i && cd ios/ && pod repo update && pod install && cd 
 
 Update Carthage packages
 ```
+cd ios
 carthage update --platform iOS
 ```
+
+Fix Share component from node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheetManager.m
+Change the following:
+```
+    if (activityError) {
+      failureCallback(activityError);
+    }  else {
+      successCallback(@[@(completed), RCTNullIfNil(activityType)]);
+    }
+```
+to read 
+```
+    if (activityError) {
+      failureCallback(activityError);
+    }  else if(completed) {
+      successCallback(@[@(completed), RCTNullIfNil(activityType)]);
+    }
+```
+
 
 Open NavDemo.xcworkspace in XCODE and Build to iPhone iOS version 11.0+
