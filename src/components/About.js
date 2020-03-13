@@ -352,7 +352,9 @@ const AboutTab = () => {
 const InfoTab = () => {
   return (
     <View>
-              <View style={styles.menuTabs}>
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => Linking.openURL("https://m.uber.com/ul/?action=setPickup&client_id=cshc49dbbtH5MDBojbHt1KGGjc47pCmw&pickup=my_location&dropoff[formatted_address]=300%20York%20Street%2C%20New%20Haven%2C%20CT%2C%20USA&dropoff[latitude]=41.311553&dropoff[longitude]=-72.929597")}>
                 <View
                   style={styles.menuTabText}>
                   <Icon
@@ -369,7 +371,7 @@ const InfoTab = () => {
                     name={'chevron-right'}
                     size={20}/>
                 </View>
-              </View>
+              </TouchableOpacity>
               <View style={styles.menuTabs}>
                 <View style={styles.menuTabText}>
                   <Icon
@@ -408,7 +410,10 @@ const InfoTab = () => {
                 </MapView.Marker>
               </MapView>
               <ColoredLine color="green" />
-
+              <TouchableOpacity>
+                <Text style={styles.button}>DIRECTIONS</Text>
+              </TouchableOpacity>
+              <ColoredLine color="green" />
               <TouchableOpacity
                 style={styles.menuTabs}
                 onPress={() => this.props.navigation.navigate('Tickets')}>
@@ -637,6 +642,10 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'green',
+    fontWeight: 'bold',
     margin: 10
   },
   contact: {
