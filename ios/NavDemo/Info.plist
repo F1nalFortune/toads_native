@@ -40,9 +40,9 @@
 		</dict>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Toad&apos;s Native needs access to your calendar to add events.</string>
+	<string>Allow Toad&apos;s Native calendar access to add events.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Toad&apos;s Native needs to access your location for navigation.</string>
+	<string>Allow Toad&apos;s Native location access for navigation purposes.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Merriweather-Black.ttf</string>

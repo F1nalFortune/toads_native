@@ -14,12 +14,15 @@
 #import "RNFirebaseNotifications.h"
 #import "RNFirebaseMessaging.h"
 
+@import GoogleMaps;
+
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
+  // google maps config
+  [GMSServices provideAPIKey:@"AIzaSyAaUz7R2jehVjycfnHyBJXUg8mmsNZQFOs"];
 
   // firebase config
   [FIRApp configure];

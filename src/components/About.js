@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import {
   Text,
   TextInput,
@@ -11,10 +12,272 @@ import {
   Linking
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 const width = '40%';
 const height = '20%';
 
+const mapStyle = [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#242f3e"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#746855"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#242f3e"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.locality",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#d59563"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#263c3f"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#6b9a76"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.school",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.school",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.school",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#38414e"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#212a37"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9ca5b3"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#746855"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#1f2835"
+      },
+      {
+        "visibility": "on"
+      },
+      {
+        "weight": 8
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#f3d19c"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#2f3948"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#d59563"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#17263c"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#515c6d"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#17263c"
+      }
+    ]
+  }]
+
+
+const ColoredLine = ({ color }) => (
+  <View
+    style={{
+      borderBottomColor: color,
+      borderBottomWidth: 1
+    }}
+  />
+);
 const AboutTab = () => {
   return <View>
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -87,13 +350,37 @@ const AboutTab = () => {
 };
 
 const InfoTab = () => {
-  return <View>
-           <Text>
-            Info Tab !!!
-           </Text>
-         </View>
-}
+  var markers = [
+    {
+      latitude: 41.304560,
+      longitude: -72.934500,
+      title: "Toad's Place",
+      subtitle: '300 York Street'
+    }
+  ];
 
+  return (
+    <MapView
+      style={{height: '100%', width: '100%'}}
+      provider={PROVIDER_GOOGLE}
+      region={{
+        latitude: 41.304560,
+        longitude: -72.934500,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }}
+      customMapStyle={mapStyle}
+    >
+      <MapView.Marker
+        coordinate={{        latitude: 41.304560,
+                longitude: -72.934500,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421}}>
+                <Image source={require('../../assets/images/custom_marker.png')}/>
+      </MapView.Marker>
+    </MapView>
+  )
+}
 export default class About extends Component {
   constructor(){
     super();
@@ -123,7 +410,7 @@ export default class About extends Component {
           </TouchableOpacity>
         </View>
       </View>
-      {this.state.tab=='info' ? <AboutTab /> : <InfoTab />}
+      {this.state.tab=='about' ? <AboutTab /> : <InfoTab />}
 
 
     </ScrollView>
@@ -168,10 +455,6 @@ const styles = StyleSheet.create({
     color: 'black',
     marginHorizontal: 100
   },
-  twitter:{
-    color: '#49a1eb',
-    marginHorizontal: 100
-  },
   image: {
       width: 50,
       resizeMode: 'contain',
@@ -181,6 +464,21 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  menuTabs:{
+    flexDirection: 'row',
+    padding: 20
+  },
+  menuTabText:{
+    flexDirection: 'row',
+    width: '80%'
+  },
+  menuTabIcon:{
+    flex: 1,
+    zIndex: 100000,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '20%'
   },
   socialTitle:{
     fontSize: 18,
@@ -216,6 +514,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 16,
     fontWeight: 'bold'
+  },
+  twitter:{
+    color: '#49a1eb',
+    marginHorizontal: 100
   },
   wrapper:{
       padding: 15,
