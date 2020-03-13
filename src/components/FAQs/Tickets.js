@@ -5,16 +5,8 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const ColoredLine = ({ color }) => (
-  <View
-    style={{
-      borderBottomColor: color,
-      borderBottomWidth: 1
-    }}
-  />
-);
+
 
 
 export default class Tickets extends Component {
@@ -47,14 +39,7 @@ export default class Tickets extends Component {
 
 const styles = StyleSheet.create({
   background:{
-    backgroundColor: '#c0dfc066'
-  },
-  box:{
-    width: width,
-    height: height,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F3D1B0',
+    backgroundColor: 'grey'
   },
   button:{
     borderColor: 'green',

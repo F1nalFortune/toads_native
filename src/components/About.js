@@ -353,7 +353,8 @@ const InfoTab = () => {
   return (
     <View>
               <View style={styles.menuTabs}>
-                <View style={styles.menuTabText}>
+                <View
+                  style={styles.menuTabText}>
                   <Icon
                     name={'car'}
                     size={20}
@@ -372,7 +373,7 @@ const InfoTab = () => {
               <View style={styles.menuTabs}>
                 <View style={styles.menuTabText}>
                   <Icon
-                    name={'concierge-bell'}
+                    name={'hotel'}
                     size={20}
                     style={{paddingRight: 20}}/>
                   <Text>
@@ -408,10 +409,12 @@ const InfoTab = () => {
               </MapView>
               <ColoredLine color="green" />
 
-              <View style={styles.menuTabs}>
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
                 <View style={styles.menuTabText}>
                   <Text>
-                    Where can I buy tickets for shows ?
+                    Ticket Information
                   </Text>
                 </View>
                 <View style={styles.menuTabIcon}>
@@ -420,7 +423,154 @@ const InfoTab = () => {
                     name={'chevron-right'}
                     size={20}/>
                 </View>
-              </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Accepted Payments
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Accessability Seating
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Parking Information
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Age Requirements / Restrictions
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Smoking Policy
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Audio / Video / Photo Policy
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Refund Policy
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+
+
+
+
+
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Coat Check
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+
+
+
+
+
+              <TouchableOpacity
+                style={styles.menuTabs}
+                onPress={() => this.props.navigation.navigate('Tickets')}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Official Merch
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </TouchableOpacity>
+
 
               <View style={styles.address}>
                 <Text>Venue Location</Text>

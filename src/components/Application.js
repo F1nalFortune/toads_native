@@ -25,10 +25,10 @@ import Settings from './Settings';
 import LillysCarousel from './galleries/LillysCarousel';
 import RainforestCarousel from './galleries/RainforestCarousel'
 import About from './About';
-import Tickets from './Tickets';
 import AddressScreen from './AddressScreen';
 import ShowDetails from './ShowDetails';
 import PhotoGallery from './galleries/PhotoGallery';
+import Tickets from './FAQs/Tickets'
 import cio from 'cheerio-without-node-native';
 import firebase from 'react-native-firebase';
 
@@ -47,6 +47,60 @@ export default class Application extends Component {
   }
 
   render() {
+
+    const InfoStack = createStackNavigator({
+      Settings: {
+        screen: Settings,
+        navigationOptions: {
+          title: "Settings",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          },
+          headerBackTitle: "Back"
+        }
+      },
+      Tickets: {
+        screen: Tickets,
+        navigationOptions: {
+          title: "Tickets",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      }
+    });
 
     const HomeStack = createStackNavigator({
       Home: {
@@ -125,6 +179,31 @@ export default class Application extends Component {
             padding: 10
           },
           headerBackTitle: "Back"
+        }
+      },
+      Tickets: {
+        screen: Tickets,
+        navigationOptions: {
+          title: "Tickets",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
         }
       }
     });
@@ -325,9 +404,6 @@ export default class Application extends Component {
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
           } else if (routeName ==='Lillys'){
             iconName = 'glass-martini';
-            icon = <Icon name={iconName} size={30} style={styles.glow}/>
-          } else if(routeName ==='Tickets'){
-            iconName= 'ticket-alt';
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
           } else if(routeName ==='Gallery'){
             iconName= 'camera-retro';
