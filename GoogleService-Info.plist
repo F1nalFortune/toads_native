@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>419843575607-468vnig0p0jckh504e7i2d6gaijqfcm3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.419843575607-468vnig0p0jckh504e7i2d6gaijqfcm3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAE64IVmC9y5PNDV1ST1gBKaQ68DFSUaS4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>419843575607</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.toads-native</string>
+	<key>PROJECT_ID</key>
+	<string>toads-react</string>
+	<key>STORAGE_BUCKET</key>
+	<string>toads-react.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:419843575607:ios:e908d32cf8e4fb174354b2</string>
+	<key>DATABASE_URL</key>
+	<string>https://toads-react.firebaseio.com</string>
+</dict>
+</plist>

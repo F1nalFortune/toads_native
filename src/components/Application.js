@@ -49,7 +49,7 @@ export default class Application extends Component {
   render() {
 
     const HomeStack = createStackNavigator({
-      HomeScreen: {
+      Home: {
         screen: HomeScreen,
         navigationOptions: {
           title: "Toad's Place",
@@ -301,7 +301,7 @@ export default class Application extends Component {
     })
 
     const MainTabs = createBottomTabNavigator({
-        HomeScreen: { screen: HomeStack },
+        Home: { screen: HomeStack },
         Calendar: { screen: CalendarStack },
         Directions: { screen: DirectionStack},
         Lillys: { screen: LillyStack},
@@ -312,7 +312,7 @@ export default class Application extends Component {
         tabBarIcon: ({ focused, tintColor }) => {
           const { routeName } = navigation.state;
           let iconName;
-          if (routeName === 'HomeScreen') {
+          if (routeName === 'Home') {
             iconName = 'home';
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
             // We want to add badges to home tab icon

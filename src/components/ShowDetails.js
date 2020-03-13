@@ -19,16 +19,48 @@ import ShareButton from './ShareButton'
 export default class ShowDetails extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
+    const nth = function(d) {
+      if (d > 3 && d < 21) return `${d}th`;
+      switch (d % 10) {
+        case 1:  return `${d} st`;
+        case 2:  return `${d} nd`;
+        case 3:  return `${d} rd`;
+        default: return `${d} th`;
+      }
+    }
+    const fullDay = function(day) {
+      switch (day) {
+        case 'Fri': return "Friday";
+        case 'Sat': return "Saturday";
+        case 'Sun': return "Sunday";
+        case 'Mon': return "Monday";
+        case 'Tue': return "Tuesday";
+        case 'Wed': return "Wednesday";
+        case 'Thu': return "Thursday"
+      }
+    }
+    const fullMonth = function(month){
+      switch(month) {
+        case 'Jan': return "January";
+        case 'Feb': return "February";
+        case 'Mar': return "March";
+        case 'Apr': return "April";
+        case 'May': return "May";
+        case 'Jun': return "June";
+        case 'Jul': return "July";
+        case 'Aug': return "August";
+        case 'Sep': return "September";
+        case 'Oct': return "October";
+        case 'Nov': return "November";
+        case 'Dec': return "December"
+      }
+    }
+    var current_itemzor = navigation.state.params.item
     return {
       headerTitle: "Event Info",
       headerRight: <Icon
         style={{
-          marginLeft:15,
           color:'#fff',
-          textShadowColor: "#66ff66",
-          textShadowOffset: {width: -1, height: 1},
-          textShadowRadius: 10,
-          shadowOpacity: .58,
           padding: 10
          }}
         name={'share-square'}
@@ -36,18 +68,22 @@ export default class ShowDetails extends Component {
         onPress={async () => {
           try {
             const result = await Share.share({
-              message:
-                'React Native | A framework for building native apps using React',
+              title: current_itemzor.title,
+              message:`${fullDay(current_itemzor.date[2])}, ${fullMonth(current_itemzor.date[0])} ${nth(current_itemzor.date[1])} at Toad's Place!`,
+              url: 'http://www.toadsplace.com'
             });
 
             if (result.action === Share.sharedAction) {
               if (result.activityType) {
                 // shared with activity type of result.activityType
+                console.log("Activity Type: ", result.activityType)
               } else {
                 // shared
+                console.log("Shared Result: ")
+                console.log(JSON.stringify(result, null, 2))
               }
             } else if (result.action === Share.dismissedAction) {
-
+              console.log("Dismissed Action")
             }
           } catch (error) {
             alert(error.message);
@@ -115,6 +151,64 @@ export default class ShowDetails extends Component {
       showtime = showtime + minutes
       return showtime
     }
+
+
+
+
+    function myFunction(mystring){
+        values = ['presented by:', 'presents:', 'present:']
+        string_length = mystring.length
+        if (mystring.toLowerCase().includes(values[0])){
+          var presenter = mystring.toLowerCase().split(values[0])
+          presenter[0] = presenter[0].trim() + " " + values[0]
+          var show = presenter[1]
+
+          presenter = mystring.substring(0, presenter[0].length)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          return {
+            presenter: presenter,
+            show: show
+          }
+        }else if(mystring.toLowerCase().includes(values[1])){
+          var presenter = mystring.toLowerCase().split(values[1])
+          presenter[0] = presenter[0].trim() + " " + values[1]
+          presenter = mystring.substring(0, presenter[0].length)
+          console.log(presenter)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          console.log(show)
+          return {
+            presenter: presenter,
+            show: show
+          }
+        }else if(mystring.toLowerCase().includes(values[2])){
+          var presenter = mystring.toLowerCase().split(values[2])
+          presenter[0] = presenter[0].trim() + " " + values[2]
+
+          presenter = mystring.substring(0, presenter[0].length)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          return {
+            presenter: presenter,
+            show: show
+          }
+        }else{
+          return false
+        }
+    }
+    this.setState({
+      show: false,
+      presenter: false
+    })
+    if(myFunction(this.props.navigation.state.params.item.title)){
+      var result = myFunction(this.props.navigation.state.params.item.title);
+      var presenter = result.presenter;
+      var show = result.show;
+      console.log("Presenter: ", presenter)
+      console.log("Show: ", show)
+      this.setState({
+        show: show,
+        presenter: presenter
+      })
+    }
     // console.log(this.state.item.information[3])
     console.log("Item: ", item)
     var eventDate = handleCreateDate(item.date);
@@ -127,15 +221,19 @@ export default class ShowDetails extends Component {
 
     RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
     .then((promise) => {
-      if (promise[0].title == item.title){
-        this.setState({
-          savedInCalendar: true,
-          buttonText: 'REMOVE FROM CALENDAR'
-        })
-      } else {
+      for(i=0;i<promise.length;i++){
+        if(promise[i].title == item.title){
+          this.setState({
+            savedInCalendar: true,
+            buttonText: 'REMOVE FROM CALENDAR'
+          })
+          break;
+        }
+      }
+      if(!this.state.savedInCalendar){
         this.setState({
           savedInCalendar: false,
-          buttonText: 'ADD EVENT TO CALENDAR'
+          buttonText: 'ADD TO CALENDAR'
         })
       }
     })
@@ -143,7 +241,7 @@ export default class ShowDetails extends Component {
       console.log("Error: ", error)
       this.setState({
         savedInCalendar: false,
-        buttonText: 'ADD EVENT TO CALENDAR'
+        buttonText: 'ADD TO CALENDAR'
       })
     })
   }
@@ -209,7 +307,7 @@ export default class ShowDetails extends Component {
                 })
                 this.setState({
                   savedInCalendar: false,
-                  buttonText: 'ADD EVENT TO CALENDAR'
+                  buttonText: 'ADD TO CALENDAR'
                 })
               })
               .catch(error => {
@@ -378,9 +476,14 @@ export default class ShowDetails extends Component {
         </TouchableOpacity>
         <View
           style={styles.dateWrapper}>
-          <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+          { this.state.show ?
+            <View>
+              <Text style={styles.subtitle}>{this.state.presenter}</Text>
+              <Text style={styles.eventTitle}>{this.state.show}</Text>
+            </View> :
+            <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+          }
           {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : <View></View>}
-          <ColoredLine color="green" />
           <Text
             style={styles.date}>
               {item.date[2]} \\
@@ -388,14 +491,31 @@ export default class ShowDetails extends Component {
                 {item.date[0] + ' ' + item.date[1]}
               </Text>
           </Text>
+          <ColoredLine color="green" />
         </View>
-        <View style={styles.wrapper}>
+
+        <View
+          style={styles.dateWrapper}>
+          <Text>
+            Opening Acts
+          </Text>
           <View style={styles.act}>
             {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)}>{act}</Text>) : <Text></Text>}
           </View>
+          <ColoredLine color="green" />
+        </View>
+
+
+        <View style={styles.wrapper}>
           <View style={styles.info}>
+            <Text>Tickets</Text>
+            <ColoredLine color="green" />
             <Text>{item.information[0]}</Text>
             <Text>{item.information[1]}</Text>
+          </View>
+          <View style={styles.info}>
+            <Text>Showtime</Text>
+            <ColoredLine color="green" />
             <Text>{item.information[2]}</Text>
             <Text>{item.information[3]}</Text>
           </View>
@@ -403,6 +523,11 @@ export default class ShowDetails extends Component {
         <View>
           <Text style={styles.starDetail}>{item.starInfo}</Text>
         </View>
+
+        <View style={styles.footer}>
+          <Text>{item.information[4]}</Text>
+        </View>
+
         <View style={styles.starDetail}>
           {item.infoLinks ? item.infoLinks.map(infoLink =>
             <Text
@@ -412,30 +537,32 @@ export default class ShowDetails extends Component {
               {infoLink.text}**
             </Text>) : <Text></Text>}
         </View>
-        <View style={styles.footer}>
-          <Text>{item.information[4]}</Text>
-        </View>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => Linking.openURL(item.ticket)}
+        >
+          <Text>GET TIX</Text>
+        </TouchableOpacity>
+
         <View
-          style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => Linking.openURL(item.ticket)}
-          >
-            <Text>GET TIX</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={this.state.savedInCalendar ? styles.delButton : styles.button}
-            onPress={() => this.handleAddEvent()}
-          >
-            <Text style={{textAlign: 'center'}}>{this.state.buttonText}</Text>
-          </TouchableOpacity>
+          style={styles.dateWrapper}>
+          <ColoredLine color="green" />
         </View>
 
+        <View
+          style={{marginVertical: 15}}>
+          <Text
+            style={{justifyContent: 'center', textAlign: 'center'}}>
+            Social
+          </Text>
+        </View>
         <View style={{
           flexDirection: 'row',
           justifyContent: 'space-around',
           marginVertical: 25
         }}>
+
           <Icon
             onPress={() => Linking.openURL("https://www.facebook.com/toadsplaceofficial/")}
             name={'facebook-square'}
@@ -451,6 +578,22 @@ export default class ShowDetails extends Component {
             name={'twitter'}
             size={40}
             style={styles.twitter}/>
+        </View>
+
+
+        <View
+          style={styles.dateWrapper}>
+          <ColoredLine color="green" />
+        </View>
+
+        <View
+          style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={this.state.savedInCalendar ? styles.delButton : styles.button}
+            onPress={() => this.handleAddEvent()}
+          >
+            <Text style={{textAlign: 'center'}}>{this.state.buttonText}</Text>
+          </TouchableOpacity>
         </View>
 
         <View

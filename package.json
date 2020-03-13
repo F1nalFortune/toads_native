@@ -24,6 +24,7 @@
     "react-native-gallery-swiper": "^1.22.2",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-launch-navigator": "^1.0.6",
+    "react-native-maps": "0.26.1",
     "react-native-parallax": "^0.3.0",
     "react-native-router-flux": "^4.0.6",
     "react-native-scalable-image": "^0.5.1",

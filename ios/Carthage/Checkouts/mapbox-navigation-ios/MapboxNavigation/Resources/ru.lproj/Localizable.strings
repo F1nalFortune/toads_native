@@ -5,7 +5,7 @@
 "CARPLAY_ARRIVED" = "Вы прибыли";
 
 /* Message on arrival action sheet */
-"CARPLAY_ARRIVED_MESSAGE" = "Что вы хотите дальше?";
+"CARPLAY_ARRIVED_MESSAGE" = "Куда дальше?";
 
 /* Name of the waypoint associated with the current location */
 "CARPLAY_CURRENT_LOCATION" = "Текущее положение";
@@ -49,9 +49,6 @@
 /* Title for unmute button */
 "CARPLAY_UNMUTE" = "Звук";
 
-/* Format string for indicating the device volume is low; 1 = device model */
-"DEVICE_VOLUME_LOW" = "Недостаточно места в %@";
-
 /* Dismiss button title on the steps view */
 "DISMISS_STEPS_TITLE" = "Закрыть";
 
@@ -59,7 +56,7 @@
 "END_OF_ROUTE_ARRIVED" = "Вы прибыли";
 
 /* Comment Placeholder Text */
-"END_OF_ROUTE_TITLE" = "Чем мы можем помочь ещё?";
+"END_OF_ROUTE_TITLE" = "Чем мы можем помочь?";
 
 /* Error message when the SDK is unable to read a spoken instruction. */
 "FAILED_INSTRUCTION" = "Не удаётся произнести инструкцию.";
@@ -90,6 +87,9 @@
 
 /* Title of view controller for sending feedback */
 "FEEDBACK_TITLE" = "Сообщить о проблеме";
+
+/* Label indicating the device volume is too low to hear spoken instructions and needs to be manually increased */
+"INAUDIBLE_INSTRUCTIONS_CTA" = "Увеличить громкость для голосовых инструкций";
 
 /* Format for displaying the first two major ways */
 "LEG_MAJOR_WAYS_FORMAT" = "%1$@ и %2$@";

@@ -188,6 +188,7 @@ class InstructionPresenter {
             attachment.image = image
         } else {
             let view = GenericRouteShield(pointSize: dataSource.font.pointSize, text: text)
+            view.foregroundColor = dataSource.textColor
             guard let image = takeSnapshot(on: view) else { return nil }
             imageRepository.storeImage(image, forKey: key, toDisk: false)
             attachment.image = image
@@ -210,6 +211,7 @@ class InstructionPresenter {
             attachment.image = image
         } else {
             let view = ExitView(pointSize: dataSource.font.pointSize, side: side, text: text)
+            view.foregroundColor = dataSource.textColor
             guard let image = takeSnapshot(on: view) else { return nil }
             imageRepository.storeImage(image, forKey: key, toDisk: false)
             attachment.image = image
@@ -229,15 +231,15 @@ class InstructionPresenter {
     }
     
     private func takeSnapshot(on view: UIView) -> UIImage? {
-        let window: UIWindow
+        let window: UIWindow?
         if let hostView = dataSource as? UIView, let hostWindow = hostView.window {
             window = hostWindow
         } else {
-            window = UIApplication.shared.delegate!.window!!
+            window = UIApplication.shared.delegate?.window ?? nil
         }
         
         // Temporarily add the view to the view hierarchy for UIAppearance to work its magic.
-        window.addSubview(view)
+        window?.addSubview(view)
         let image = view.imageRepresentation
         view.removeFromSuperview()
         return image
@@ -313,7 +315,7 @@ fileprivate struct IndexedVisualInstructionComponent {
 
 extension Array where Element == VisualInstructionComponent {
     fileprivate func component(before component: VisualInstructionComponent) -> VisualInstructionComponent? {
-        guard let index = self.index(of: component) else {
+        guard let index = self.firstIndex(of: component) else {
             return nil
         }
         if index > 0 {
@@ -323,7 +325,7 @@ extension Array where Element == VisualInstructionComponent {
     }
     
     fileprivate func component(after component: VisualInstructionComponent) -> VisualInstructionComponent? {
-        guard let index = self.index(of: component) else {
+        guard let index = self.firstIndex(of: component) else {
             return nil
         }
         if index+1 < self.endIndex {

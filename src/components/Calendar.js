@@ -6,8 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Linking,
-  StyleSheet,
-  FlatList
+  StyleSheet
 } from 'react-native';
 import LoadingScreen from './LoadingScreen';
 import cio from 'cheerio-without-node-native';
@@ -37,7 +36,7 @@ export default class Calendar extends Component {
           var childData = childSnapshot.val();
           saved_shows.push(childData)
         });
-        console.log(JSON.stringify(saved_shows, null, 2))
+        // console.log(JSON.stringify(saved_shows, null, 2))
         var items = saved_shows
         this.setState({
           items: items,

@@ -49,9 +49,6 @@
 /* Title for unmute button */
 "CARPLAY_UNMUTE" = "Bật Tiếng";
 
-/* Format string for indicating the device volume is low; 1 = device model */
-"DEVICE_VOLUME_LOW" = "Âm lượng %@ Đang Thấp";
-
 /* Dismiss button title on the steps view */
 "DISMISS_STEPS_TITLE" = "Đóng";
 
@@ -90,6 +87,9 @@
 
 /* Title of view controller for sending feedback */
 "FEEDBACK_TITLE" = "Báo cáo Vấn đề";
+
+/* Label indicating the device volume is too low to hear spoken instructions and needs to be manually increased */
+"INAUDIBLE_INSTRUCTIONS_CTA" = "Điều chỉnh Âm lượng để Nghe Hướng dẫn";
 
 /* Format for displaying the first two major ways */
 "LEG_MAJOR_WAYS_FORMAT" = "%1$@ và %2$@";
