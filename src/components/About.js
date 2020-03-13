@@ -350,35 +350,83 @@ const AboutTab = () => {
 };
 
 const InfoTab = () => {
-  var markers = [
-    {
-      latitude: 41.304560,
-      longitude: -72.934500,
-      title: "Toad's Place",
-      subtitle: '300 York Street'
-    }
-  ];
-
   return (
-    <MapView
-      style={{height: '100%', width: '100%'}}
-      provider={PROVIDER_GOOGLE}
-      region={{
-        latitude: 41.304560,
-        longitude: -72.934500,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      }}
-      customMapStyle={mapStyle}
-    >
-      <MapView.Marker
-        coordinate={{        latitude: 41.304560,
-                longitude: -72.934500,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421}}>
-                <Image source={require('../../assets/images/custom_marker.png')}/>
-      </MapView.Marker>
-    </MapView>
+    <View>
+              <View style={styles.menuTabs}>
+                <View style={styles.menuTabText}>
+                  <Icon
+                    name={'car'}
+                    size={20}
+                    style={{paddingRight: 20}}/>
+                  <Text>
+                    Ride w/ Uber to the show
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </View>
+              <View style={styles.menuTabs}>
+                <View style={styles.menuTabText}>
+                  <Icon
+                    name={'concierge-bell'}
+                    size={20}
+                    style={{paddingRight: 20}}/>
+                  <Text>
+                    Stay at a hotel after the show
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </View>
+              <ColoredLine color="green" />
+              <MapView
+                style={{height: 250, width: '100%'}}
+                provider={PROVIDER_GOOGLE}
+                region={{
+                  latitude: 41.304560,
+                  longitude: -72.934500,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421
+                }}
+                customMapStyle={mapStyle}
+              >
+                <MapView.Marker
+                  coordinate={{        latitude: 41.304560,
+                          longitude: -72.934500,
+                          latitudeDelta: 0.0922,
+                          longitudeDelta: 0.0421}}>
+                          <Image source={require('../../assets/images/custom_marker.png')}/>
+                </MapView.Marker>
+              </MapView>
+              <ColoredLine color="green" />
+
+              <View style={styles.menuTabs}>
+                <View style={styles.menuTabText}>
+                  <Text>
+                    Where can I buy tickets for shows ?
+                  </Text>
+                </View>
+                <View style={styles.menuTabIcon}>
+                  <Icon
+                     style={styles.menuTabIcon}
+                    name={'chevron-right'}
+                    size={20}/>
+                </View>
+              </View>
+
+              <View style={styles.address}>
+                <Text>Venue Location</Text>
+                <Text>300 York Street{"\n"}{"\n"}New Haven, CT 06510</Text>
+              </View>
+           </View>
   )
 }
 export default class About extends Component {
