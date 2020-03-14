@@ -48,11 +48,11 @@ export default class Application extends Component {
 
   render() {
 
-    const InfoStack = createStackNavigator({
-      Settings: {
-        screen: Settings,
+    const InfoStack = createSwitchNavigator({
+      About: {
+        screen: About,
         navigationOptions: {
-          title: "Settings",
+          title: "Venue Info",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -71,8 +71,7 @@ export default class Application extends Component {
             textTransform: 'uppercase',
             fontSize: 24,
             padding: 10
-          },
-          headerBackTitle: "Back"
+          }
         }
       },
       Tickets: {
@@ -125,8 +124,7 @@ export default class Application extends Component {
             textTransform: 'uppercase',
             fontSize: 24,
             padding: 10
-          },
-          headerBackTitle: "Back"
+          }
         }
       },
       About: {
@@ -151,8 +149,7 @@ export default class Application extends Component {
             textTransform: 'uppercase',
             fontSize: 24,
             padding: 10
-          },
-          headerBackTitle: "Back"
+          }
         }
       },
       Settings: {
@@ -177,8 +174,7 @@ export default class Application extends Component {
             textTransform: 'uppercase',
             fontSize: 24,
             padding: 10
-          },
-          headerBackTitle: "Back"
+          }
         }
       },
       Tickets: {

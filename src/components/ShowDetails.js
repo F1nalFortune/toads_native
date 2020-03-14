@@ -603,6 +603,21 @@ export default class ShowDetails extends Component {
             Share event with your friends !
           </Text>
         </View>
+        <TouchableOpacity
+          style={styles.menuTabs}
+          onPress={() => this.props.navigation.navigate('Tickets')}>
+          <View style={styles.menuTabText}>
+            <Text>
+              Refund Policy
+            </Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Icon
+               style={styles.menuTabIcon}
+              name={'chevron-right'}
+              size={20}/>
+          </View>
+        </TouchableOpacity>
       </ScrollView>
     )
   }

@@ -12,6 +12,7 @@ import {
   Linking
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import VenueInfoRouter from './VenueInfoRouter';
 const width = '40%';
 const height = '20%';
 
@@ -390,6 +391,10 @@ const InfoTab = () => {
                 </View>
               </View>
               <ColoredLine color="green" />
+              <View>
+                <Text style={styles.addressTitle}>Venue Location</Text>
+                <Text style={styles.address}>300 York Street{"\n"}{"\n"}New Haven, CT 06510</Text>
+              </View>
               <MapView
                 style={{height: 250, width: '100%'}}
                 provider={PROVIDER_GOOGLE}
@@ -575,16 +580,11 @@ const InfoTab = () => {
                     size={20}/>
                 </View>
               </TouchableOpacity>
-
-
-              <View style={styles.address}>
-                <Text>Venue Location</Text>
-                <Text>300 York Street{"\n"}{"\n"}New Haven, CT 06510</Text>
-              </View>
            </View>
   )
 }
 export default class About extends Component {
+
   constructor(){
     super();
     this.state = {
@@ -614,8 +614,54 @@ export default class About extends Component {
         </View>
       </View>
       {this.state.tab=='about' ? <AboutTab /> : <InfoTab />}
+      <ColoredLine color="green" />
+      <Text style={styles.socialHead}>
+        Social
+      </Text>
+      <Text style={styles.socialSub}>
+        Click to connect with us!
+      </Text>
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginVertical: 25
+      }}>
+        <Text style={styles.socialIcon}>
+          <Icon
+            onPress={() => Linking.openURL("https://www.facebook.com/toadsplaceofficial/")}
+            name={'facebook-square'}
+            size={40}
+            style={styles.facebook}/>
+        </Text>
+        <Text style={styles.socialIcon}>
+          <Icon
+            onPress={() => Linking.openURL("https://www.instagram.com/toadsplace/")}
+            name={'instagram'}
+            size={40}
+            style={styles.instagram}/>
+        </Text>
+        <Text style={styles.socialIcon}>
+          <Icon
+            onPress={() => Linking.openURL("https://twitter.com/toadsplace")}
+            name={'twitter'}
+            size={40}
+            style={styles.twitter}/>
+        </Text>
+      </View>
+      <ColoredLine color="green" />
 
-
+      <View>
+        <Text style={styles.toads}>Toad's Place</Text>
+        <Text  style={styles.contactAddress}>
+          300 York St, New Haven, CT 06511
+        </Text>
+        <Text style={styles.contactPhone}>
+          203-624-8623
+        </Text>
+        <Text style={styles.copyright}>
+          Copyright © 2020 Toad's Place,{"\n"}All Rights Reserved
+        </Text>
+      </View>
     </ScrollView>
     );
   }
@@ -623,6 +669,17 @@ export default class About extends Component {
 
 
 const styles = StyleSheet.create({
+  address:{
+    paddingTop: 0,
+    paddingLeft: 20,
+    paddingBottom: 20,
+    fontWeight: 'bold'
+  },
+  addressTitle:{
+    padding:20,
+    fontWeight: 'bold',
+    fontSize: 18
+  },
   background:{
     backgroundColor: '#c0dfc066'
   },
@@ -638,7 +695,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderStyle: 'solid',
-    padding: 10,
+    padding: 15,
     textTransform: 'uppercase',
     justifyContent: 'center',
     alignItems: 'center',
@@ -646,13 +703,28 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: 'green',
     fontWeight: 'bold',
-    margin: 10
+    margin: 15
   },
-  contact: {
+  contactAddress: {
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 16
+    fontSize: 16,
+    padding:5
+  },
+  contactPhone: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 16,
+    padding:5
+  },
+  copyright: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 16,
+    padding:5
   },
   facebook:{
     color: '#4968ad',
@@ -687,9 +759,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '20%'
   },
-  socialTitle:{
+  socialHead:{
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 10,
     fontSize: 18,
     fontWeight: 'bold'
+  },
+  socialSub:{
+    paddingLeft:20,
+    paddingBottom:10,
+    paddingTop:0,
+    fontSize: 16
   },
   socialIcon:{
     padding: 5
@@ -720,7 +802,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 16,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    paddingTop:20
   },
   twitter:{
     color: '#49a1eb',
