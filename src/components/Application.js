@@ -102,31 +102,6 @@ export default class Application extends Component {
     });
 
     const HomeStack = createStackNavigator({
-      Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-          title: "Toad's Place",
-          headerStyle: {
-            backgroundColor: "#000000cc",
-            opacity: .8,
-            borderBottomColor: 'green',
-            borderBottomWidth: 1
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: "#fff",
-            textShadowColor: "#66ff66",
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            shadowOpacity: .58,
-            textAlign: 'center',
-            fontFamily: "Merriweather-Bold",
-            textTransform: 'uppercase',
-            fontSize: 24,
-            padding: 10
-          }
-        }
-      },
       About: {
         screen: About,
         navigationOptions: {

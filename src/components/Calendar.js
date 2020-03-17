@@ -6,9 +6,13 @@ import {
   TouchableOpacity,
   Image,
   Linking,
-  StyleSheet
+  StyleSheet,
+    Dimensions,
+    Button
 } from 'react-native';
 import LoadingScreen from './LoadingScreen';
+import GallerySwiper from "react-native-gallery-swiper";
+import { SliderBox } from "react-native-image-slider-box";
 import cio from 'cheerio-without-node-native';
 import {useNetInfo} from "@react-native-community/netinfo";
 import firebase from 'react-native-firebase';
@@ -26,28 +30,47 @@ export default class Calendar extends Component {
     }
   }
 
-  async componentDidMount(){
+componentDidMount(){
+    const savedShows = require('../shows/shows.json');
+    console.log(JSON.stringify(savedShows, null, 2))
+    var items = savedShows['events']
+    var features = savedShows['events'][0]['slides']
+    // var new_features = []
+    // for(i=0;i<features.length;i++){
+    //   var feature = {
+    //     uri: features[i],
+    //     dimensions: {width: Dimensions.get('window').width}
+    //   }
+    //   new_features.push(feature)
+    // }
+    // console.log(new_features)
+    this.setState({
+      items: items,
+      isLoading: false,
+      features: features
+    })
     //READ VALUES FROM DATABASE
-    db.ref('events').once('value')
-      .then((dataSnapShot) => {
-        saved_shows = []
-        dataSnapShot.forEach(function(childSnapshot) {
-          // childData will be the actual contents of the child
-          var childData = childSnapshot.val();
-          saved_shows.push(childData)
-        });
-        console.log(JSON.stringify(saved_shows, null, 2))
-        var items = saved_shows
-        this.setState({
-          items: items,
-          isLoading: false
-        })
-        // console.log(this.state.items)
-      })
+    // db.ref('events').once('value')
+    //   .then((dataSnapShot) => {
+    //     saved_shows = []
+    //     dataSnapShot.forEach(function(childSnapshot) {
+    //       // childData will be the actual contents of the child
+    //       var childData = childSnapshot.val();
+    //       saved_shows.push(childData)
+    //     });
+    //     console.log(JSON.stringify(saved_shows, null, 2))
+    //     var items = saved_shows
+    //     this.setState({
+    //       items: items,
+    //       isLoading: false
+    //     })
+    //     // console.log(this.state.items)
+    //   })
       console.log("here")
   }
 
   render(){
+
 
     const ColoredLine = ({ color }) => (
       <View
@@ -63,6 +86,13 @@ export default class Calendar extends Component {
 
     return(
       <ScrollView>
+        <View style={{height: 250}}>
+          <SliderBox
+            images={this.state.features}
+            autoplay
+            circleloop />
+
+        </View>
         {this.state.items.map(item =>
           <View key={this.state.items.indexOf(item)}>
             <TouchableOpacity

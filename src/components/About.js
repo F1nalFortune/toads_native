@@ -304,49 +304,6 @@ const AboutTab = () => {
                 Toad's Place...where the legends play!
               </Text>
             </View>
-
-            <View style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              marginVertical: 50
-            }}>
-              <Text style={styles.socialIcon}>
-                <Icon
-                  onPress={() => Linking.openURL("https://www.facebook.com/toadsplaceofficial/")}
-                  name={'facebook-square'}
-                  size={40}
-                  style={styles.facebook}/>
-              </Text>
-              <Text style={styles.socialIcon}>
-                <Icon
-                  onPress={() => Linking.openURL("https://www.instagram.com/toadsplace/")}
-                  name={'instagram'}
-                  size={40}
-                  style={styles.instagram}/>
-              </Text>
-              <Text style={styles.socialIcon}>
-                <Icon
-                  onPress={() => Linking.openURL("https://twitter.com/toadsplace")}
-                  name={'twitter'}
-                  size={40}
-                  style={styles.twitter}/>
-              </Text>
-            </View>
-            <View>
-              <Text style={styles.toads}>Toad's Place</Text>
-              <Text  style={styles.contact}>
-                300 York St, New Haven, CT 06511{"\n"}
-                203-624-8623{"\n"}
-                toadsplac@aol.com
-              </Text>
-            </View>
-            <View>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => Linking.openURL("https://www.toadsplacemerch.com/")}>
-                <Text style={{color:'black'}}>Official Merchandise</Text>
-              </TouchableOpacity>
-            </View>
          </View>
 };
 
@@ -421,7 +378,7 @@ const InfoTab = () => {
               <ColoredLine color="green" />
               <TouchableOpacity
                 style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
+                onPress={() => this.props.navigation.push('Tickets')}>
                 <View style={styles.menuTabText}>
                   <Text>
                     Ticket Information

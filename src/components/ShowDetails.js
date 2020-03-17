@@ -494,24 +494,11 @@ export default class ShowDetails extends Component {
           <ColoredLine color="green" />
         </View>
 
-        <View
-          style={styles.dateWrapper}>
-          <Text>
-            Opening Acts
-          </Text>
-          <View style={styles.act}>
-            {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)}>{act}</Text>) : <Text></Text>}
-          </View>
-          <ColoredLine color="green" />
-        </View>
-
-
         <View style={styles.wrapper}>
           <View style={styles.info}>
-            <Text>Tickets</Text>
+            <Text>Opening Acts</Text>
             <ColoredLine color="green" />
-            <Text>{item.information[0]}</Text>
-            <Text>{item.information[1]}</Text>
+            {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)}>{act}</Text>) : <Text></Text>}
           </View>
           <View style={styles.info}>
             <Text>Showtime</Text>
@@ -542,73 +529,45 @@ export default class ShowDetails extends Component {
           style={styles.button}
           onPress={() => Linking.openURL(item.ticket)}
         >
-          <Text>GET TIX</Text>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>GET TIX</Text>
         </TouchableOpacity>
 
-        <View
-          style={styles.dateWrapper}>
-          <ColoredLine color="green" />
-        </View>
-
-        <View
-          style={{marginVertical: 15}}>
-          <Text
-            style={{justifyContent: 'center', textAlign: 'center'}}>
-            Social
-          </Text>
-        </View>
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          marginVertical: 25
-        }}>
-
-          <Icon
-            onPress={() => Linking.openURL("https://www.facebook.com/toadsplaceofficial/")}
-            name={'facebook-square'}
-            size={40}
-            style={styles.facebook}/>
-          <Icon
-            onPress={() => Linking.openURL("https://www.instagram.com/toadsplace/")}
-            name={'instagram'}
-            size={40}
-            style={styles.instagram}/>
-          <Icon
-            onPress={() => Linking.openURL("https://twitter.com/toadsplace")}
-            name={'twitter'}
-            size={40}
-            style={styles.twitter}/>
-        </View>
-
-
-        <View
-          style={styles.dateWrapper}>
-          <ColoredLine color="green" />
-        </View>
-
-        <View
-          style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={this.state.savedInCalendar ? styles.delButton : styles.button}
-            onPress={() => this.handleAddEvent()}
-          >
-            <Text style={{textAlign: 'center'}}>{this.state.buttonText}</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View
-          style={{marginVertical: 15}}>
-          <Text
-            style={{justifyContent: 'center', textAlign: 'center'}}>
-            Share event with your friends !
-          </Text>
-        </View>
         <TouchableOpacity
           style={styles.menuTabs}
-          onPress={() => this.props.navigation.navigate('Tickets')}>
+          onPress={() => this.props.navigation.push('Tickets')}>
           <View style={styles.menuTabText}>
             <Text>
-              Refund Policy
+              Ticket Information
+            </Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Icon
+               style={styles.menuTabIcon}
+              name={'chevron-right'}
+              size={20}/>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuTabs}
+          onPress={() => this.props.navigation.push('Tickets')}>
+          <View style={styles.menuTabText}>
+            <Text>
+              Venue Information
+            </Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Icon
+               style={styles.menuTabIcon}
+              name={'chevron-right'}
+              size={20}/>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuTabs}
+          onPress={() => this.handleAddEvent()}>
+          <View style={styles.menuTabText}>
+            <Text>
+              {this.state.buttonText}
             </Text>
           </View>
           <View style={styles.menuTabIcon}>
@@ -633,15 +592,17 @@ const styles = StyleSheet.create ({
   },
   button:{
     borderColor: 'green',
-    borderRadius: 10,
+    borderRadius: 5,
     borderWidth: 1,
     borderStyle: 'solid',
-    padding: 10,
+    padding: 15,
     textTransform: 'uppercase',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10
+    margin: 10,
+    backgroundColor: 'green',
+    fontWeight: 'bold'
   },
   delButton:{
     borderColor: '#b53838',
@@ -709,6 +670,21 @@ const styles = StyleSheet.create ({
   link:{
     color: 'blue',
     zIndex: 100
+  },
+  menuTabs:{
+    flexDirection: 'row',
+    padding: 20
+  },
+  menuTabText:{
+    flexDirection: 'row',
+    width: '80%'
+  },
+  menuTabIcon:{
+    flex: 1,
+    zIndex: 100000,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '20%'
   },
   starDetail:{
     textAlign: 'center',

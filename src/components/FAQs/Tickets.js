@@ -6,10 +6,6 @@ import {
   ScrollView,
 } from 'react-native';
 
-
-
-
-
 export default class Tickets extends Component {
 
 
