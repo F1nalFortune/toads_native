@@ -11,11 +11,65 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+
+// AMENITIES
+// <View style={{flexDirection:'row'}}>
+//   {
+//     item.amenities[0].parking ?
+//     <View style={{textAlign: 'justify'}}>
+//       <Icon name={'parking'} size={30} style={{color: 'green'}}/>
+//       <Text>Parking</Text>
+//     </View> :
+//     <View></View>
+//   }
+//   {
+//     item.amenities[0].pets ?
+//     <View>
+//       <Icon name={'paw'} size={30} style={{color: 'green'}}/>
+//       <Text>Pets</Text>
+//     </View>
+//     : <View></View>
+//   }
+//   {
+//     item.amenities[0]['non-smoking rooms'] ?
+//     <View>
+//       <Icon name={'smoking-ban'} size={30} style={{color: 'green'}}/>
+//       <Text>Non-smoking{"\n"}Rooms</Text>
+//     </View>:
+//     <View></View>}
+//   {
+//     item.amenities[0]['fitness center'] ?
+//     <View>
+//       <Icon name={'dumbbell'} size={30} style={{color: 'green'}}/>
+//       <Text>Fitness{"\n"}Center</Text>
+//     </View>:
+//     <View></View>}
+//   {
+//     item.amenities[0]['bar'] ?
+//     <View>
+//       <Icon name={'glass-martini-alt'} size={30} style={{color: 'green'}}/>
+//       <Text>Bar</Text>
+//     </View>:
+//     <View></View>}
+//   {
+//     item.amenities[0]['tea/coffee'] ?
+//     <View>
+//       <Icon name={'mug-hot'} size={30} style={{color: 'green'}}/>
+//       <Text> Coffee / Tea </Text>
+//     </View> :
+//     <View></View>}
+//   {
+//     item.amenities[0]['pool']?
+//     <View>
+//       <Icon name={'swimmer'} size={30} style={{color: 'green'}}/>
+//       <Text>Pool</Text>
+//     </View> :
+//     <View></View>}
+// </View>
+
 export default class Hotels extends Component {
 
-  componentDidMount(){
 
-  }
 
 
   render() {
@@ -24,7 +78,7 @@ export default class Hotels extends Component {
         style={{
           borderBottomColor: color,
           borderBottomWidth: 1,
-          width: '90%',
+          width: '100%',
           paddingTop: 10,
           marginBottom: 10
         }}
@@ -32,6 +86,8 @@ export default class Hotels extends Component {
     );
     var hotels = require("../../../assets/hotels.json")
     hotels = hotels['hotels']
+    console.log(hotels[0]['amenities'][0]['parking'])
+    // console.log(hotels[0]['amenities']['parking'])
     var images = {
       'Courtyard by Marriott New Haven at Yale': require('../../../assets/images/Hotels/courtyard_yale.jpg'),
       'Omni New Haven Hotel at Yale': require('../../../assets/images/Hotels/omni_yale.jpg'),
@@ -44,8 +100,12 @@ export default class Hotels extends Component {
         <View
           key={hotels.indexOf(item)}>
           <Text style={styles.hotelTitle}>
-            {item.title}{"\n"}
-            {item.address}{"\n"}
+            {item.title}
+          </Text>
+          <Text style={styles.hotelAddress}>
+            {item.address}
+          </Text>
+          <Text style={styles.hotelDistance}>
             {item.distance} miles away
           </Text>
           <View style={styles.infoContainer}>
@@ -70,7 +130,8 @@ export default class Hotels extends Component {
             </TouchableOpacity>
           </View>
           <ColoredLine color="green" />
-        </View>)}
+        </View>
+      )}
       </View>
     </ScrollView>
     );
@@ -91,17 +152,34 @@ const styles = StyleSheet.create({
   },
   buttonRow:{
     flexDirection:'row',
-    margin:5
+    margin:10
+  },
+  hotelAddress:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    paddingBottom:2
+  },
+  hotelDistance:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    paddingBottom:5
   },
   hotelTitle:{
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: "Merriweather-Bold",
+    fontSize: 18,
+    paddingTop:10,
+    paddingBottom:2
   },
   infoContainer:{
     flexDirection: 'row'
   },
   item:{
+    backgroundColor: "green",
     width: '33%', // is 50% of container width
     borderColor: 'green',
     borderRadius: 5,
@@ -113,7 +191,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontFamily: "Merriweather-Bold",
     color: 'white',
-    backgroundColor: '#a8d1a936',
     marginLeft: 5,
     marginRight: 5
   },
