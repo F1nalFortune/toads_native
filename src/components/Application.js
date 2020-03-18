@@ -18,14 +18,12 @@ import Image from 'react-native-scalable-image';
 import { createStackNavigator, createBottomTabNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Calendar from './Calendar';
-import Directions from './Directions';
 import HomeScreen from './HomeScreen';
 import Lillys from './Lillys';
 import Settings from './Settings';
 import LillysCarousel from './galleries/LillysCarousel';
 import RainforestCarousel from './galleries/RainforestCarousel'
 import About from './About';
-import AddressScreen from './AddressScreen';
 import ShowDetails from './ShowDetails';
 import PhotoGallery from './galleries/PhotoGallery';
 import Tickets from './FAQs/Tickets'
@@ -36,6 +34,7 @@ import SmokingPolicy from './FAQs/SmokingPolicy'
 import AudioVideo from './FAQs/AudioVideo'
 import Refunds from './FAQs/Refunds'
 import CoatCheck from './FAQs/CoatCheck'
+import Hotels from './FAQs/Hotels'
 import cio from 'cheerio-without-node-native';
 import firebase from 'react-native-firebase';
 
@@ -54,6 +53,33 @@ export default class Application extends Component {
   }
 
   render() {
+    const SettingsStack = createStackNavigator({
+      Settings: {
+        screen: Settings,
+        navigationOptions: {
+          title: "Settings",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+    })
 
     const HomeStack = createStackNavigator({
       Home: {
@@ -85,31 +111,6 @@ export default class Application extends Component {
         screen: About,
         navigationOptions: {
           title: "Venue Info",
-          headerStyle: {
-            backgroundColor: "#000000cc",
-            opacity: .8,
-            borderBottomColor: 'green',
-            borderBottomWidth: 1
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: "#fff",
-            textShadowColor: "#66ff66",
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            shadowOpacity: .58,
-            textAlign: 'center',
-            fontFamily: "Merriweather-Bold",
-            textTransform: 'uppercase',
-            fontSize: 24,
-            padding: 10
-          }
-        }
-      },
-      Settings: {
-        screen: Settings,
-        navigationOptions: {
-          title: "Settings",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -331,6 +332,31 @@ export default class Application extends Component {
           }
         }
       },
+      Hotels: {
+        screen: Hotels,
+        navigationOptions: {
+          title: "Area Hotels",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
     });
 
     const CalendarStack = createStackNavigator({
@@ -496,34 +522,7 @@ export default class Application extends Component {
       }
     });
 
-    const DirectionStack = createStackNavigator({
-      Directions: { screen: Directions,
-        navigationOptions: {
-          title: "Directions",
-          headerStyle: {
-            backgroundColor: "#000000cc",
-            opacity: .8,
-            borderBottomColor: 'green',
-            borderBottomWidth: 1
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: "#fff",
-            textShadowColor: "#66ff66",
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            shadowOpacity: .58,
-            textAlign: 'center',
-            fontFamily: "Merriweather-Bold",
-            textTransform: 'uppercase',
-            fontSize: 24,
-            padding: 10
-          },
-          headerBackTitle: "Back"
-        }
-      },
-      Address: { screen: AddressScreen }
-    })
+
 
     const GalleryStack = createStackNavigator({
       Gallery: {
@@ -557,9 +556,9 @@ export default class Application extends Component {
     const MainTabs = createBottomTabNavigator({
         Home: { screen: HomeStack },
         Calendar: { screen: CalendarStack },
-        Directions: { screen: DirectionStack},
         Lillys: { screen: LillyStack},
-        Gallery: { screen: GalleryStack}
+        Gallery: { screen: GalleryStack},
+        Settings: { screen: SettingsStack }
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
@@ -574,14 +573,14 @@ export default class Application extends Component {
           } else if (routeName === 'Calendar') {
             iconName = 'calendar-alt'
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
-          } else if (routeName === 'Directions'){
-            iconName = 'location-arrow';
-            icon = <Icon name={iconName} size={30} style={styles.glow}/>
           } else if (routeName ==='Lillys'){
             iconName = 'glass-martini';
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
           } else if(routeName ==='Gallery'){
             iconName= 'camera-retro';
+            icon = <Icon name={iconName} size={30} style={styles.glow}/>
+          } else if (routeName === 'Settings'){
+            iconName = 'user';
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
           }
           return icon;

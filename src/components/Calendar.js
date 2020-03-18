@@ -7,7 +7,6 @@ import {
   Image,
   Linking,
   StyleSheet,
-    Dimensions,
     Button
 } from 'react-native';
 import LoadingScreen from './LoadingScreen';
@@ -30,42 +29,35 @@ export default class Calendar extends Component {
     }
   }
 
-componentDidMount(){
-    const savedShows = require('../shows/shows.json');
-    console.log(JSON.stringify(savedShows, null, 2))
-    var items = savedShows['events']
-    var features = savedShows['events'][0]['slides']
-    // var new_features = []
-    // for(i=0;i<features.length;i++){
-    //   var feature = {
-    //     uri: features[i],
-    //     dimensions: {width: Dimensions.get('window').width}
-    //   }
-    //   new_features.push(feature)
-    // }
-    // console.log(new_features)
-    this.setState({
-      items: items,
-      isLoading: false,
-      features: features
-    })
-    //READ VALUES FROM DATABASE
-    // db.ref('events').once('value')
-    //   .then((dataSnapShot) => {
-    //     saved_shows = []
-    //     dataSnapShot.forEach(function(childSnapshot) {
-    //       // childData will be the actual contents of the child
-    //       var childData = childSnapshot.val();
-    //       saved_shows.push(childData)
-    //     });
-    //     console.log(JSON.stringify(saved_shows, null, 2))
-    //     var items = saved_shows
-    //     this.setState({
-    //       items: items,
-    //       isLoading: false
-    //     })
-    //     // console.log(this.state.items)
-    //   })
+async componentDidMount(){
+    // const savedShows = require('../shows/shows.json');
+    // console.log(JSON.stringify(savedShows, null, 2))
+    // var items = savedShows['events']
+    // var features = savedShows['events'][0]['slides']
+    // this.setState({
+    //   items: items,
+    //   isLoading: false,
+    //   features: features
+    // })
+    // READ VALUES FROM DATABASE
+    db.ref('events').once('value')
+      .then((dataSnapShot) => {
+        saved_shows = []
+        dataSnapShot.forEach(function(childSnapshot) {
+          // childData will be the actual contents of the child
+          var childData = childSnapshot.val();
+          saved_shows.push(childData)
+        });
+        console.log(JSON.stringify(saved_shows, null, 2))
+        var items = saved_shows
+        var features = items[0]['slides']
+        this.setState({
+          items: items,
+          isLoading: false,
+          features: features
+        })
+        // console.log(this.state.items)
+      })
       console.log("here")
   }
 

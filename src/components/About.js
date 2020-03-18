@@ -9,10 +9,13 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  Linking
+  Linking,
+  NativeModules,
+  SafeAreaView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import VenueInfoRouter from './VenueInfoRouter';
+import Geolocation from '@react-native-community/geolocation';
 const width = '40%';
 const height = '20%';
 
@@ -308,6 +311,24 @@ const AboutTab = () => {
 };
 
 export default class About extends Component {
+  componentDidMount = () => {
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+       (position) => {
+          const currentLongitude = position.coords.longitude;
+          console.log("Longitude: " + JSON.stringify(position.coords.longitude))
+          //getting the Longitude from the location json
+          const currentLatitude = position.coords.latitude;
+          console.log("Latitude: " + JSON.stringify(position.coords.latitude));
+          //getting the Latitude from the location json
+          this.setState({ longitude:currentLongitude });
+          //Setting state Longitude to re re-render the Longitude Text
+          this.setState({ latitude:currentLatitude });
+       },
+       (error) => alert(error.message),
+       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+  }
 
   constructor(){
     super();
@@ -319,6 +340,7 @@ export default class About extends Component {
   render() {
     return (
     <ScrollView style={styles.background}>
+      <SafeAreaView>
       <View style={styles.imgWrapper}>
           <Image
             source={require("../../assets/images/toads_banner.png")}/>
@@ -358,7 +380,9 @@ export default class About extends Component {
                       size={20}/>
                   </View>
                 </TouchableOpacity>
-                <View style={styles.menuTabs}>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.push('Hotels')}>
                   <View style={styles.menuTabText}>
                     <Icon
                       name={'hotel'}
@@ -374,33 +398,46 @@ export default class About extends Component {
                       name={'chevron-right'}
                       size={20}/>
                   </View>
-                </View>
+                </TouchableOpacity>
                 <ColoredLine color="green" />
                 <View>
                   <Text style={styles.addressTitle}>Venue Location</Text>
-                  <Text style={styles.address}>300 York Street{"\n"}{"\n"}New Haven, CT 06510</Text>
+                  <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
                 </View>
-                <MapView
-                  style={{height: 250, width: '100%'}}
-                  provider={PROVIDER_GOOGLE}
-                  region={{
-                    latitude: 41.304560,
-                    longitude: -72.934500,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421
-                  }}
-                  customMapStyle={mapStyle}
-                >
-                  <MapView.Marker
-                    coordinate={{        latitude: 41.304560,
-                            longitude: -72.934500,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421}}>
-                            <Image source={require('../../assets/images/custom_marker.png')}/>
-                  </MapView.Marker>
-                </MapView>
-                <ColoredLine color="green" />
                 <TouchableOpacity>
+                  <MapView
+                    style={{height: 250, width: '100%'}}
+                    provider={PROVIDER_GOOGLE}
+                    region={{
+                      latitude: 41.304560,
+                      longitude: -72.934500,
+                      latitudeDelta: 0.0922,
+                      longitudeDelta: 0.0421
+                    }}
+                    customMapStyle={mapStyle}
+                  >
+                    <MapView.Marker
+                      coordinate={{        latitude: 41.304560,
+                              longitude: -72.934500,
+                              latitudeDelta: 0.0922,
+                              longitudeDelta: 0.0421}}>
+                              <Image source={require('../../assets/images/custom_marker.png')}/>
+                    </MapView.Marker>
+                  </MapView>
+                </TouchableOpacity>
+                <ColoredLine color="green" />
+                <TouchableOpacity
+                  onPress={() => {
+                    var navDemo = NativeModules.NavDemo;
+                    navDemo.renderNaviDemo(
+                      (originLat = this.state.latitude),
+                      (originLon = this.state.longitude),
+                      (originName = 'Current Location'),
+                      (destinationLat = 41.311587),
+                      (destinationLon = -72.929541),
+                      (destinationName = "Toad's Place"),
+                    );
+                  }}>
                   <Text style={styles.button}>DIRECTIONS</Text>
                 </TouchableOpacity>
                 <ColoredLine color="green" />
@@ -590,6 +627,7 @@ export default class About extends Component {
           Copyright © 2020 Toad's Place,{"\n"}All Rights Reserved
         </Text>
       </View>
+      </SafeAreaView>
     </ScrollView>
     );
   }
@@ -600,11 +638,11 @@ const styles = StyleSheet.create({
   address:{
     paddingTop: 0,
     paddingLeft: 20,
-    paddingBottom: 20,
-    fontWeight: 'bold'
+    paddingBottom: 20
   },
   addressTitle:{
-    padding:20,
+    paddingLeft:20,
+    paddingTop:10,
     fontWeight: 'bold',
     fontSize: 18
   },

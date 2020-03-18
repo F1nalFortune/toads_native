@@ -1,0 +1,61 @@
+{
+  "hotels": [
+    {
+      "title": "Courtyard by Marriott New Haven at Yale",
+      "distance": .3,
+      "address": "30 Whalley Ave, New Haven, CT 06511",
+      "phone": "tel:+1-203-777-6221",
+      "image": "courtyard_yale.jpeg",
+      "amenities":[
+        {
+          "parking": true,
+           "pets": false,
+          "non-smoking rooms": true,
+          "fitness center": true,
+          "bar": true,
+          "tea/coffee": false,
+          "pool": false
+        }
+      ],
+      "website": "https://www.marriott.com/hotels/travel/hvndt-courtyard-new-haven-at-yale"
+    },
+    {
+      "title": "Omni New Haven Hotel at Yale",
+      "distance": .6,
+      "address": "155 Temple St, New Haven, CT 06510",
+      "phone": "tel:+1-203-772-6664",
+      "image": "omni_yale.jpeg",
+      "amenities": [
+        {
+          "parking": true,
+          "pets": true,
+          "non-smoking rooms": true,
+          "fitness center": true,
+          "bar": true,
+          "tea/coffee": true,
+          "pool": false
+        }
+      ],
+      "website": "https://www.omnihotels.com/hotels/new-haven-yale"
+    },
+    {
+      "title": "La Quinta Inn & Suites by Wyndham New Haven",
+      "distance": 1.9,
+      "address": "400 Sargent Dr, New Haven, CT 06511",
+      "phone": "tel:+1-203-562-1111",
+      "image": "quinta_nh.jpeg",
+      "amenities": [
+        {
+          "pool": true,
+          "parking": true,
+          "pets": true,
+          "non-smoking rooms": false,
+          "fitness center": true,
+          "bar": false,
+          "tea/coffee": false
+        }
+      ],
+      "website": "https://www.wyndhamhotels.com/laquinta/new-haven-connecticut/la-quinta-inn-and-suites-new-haven/overview"
+    }
+  ]
+}

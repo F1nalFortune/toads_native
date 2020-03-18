@@ -1,7 +1,7 @@
 import firebase from 'react-native-firebase';
 
 const config = {
-  apiKey: "AIzaSyBzBA2XGA6t2bDcSgWF_IOqY-DPg9HRaeo",
+  apiKey: "AIzaSyAE64IVmC9y5PNDV1ST1gBKaQ68DFSUaS4",
   authDomain: "toads-react.firebaseapp.com",
   databaseURL: "https://toads-react.firebaseio.com",
   projectId: "toads-react",

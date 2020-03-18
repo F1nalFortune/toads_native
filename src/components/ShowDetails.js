@@ -533,21 +533,6 @@ export default class ShowDetails extends Component {
 
         <TouchableOpacity
           style={styles.menuTabs}
-          onPress={() => this.props.navigation.push('Tickets')}>
-          <View style={styles.menuTabText}>
-            <Text>
-              Ticket Information
-            </Text>
-          </View>
-          <View style={styles.menuTabIcon}>
-            <Icon
-               style={styles.menuTabIcon}
-              name={'chevron-right'}
-              size={20}/>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.menuTabs}
           onPress={() => this.props.navigation.push('Venue')}>
           <View style={styles.menuTabText}>
             <Text>
