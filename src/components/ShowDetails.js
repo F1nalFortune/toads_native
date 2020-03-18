@@ -105,8 +105,7 @@ export default class ShowDetails extends Component {
         textTransform: 'uppercase',
         fontSize: 24,
         padding: 10
-      },
-      headerBackTitle: "Back"
+      }
     };
   };
 
@@ -549,7 +548,7 @@ export default class ShowDetails extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuTabs}
-          onPress={() => this.props.navigation.push('Tickets')}>
+          onPress={() => this.props.navigation.push('Venue')}>
           <View style={styles.menuTabText}>
             <Text>
               Venue Information

@@ -86,11 +86,13 @@ componentDidMount(){
 
     return(
       <ScrollView>
-        <View style={{height: 250}}>
+        <View>
           <SliderBox
             images={this.state.features}
+            ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5, marginBottom: 5}}
+            dotColor='#008000'
             autoplay
-            circleloop />
+            circleLoop />
 
         </View>
         {this.state.items.map(item =>
@@ -178,7 +180,8 @@ const styles = StyleSheet.create ({
    width: '100%',
    height: 200,
    marginTop: 10,
-   marginLeft: '5%'
+   marginLeft: '5%',
+   borderRadius: 5
  },
  titleWrapper:{
    width: '65%'

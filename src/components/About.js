@@ -307,239 +307,6 @@ const AboutTab = () => {
          </View>
 };
 
-const InfoTab = () => {
-  return (
-    <View>
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => Linking.openURL("https://m.uber.com/ul/?action=setPickup&client_id=cshc49dbbtH5MDBojbHt1KGGjc47pCmw&pickup=my_location&dropoff[formatted_address]=300%20York%20Street%2C%20New%20Haven%2C%20CT%2C%20USA&dropoff[latitude]=41.311553&dropoff[longitude]=-72.929597")}>
-                <View
-                  style={styles.menuTabText}>
-                  <Icon
-                    name={'car'}
-                    size={20}
-                    style={{paddingRight: 20}}/>
-                  <Text>
-                    Ride w/ Uber to the show
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-              <View style={styles.menuTabs}>
-                <View style={styles.menuTabText}>
-                  <Icon
-                    name={'hotel'}
-                    size={20}
-                    style={{paddingRight: 20}}/>
-                  <Text>
-                    Stay at a hotel after the show
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </View>
-              <ColoredLine color="green" />
-              <View>
-                <Text style={styles.addressTitle}>Venue Location</Text>
-                <Text style={styles.address}>300 York Street{"\n"}{"\n"}New Haven, CT 06510</Text>
-              </View>
-              <MapView
-                style={{height: 250, width: '100%'}}
-                provider={PROVIDER_GOOGLE}
-                region={{
-                  latitude: 41.304560,
-                  longitude: -72.934500,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421
-                }}
-                customMapStyle={mapStyle}
-              >
-                <MapView.Marker
-                  coordinate={{        latitude: 41.304560,
-                          longitude: -72.934500,
-                          latitudeDelta: 0.0922,
-                          longitudeDelta: 0.0421}}>
-                          <Image source={require('../../assets/images/custom_marker.png')}/>
-                </MapView.Marker>
-              </MapView>
-              <ColoredLine color="green" />
-              <TouchableOpacity>
-                <Text style={styles.button}>DIRECTIONS</Text>
-              </TouchableOpacity>
-              <ColoredLine color="green" />
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.push('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Ticket Information
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Accepted Payments
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Accessability Seating
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Parking Information
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Age Requirements / Restrictions
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Smoking Policy
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Audio / Video / Photo Policy
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Refund Policy
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-
-
-
-
-
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Coat Check
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-
-
-
-
-
-              <TouchableOpacity
-                style={styles.menuTabs}
-                onPress={() => this.props.navigation.navigate('Tickets')}>
-                <View style={styles.menuTabText}>
-                  <Text>
-                    Official Merch
-                  </Text>
-                </View>
-                <View style={styles.menuTabIcon}>
-                  <Icon
-                     style={styles.menuTabIcon}
-                    name={'chevron-right'}
-                    size={20}/>
-                </View>
-              </TouchableOpacity>
-           </View>
-  )
-}
 export default class About extends Component {
 
   constructor(){
@@ -570,7 +337,211 @@ export default class About extends Component {
           </TouchableOpacity>
         </View>
       </View>
-      {this.state.tab=='about' ? <AboutTab /> : <InfoTab />}
+      {this.state.tab=='about' ? <AboutTab /> : <View>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => Linking.openURL("https://m.uber.com/ul/?action=setPickup&client_id=cshc49dbbtH5MDBojbHt1KGGjc47pCmw&pickup=my_location&dropoff[formatted_address]=300%20York%20Street%2C%20New%20Haven%2C%20CT%2C%20USA&dropoff[latitude]=41.311553&dropoff[longitude]=-72.929597")}>
+                  <View
+                    style={styles.menuTabText}>
+                    <Icon
+                      name={'car'}
+                      size={20}
+                      style={{paddingRight: 20}}/>
+                    <Text>
+                      Ride w/ Uber to the show
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+                <View style={styles.menuTabs}>
+                  <View style={styles.menuTabText}>
+                    <Icon
+                      name={'hotel'}
+                      size={20}
+                      style={{paddingRight: 20}}/>
+                    <Text>
+                      Stay at a hotel after the show
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </View>
+                <ColoredLine color="green" />
+                <View>
+                  <Text style={styles.addressTitle}>Venue Location</Text>
+                  <Text style={styles.address}>300 York Street{"\n"}{"\n"}New Haven, CT 06510</Text>
+                </View>
+                <MapView
+                  style={{height: 250, width: '100%'}}
+                  provider={PROVIDER_GOOGLE}
+                  region={{
+                    latitude: 41.304560,
+                    longitude: -72.934500,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421
+                  }}
+                  customMapStyle={mapStyle}
+                >
+                  <MapView.Marker
+                    coordinate={{        latitude: 41.304560,
+                            longitude: -72.934500,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421}}>
+                            <Image source={require('../../assets/images/custom_marker.png')}/>
+                  </MapView.Marker>
+                </MapView>
+                <ColoredLine color="green" />
+                <TouchableOpacity>
+                  <Text style={styles.button}>DIRECTIONS</Text>
+                </TouchableOpacity>
+                <ColoredLine color="green" />
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.push('Tickets')}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Ticket Information
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.navigate('Payments')}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Accepted Payments
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.navigate('Parking')}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Parking Information
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.navigate('Requirements')}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Age Requirements / Restrictions
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.navigate('SmokingPolicy')}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Smoking Policy
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.navigate('AudioVideo')}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Audio / Video / Photo Policy
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.navigate('Refunds')}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Refund Policy
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.props.navigation.navigate('CoatCheck')}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Coat Check
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => Linking.openURL("https://www.toadsplacemerch.com/")}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Official Merch
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}/>
+                  </View>
+                </TouchableOpacity>
+             </View>}
       <ColoredLine color="green" />
       <Text style={styles.socialHead}>
         Social

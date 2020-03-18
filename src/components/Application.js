@@ -29,6 +29,13 @@ import AddressScreen from './AddressScreen';
 import ShowDetails from './ShowDetails';
 import PhotoGallery from './galleries/PhotoGallery';
 import Tickets from './FAQs/Tickets'
+import Payments from './FAQs/Payments'
+import Parking from './FAQs/Parking'
+import Requirements from './FAQs/Requirements'
+import SmokingPolicy from './FAQs/SmokingPolicy'
+import AudioVideo from './FAQs/AudioVideo'
+import Refunds from './FAQs/Refunds'
+import CoatCheck from './FAQs/CoatCheck'
 import cio from 'cheerio-without-node-native';
 import firebase from 'react-native-firebase';
 
@@ -48,9 +55,9 @@ export default class Application extends Component {
 
   render() {
 
-    const InfoStack = createSwitchNavigator({
-      About: {
-        screen: About,
+    const HomeStack = createStackNavigator({
+      Home: {
+        screen: HomeScreen,
         navigationOptions: {
           title: "Venue Info",
           headerStyle: {
@@ -74,34 +81,6 @@ export default class Application extends Component {
           }
         }
       },
-      Tickets: {
-        screen: Tickets,
-        navigationOptions: {
-          title: "Tickets",
-          headerStyle: {
-            backgroundColor: "#000000cc",
-            opacity: .8,
-            borderBottomColor: 'green',
-            borderBottomWidth: 1
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: "#fff",
-            textShadowColor: "#66ff66",
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            shadowOpacity: .58,
-            textAlign: 'center',
-            fontFamily: "Merriweather-Bold",
-            textTransform: 'uppercase',
-            fontSize: 24,
-            padding: 10
-          }
-        }
-      }
-    });
-
-    const HomeStack = createStackNavigator({
       About: {
         screen: About,
         navigationOptions: {
@@ -176,14 +155,189 @@ export default class Application extends Component {
             padding: 10
           }
         }
-      }
+      },
+      Payments: {
+        screen: Payments,
+        navigationOptions: {
+          title: "Payments",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      Parking: {
+        screen: Parking,
+        navigationOptions: {
+          title: "Parking",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      Requirements: {
+        screen: Requirements,
+        navigationOptions: {
+          title: "Parking",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      SmokingPolicy: {
+        screen: SmokingPolicy,
+        navigationOptions: {
+          title: "Parking",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      AudioVideo: {
+        screen: AudioVideo,
+        navigationOptions: {
+          title: "Parking",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      Refunds: {
+        screen: Refunds,
+        navigationOptions: {
+          title: "Parking",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      CoatCheck: {
+        screen: CoatCheck,
+        navigationOptions: {
+          title: "Parking",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
     });
 
     const CalendarStack = createStackNavigator({
       Calendar: {
         screen: Calendar,
         navigationOptions: {
-          title: "Calendar",
+          title: "Upcoming Shows",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -208,6 +362,56 @@ export default class Application extends Component {
       },
       Details: {
         screen: ShowDetails
+      },
+      Venue: {
+        screen: About,
+        navigationOptions: {
+          title: "Venue Info",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      Tickets: {
+        screen: Tickets,
+        navigationOptions: {
+          title: "Tickets",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
       }
     });
 
