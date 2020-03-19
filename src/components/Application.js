@@ -81,32 +81,7 @@ export default class Application extends Component {
       },
     })
 
-    const HomeStack = createStackNavigator({
-      Home: {
-        screen: HomeScreen,
-        navigationOptions: {
-          title: "Venue Info",
-          headerStyle: {
-            backgroundColor: "#000000cc",
-            opacity: .8,
-            borderBottomColor: 'green',
-            borderBottomWidth: 1
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: "#fff",
-            textShadowColor: "#66ff66",
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            shadowOpacity: .58,
-            textAlign: 'center',
-            fontFamily: "Merriweather-Bold",
-            textTransform: 'uppercase',
-            fontSize: 24,
-            padding: 10
-          }
-        }
-      },
+    const VenueStack = createStackNavigator({
       About: {
         screen: About,
         navigationOptions: {
@@ -389,31 +364,6 @@ export default class Application extends Component {
       Details: {
         screen: ShowDetails
       },
-      Venue: {
-        screen: About,
-        navigationOptions: {
-          title: "Venue Info",
-          headerStyle: {
-            backgroundColor: "#000000cc",
-            opacity: .8,
-            borderBottomColor: 'green',
-            borderBottomWidth: 1
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: "#fff",
-            textShadowColor: "#66ff66",
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            shadowOpacity: .58,
-            textAlign: 'center',
-            fontFamily: "Merriweather-Bold",
-            textTransform: 'uppercase',
-            fontSize: 24,
-            padding: 10
-          }
-        }
-      },
       Tickets: {
         screen: Tickets,
         navigationOptions: {
@@ -554,9 +504,9 @@ export default class Application extends Component {
     })
 
     const MainTabs = createBottomTabNavigator({
-        Home: { screen: HomeStack },
-        Calendar: { screen: CalendarStack },
-        Lillys: { screen: LillyStack},
+        Music: { screen: CalendarStack },
+        Venue: { screen: VenueStack },
+        Private: { screen: LillyStack},
         Gallery: { screen: GalleryStack},
         Settings: { screen: SettingsStack }
     },
@@ -565,16 +515,16 @@ export default class Application extends Component {
         tabBarIcon: ({ focused, tintColor }) => {
           const { routeName } = navigation.state;
           let iconName;
-          if (routeName === 'Home') {
-            iconName = 'home';
+          if (routeName === 'Venue') {
+            iconName = 'building';
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
             // We want to add badges to home tab icon
             // IconComponent = HomeIconWithBadge;
-          } else if (routeName === 'Calendar') {
-            iconName = 'calendar-alt'
+          } else if (routeName === 'Music') {
+            iconName = 'music'
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
-          } else if (routeName ==='Lillys'){
-            iconName = 'glass-martini';
+          } else if (routeName ==='Private'){
+            iconName = 'glass-cheers';
             icon = <Icon name={iconName} size={30} style={styles.glow}/>
           } else if(routeName ==='Gallery'){
             iconName= 'camera-retro';

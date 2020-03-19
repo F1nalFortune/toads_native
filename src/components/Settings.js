@@ -68,8 +68,6 @@ export default class Dance extends Component {
     var user_id = firebase.auth().currentUser.uid
     db.ref(`users/${user_id}/genrePref`).once('value')
       .then((dataSnapShot) => {
-
-
         var string = JSON.stringify(dataSnapShot, null, 2)
         var object = JSON.parse(string)
         this.setState(object)
@@ -150,7 +148,7 @@ export default class Dance extends Component {
             Genres
           </Text>
           <ColoredLine color="green" />
-          <Text>Please select your musical preferences to receive notifications
+          <Text>Please select your musical preferences to receive live notifications
           when your favorite genre is on our stage!</Text>
           <View style={styles.switchContainer}>
             <Switch
