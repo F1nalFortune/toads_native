@@ -40,6 +40,7 @@ export default class Dance extends Component {
     .catch(error => console.warn('Auth Error: ', error));
   }
   state = {
+    currentUser: null,
     acoustic: false,
     alternative: false,
     alternative_rock: false,
@@ -124,7 +125,14 @@ export default class Dance extends Component {
   toggle_reggae = (value)=>{this.setState({reggae: value}, ()=>{this.updatePrefs()})}
   toggle_r_n_b = (value)=>{this.setState({r_n_b: value}, ()=>{this.updatePrefs()})}
   toggle_ska = (value)=>{this.setState({ska: value}, ()=>{this.updatePrefs()})}
-
+  signOutUser = async () => {
+    try {
+        await firebase.auth().signOut();
+        this.props.navigation.navigate('Login')
+    } catch (e) {
+        console.log(e);
+    }
+  }
   render() {
 
 
