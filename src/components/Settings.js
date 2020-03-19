@@ -42,8 +42,6 @@ export default class Dance extends Component {
   state = {
     currentUser: null,
     alternative: false,
-    location:false,
-    alternative: false,
     alternative_rock: false,
     american_rock: false,
     classic_rock: false,
@@ -363,43 +361,6 @@ export default class Dance extends Component {
             <Text style={styles.genre}>Ska</Text>
           </View>
         </View>
-
-
-
-        <View>
-          <Text style={styles.title}>
-            Location
-          </Text>
-          <ColoredLine color="green" />
-          <Text>Turn on location services to use our built-in GPS feature for navigation
-          to our front doors.</Text>
-          <View style={styles.switchContainer}>
-            <Switch
-              style={{marginTop:30}}
-              onValueChange = {this.toggleLocation}
-              value = {this.state.location}
-              trackColor={{true: '#008000b3'}}/>
-            <Text style={styles.genre}>Location</Text>
-          </View>
-        </View>
-
-        <View>
-          <Text style={styles.title}>
-            Calendar
-          </Text>
-          <ColoredLine color="green" />
-          <Text>Allow access to your calendar to add an events with the click of a button.</Text>
-          <View style={styles.switchContainer}>
-            <Switch
-              style={{marginTop:30}}
-              onValueChange = {this.toggleCalendar}
-              value = {this.state.calendar}
-              trackColor={{true: '#008000b3'}}/>
-            <Text style={styles.genre}>Calendar</Text>
-          </View>
-        </View>
-
-
 
         <View style={styles.bottomFooter}>
           <Text style={styles.currentUser}>

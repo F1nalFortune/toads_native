@@ -274,11 +274,12 @@ const mapStyle = [
   }]
 
 
-const ColoredLine = ({ color }) => (
+const ColoredLine = ({ color, width }) => (
   <View
     style={{
       borderBottomColor: color,
-      borderBottomWidth: 1
+      borderBottomWidth: 1,
+      width: width
     }}
   />
 );
@@ -350,12 +351,12 @@ export default class About extends Component {
           <TouchableOpacity
             onPress={() => this.setState({tab: 'info'})}
             style={this.state.tab=='info' ? styles.tabBtnActive : styles.tabBtnInactive}>
-              <Text>Info</Text>
+              <Text style={styles.tabBtn}>Info</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.setState({tab: 'about'})}
             style={this.state.tab=='about' ? styles.tabBtnActive : styles.tabBtnInactive}>
-              <Text>About</Text>
+              <Text style={styles.tabBtn}>About</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -399,7 +400,7 @@ export default class About extends Component {
                       size={20}/>
                   </View>
                 </TouchableOpacity>
-                <ColoredLine color="green" />
+                <ColoredLine color="green" width="100%" />
                 <View>
                   <Text style={styles.addressTitle}>Venue Location</Text>
                   <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
@@ -425,7 +426,7 @@ export default class About extends Component {
                     </MapView.Marker>
                   </MapView>
                 </TouchableOpacity>
-                <ColoredLine color="green" />
+                <ColoredLine color="green" width="100%"/>
                 <TouchableOpacity
                   onPress={() => {
                     var navDemo = NativeModules.NavDemo;
@@ -440,7 +441,7 @@ export default class About extends Component {
                   }}>
                   <Text style={styles.button}>DIRECTIONS</Text>
                 </TouchableOpacity>
-                <ColoredLine color="green" />
+                <ColoredLine color="green" width="100%"/>
                 <TouchableOpacity
                   style={styles.menuTabs}
                   onPress={() => this.props.navigation.push('Tickets')}>
@@ -579,7 +580,7 @@ export default class About extends Component {
                   </View>
                 </TouchableOpacity>
              </View>}
-      <ColoredLine color="green" />
+      <ColoredLine color="green" width="100%"/>
       <Text style={styles.socialHead}>
         Social
       </Text>
@@ -613,16 +614,18 @@ export default class About extends Component {
             style={styles.twitter}/>
         </Text>
       </View>
-      <ColoredLine color="green" />
+      <ColoredLine color="green" width="100%"/>
 
       <View>
         <Text style={styles.toads}>Toad's Place</Text>
         <Text  style={styles.contactAddress}>
           300 York St, New Haven, CT 06511
         </Text>
-        <Text style={styles.contactPhone}>
-          203-624-8623
-        </Text>
+        <TouchableOpacity
+          style={styles.contactPhone}
+          onPress={() => Linking.openURL("tel:+1-203-624-8623")}>
+          <Text style={styles.contactPhone}>203-624-8623</Text>
+        </TouchableOpacity>
         <Text style={styles.copyright}>
           Copyright © 2020 Toad's Place,{"\n"}All Rights Reserved
         </Text>
@@ -697,8 +700,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 100
   },
   instagram:{
-    color: 'black',
+    color: 'purple',
     marginHorizontal: 100
+  },
+  tabBtn:{
+    padding:10,
+    fontWeight: 'bold',
+    fontSize: 16
   },
   image: {
       width: 50,
@@ -743,7 +751,9 @@ const styles = StyleSheet.create({
     padding: 5
   },
   tabbar:{
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingLeft:20,
+    paddingRight: 20
   },
   tabBtnActive: {
     width: '50%',

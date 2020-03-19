@@ -7,6 +7,7 @@ const config = {
   projectId: "toads-react",
   storageBucket: "toads-react.appspot.com",
   messagingSenderId: "419843575607",
+  persistence: true
 };
 
 let app = firebase.initializeApp(config);
