@@ -193,23 +193,9 @@ export default class ShowDetails extends Component {
           return false
         }
     }
-    this.setState({
-      show: false,
-      presenter: false
-    })
-    if(myFunction(this.props.navigation.state.params.item.title)){
-      var result = myFunction(this.props.navigation.state.params.item.title);
-      var presenter = result.presenter;
-      var show = result.show;
-      console.log("Presenter: ", presenter)
-      console.log("Show: ", show)
-      this.setState({
-        show: show,
-        presenter: presenter
-      })
-    }
+
     // console.log(this.state.item.information[3])
-    console.log("Item: ", item)
+    // console.log("Item: ", item)
     var eventDate = handleCreateDate(item.date);
     var eventTime = handleCreateTime(item.information[3])
     var fullDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
@@ -224,7 +210,7 @@ export default class ShowDetails extends Component {
         if(promise[i].title == item.title){
           this.setState({
             savedInCalendar: true,
-            buttonText: 'REMOVE FROM CALENDAR'
+            buttonText: 'Remove Event from Calendar'
           })
           break;
         }
@@ -232,7 +218,7 @@ export default class ShowDetails extends Component {
       if(!this.state.savedInCalendar){
         this.setState({
           savedInCalendar: false,
-          buttonText: 'ADD TO CALENDAR'
+          buttonText: 'Add Event to Calendar'
         })
       }
     })
@@ -240,7 +226,7 @@ export default class ShowDetails extends Component {
       console.log("Error: ", error)
       this.setState({
         savedInCalendar: false,
-        buttonText: 'ADD TO CALENDAR'
+        buttonText: 'Add Event to Calendar'
       })
     })
   }
@@ -306,7 +292,7 @@ export default class ShowDetails extends Component {
                 })
                 this.setState({
                   savedInCalendar: false,
-                  buttonText: 'ADD TO CALENDAR'
+                  buttonText: 'Add Event to Calendar'
                 })
               })
               .catch(error => {
@@ -386,7 +372,7 @@ export default class ShowDetails extends Component {
                   );
                   this.setState({
                     savedInCalendar: true,
-                    buttonText: 'REMOVE FROM CALENDAR'
+                    buttonText: 'Remove Event from Calendar'
                   })
                 })
                 .catch(error => {
@@ -475,19 +461,21 @@ export default class ShowDetails extends Component {
         </TouchableOpacity>
         <View
           style={styles.dateWrapper}>
-          { this.state.show ?
-            <View>
-              <Text style={styles.subtitle}>{this.state.presenter}</Text>
-              <Text style={styles.eventTitle}>{this.state.show}</Text>
+          { this.state.item.presenter ?
+            <View style={{paddingTop:10}}>
+              <Text style={styles.subtitle}>{this.state.item.presenter}</Text>
+              <Text style={styles.eventTitle}>{this.state.item.title}</Text>
             </View> :
-            <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+            <View style={{paddingTop:10}}>
+              <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+            </View>
           }
           {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : <View></View>}
           <Text
             style={styles.date}>
               {item.date[2]} \\
               <Text style={{fontWeight: 'bold'}}>
-                {item.date[0] + ' ' + item.date[1]}
+                {' ' + item.date[0] + ' ' + item.date[1]}
               </Text>
           </Text>
           <ColoredLine color="green" />
@@ -584,7 +572,10 @@ const styles = StyleSheet.create ({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    marginTop:0,
     backgroundColor: 'green',
     fontWeight: 'bold'
   },
@@ -613,7 +604,6 @@ const styles = StyleSheet.create ({
     alignItems: 'center'
   },
   eventTitle:{
-    paddingTop: 10,
     fontSize:26,
     fontFamily: "Merriweather-Bold",
     textTransform: 'uppercase',
@@ -704,8 +694,6 @@ const styles = StyleSheet.create ({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
-    // width: 100,
-    paddingTop: 10,
     paddingLeft: 10,
     paddingRight: 10
   },

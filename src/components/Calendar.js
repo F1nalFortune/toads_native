@@ -29,6 +29,48 @@ export default class Calendar extends Component {
     }
   }
   async componentDidMount() {
+    function myFunction(mystring, variable){
+        values = ['presented by:', 'presents:', 'present:']
+        string_length = mystring.length
+        if (mystring.toLowerCase().includes(values[0])){
+          var presenter = mystring.toLowerCase().split(values[0])
+          presenter[0] = presenter[0].trim() + " " + values[0]
+          var show = presenter[1]
+
+          presenter = mystring.substring(0, presenter[0].length)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else if(mystring.toLowerCase().includes(values[1])){
+          var presenter = mystring.toLowerCase().split(values[1])
+          presenter[0] = presenter[0].trim() + " " + values[1]
+          presenter = mystring.substring(0, presenter[0].length)
+          // console.log(presenter)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          // console.log(show)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else if(mystring.toLowerCase().includes(values[2])){
+          var presenter = mystring.toLowerCase().split(values[2])
+          presenter[0] = presenter[0].trim() + " " + values[2]
+
+          presenter = mystring.substring(0, presenter[0].length)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else{
+          return false
+        }
+    }
       this.checkPermission();
       this.createNotificationListeners();
       console.disableYellowBox = true;
@@ -41,6 +83,15 @@ export default class Calendar extends Component {
             saved_shows.push(childData)
           });
           var items = saved_shows
+          for(i=0;i<items.length;i++){
+            if(myFunction(items[i].title, 'presenter')){
+              var title = myFunction(items[i].title, 'show')
+              var presenter = myFunction(items[i].title, 'presenter')
+              items[i].title = title
+              items[i].presenter = presenter
+            }
+            console.log(items[i])
+          }
           var features = items[0]['slides']
           this.setState({
             items: items,
@@ -212,7 +263,7 @@ export default class Calendar extends Component {
         <View>
           <SliderBox
             images={this.state.features}
-            ImageComponentStyle={{borderRadius: 15, width: '97%', marginTop: 5, marginBottom: 5}}
+            ImageComponentStyle={{borderRadius: 15, width: '95%', marginTop: 5, marginBottom: 5}}
             dotColor='#008000'
             autoplay
             circleLoop />
@@ -235,7 +286,24 @@ export default class Calendar extends Component {
                   <Text style= {styles.date}>{item.date[2]}</Text>
                 </View>
                 <View style={styles.titleWrapper}>
-                  <Text style={styles.title}>{item.title}</Text>
+
+                    {
+                        item.presenter ?
+                        <View>
+                          <Text style={styles.subTitle}>
+                            {item.presenter}
+                          </Text>
+                          <Text style={styles.title}>
+                            {item.title}
+                          </Text>
+                        </View> :
+                        <View>
+                          <Text style={styles.title}>
+                            {item.title}
+                          </Text>
+                        </View>
+                    }
+
                   {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}{"\n"}</Text> : <Text></Text>}
                   <Text style={styles.info}>{item.information[2]}</Text>
                   <Text style={styles.info}>{item.information[3]}</Text>
@@ -306,13 +374,16 @@ const styles = StyleSheet.create ({
    marginLeft: '5%',
    borderRadius: 5
  },
+ subTitle:{
+   fontSize: 16
+ },
  titleWrapper:{
    width: '65%'
  },
  title:{
    paddingTop: 5,
    fontWeight: 'bold',
-   fontSize: 18
+   fontSize: 24
  },
  footer:{
    flex: 1,
