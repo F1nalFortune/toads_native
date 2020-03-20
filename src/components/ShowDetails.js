@@ -485,7 +485,7 @@ export default class ShowDetails extends Component {
           <View style={styles.info}>
             <Text>Opening Acts</Text>
             <ColoredLine color="green" />
-            {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)}>{act}</Text>) : <Text></Text>}
+            {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)} style={{textAlign: 'justify'}}>{act}</Text>) : <Text></Text>}
           </View>
           <View style={styles.info}>
             <Text>Showtime</Text>
@@ -662,7 +662,7 @@ const styles = StyleSheet.create ({
   },
   starDetail:{
     textAlign: 'center',
-    paddingTop: 10,
+    paddingBottom: 10,
     position: 'relative'
   },
   subtitle:{
