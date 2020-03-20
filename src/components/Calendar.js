@@ -275,6 +275,9 @@ export default class Calendar extends Component {
                     },
                     notifications: {
                       notification: false
+                    },
+                    events: {
+                      event: false
                     }
                   })
                 }

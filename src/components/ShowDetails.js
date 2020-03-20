@@ -129,36 +129,6 @@ export default class ShowDetails extends Component {
   };
 
   componentWillMount(){
-    handleCreateDate = (date) => {
-      var monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-      ];
-      var current_month = monthNames[new Date().getMonth()]
-      var month = fullMonth(date[0]);
-
-      var show_month = monthNames.indexOf(month)
-      var current_month = monthNames.indexOf(current_month)
-
-      if(Math.abs(show_month-current_month)>2){
-        var year = new Date().getFullYear()+1
-      }else{
-        var year = new Date().getFullYear();
-      }
-
-      var day = date[1];
-      var eventDate = day + " " + date[0] + " " + year;
-      return eventDate;
-    }
-    handleCreateTime = (time) => {
-      //ADD 0 PLACEHOLDER
-      var showtime = time.replace("SHOW STARTS @ ", "");
-      var minutes = showtime.substring(showtime.length - 3)
-      showtime = showtime.substring(0, showtime.length - 3)
-      showtime = parseInt(showtime) + 12
-      showtime = showtime.toString();
-      showtime = showtime + minutes
-      return showtime
-    }
     // iOS
     RNCalendarEvents.authorizationStatus()
      .then(status => {
@@ -179,6 +149,8 @@ export default class ShowDetails extends Component {
     this.setState({
       item: this.props.navigation.state.params.item
     })
+
+
 
     const item = this.props.navigation.state.params.item;
 
@@ -222,15 +194,9 @@ export default class ShowDetails extends Component {
         }
     }
 
-    // console.log(this.state.item.information[3])
-    // console.log("Item: ", item)
-    var eventDate = handleCreateDate(item.date);
-    var eventTime = handleCreateTime(item.information[3])
-    var fullDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
-    var startDate = new Date(fullDate)
-    var endDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
-    endDate = new Date(endDate)
-    endDate.setHours(endDate.getHours() + 2)
+    var startDate = new Date(item.datetime)
+    var endDate = new Date(item.datetime)
+    endDate.setHours(endDate.getHours() + 1)
 
 
     RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
@@ -262,15 +228,9 @@ export default class ShowDetails extends Component {
   handleAddEvent = () => {
     // console.log(JSON.stringify(props,0,2))
     if(this.state.cal_auth == 'authorized'){
-
-      var eventDate = handleCreateDate(this.state.item.date);
-      var eventTime = handleCreateTime(this.state.item.information[3])
-      var fullDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
-      var startDate = new Date(fullDate)
-
-      var endDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
-      endDate = new Date(endDate)
-      endDate.setHours(endDate.getHours() + 1)
+      var startDate = new Date(this.state.item.datetime)
+      var endDate = new Date(this.state.item.datetime)
+      endDate.setHours(endDate.getHours() + 3)
       // console.log("Start Date: " + startDate)
       // console.log("End Date: " + endDate)
       // console.log("Title: " + this.state.item.title)
@@ -331,7 +291,7 @@ export default class ShowDetails extends Component {
               style: 'cancel',
             },
             {text: 'OK', onPress: () => {
-              console.log(JSON.stringify(this.state.item, null, 2))
+              // console.log(JSON.stringify(this.state.item, null, 2))
               RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
               .then((promise) => {
                 console.log("Promise: ", promise)
