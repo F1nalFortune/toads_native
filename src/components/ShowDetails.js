@@ -14,6 +14,8 @@ import Image from 'react-native-scalable-image';
 import RNCalendarEvents from 'react-native-calendar-events';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ShareButton from './ShareButton'
+import firebase from 'react-native-firebase';
+import { db } from '../../Firebase';
 
 
 export default class ShowDetails extends Component {
@@ -66,6 +68,22 @@ export default class ShowDetails extends Component {
         name={'share-square'}
         size={20}
         onPress={async () => {
+          uid = firebase.auth().currentUser.uid;
+          function writeNewPost(uid, result) {
+            // A post entry.
+            var postData = {
+              result: result
+            };
+
+            // Get a key for a new Post.
+            var newPostKey = db.ref('users/' + uid).child('posts').push().key;
+
+            // Write the new post's data simultaneously in the posts list and the user's post list.
+            var updates = {};
+            updates['/posts/' + newPostKey] = postData;
+
+            return db.ref('users/' + uid).update(updates);
+          }
           try {
             const result = await Share.share({
               title: current_itemzor.title,
@@ -76,9 +94,11 @@ export default class ShowDetails extends Component {
             if (result.action === Share.sharedAction) {
               if (result.activityType) {
                 // shared with activity type of result.activityType
+                writeNewPost(uid, result)
                 console.log("Activity Type: ", result.activityType)
               } else {
                 // shared
+                writeNewPost(uid, result)
                 console.log("Shared Result: ")
                 console.log(JSON.stringify(result, null, 2))
               }
@@ -447,7 +467,7 @@ export default class ShowDetails extends Component {
     );
     const item = this.props.navigation.state.params.item;
     return(
-      <ScrollView>
+      <ScrollView style={{backgroundColor: '#c0dfc066'}}>
         <TouchableOpacity
           onPress={() => this.handleAddEvent()}
         >
@@ -521,7 +541,9 @@ export default class ShowDetails extends Component {
 
         <TouchableOpacity
           style={styles.menuTabs}
-          onPress={() => this.props.navigation.navigate('About')}>
+          onPress={() => {
+            this.props.navigation.navigate('About', {info: 'tab'})
+          }}>
           <View style={styles.menuTabText}>
             <Text>
               Venue Information
@@ -595,7 +617,7 @@ const styles = StyleSheet.create ({
     textAlign: 'center'
   },
   date:{
-    fontSize: 24,
+    fontSize: 18,
     textTransform: 'uppercase'
   },
   dateWrapper:{
@@ -635,11 +657,14 @@ const styles = StyleSheet.create ({
 
   },
   imgWrapper:{
-    width: '100%'
+    width: '100%',
+    borderBottomColor: 'green',
+    borderBottomWidth: 1
   },
   image: {
       flex: 1,
-      alignSelf: 'stretch'
+      alignSelf: 'stretch',
+      borderRadius: 5
   },
   link:{
     color: 'blue',

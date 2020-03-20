@@ -169,6 +169,7 @@ export default class Calendar extends Component {
     }
   }
 
+
     //3
   async getToken() {
     await firebase
@@ -213,6 +214,9 @@ export default class Calendar extends Component {
                       reggae: false,
                       r_n_b: false,
                       ska: false
+                    },
+                    posts: {
+                      post: false
                     }
                   })
                 }
@@ -259,7 +263,7 @@ export default class Calendar extends Component {
     }
 
     return(
-      <ScrollView>
+      <ScrollView style={{backgroundColor: '#c0dfc066'}}>
         <View>
           <SliderBox
             images={this.state.features}
@@ -313,12 +317,12 @@ export default class Calendar extends Component {
                 <Text style={styles.info}>{item.information[4]}</Text>
               </View>
             </TouchableOpacity>
-            <View>
+            <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => this.props.navigation.navigate('Details', {item})}
               >
-                <Text>TICKETS & EVENT DETAILS</Text>
+                <Text style={styles.buttonTxt}>EVENT DETAILS</Text>
               </TouchableOpacity>
             </View>
           </View>)}
@@ -395,13 +399,17 @@ const styles = StyleSheet.create ({
 
  },
  buttonContainer:{
-   flex: 1,
+   flexDirection:'row',
    justifyContent: 'center',
+   flex:1,
    alignItems: 'center',
-   paddingHorizontal: 10
+   width: '75%',
+   marginLeft: 'auto',
+   marginRight: 'auto'
  },
  button:{
    borderColor: 'green',
+   backgroundColor: 'darkgreen',
    borderRadius: 10,
    borderWidth: 1,
    borderStyle: 'solid',
@@ -410,6 +418,11 @@ const styles = StyleSheet.create ({
    flex: 1,
    justifyContent: 'center',
    alignItems: 'center',
-   margin: 10
+   margin: 10,
+   width: '75%'
+ },
+ buttonTxt:{
+   color: 'white',
+   fontWeight: 'bold'
  }
 })

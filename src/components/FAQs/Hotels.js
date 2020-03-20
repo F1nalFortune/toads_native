@@ -13,60 +13,13 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 // AMENITIES
-// <View style={{flexDirection:'row'}}>
-//   {
-//     item.amenities[0].parking ?
-//     <View style={{textAlign: 'justify'}}>
-//       <Icon name={'parking'} size={30} style={{color: 'green'}}/>
-//       <Text>Parking</Text>
-//     </View> :
-//     <View></View>
-//   }
-//   {
-//     item.amenities[0].pets ?
-//     <View>
-//       <Icon name={'paw'} size={30} style={{color: 'green'}}/>
-//       <Text>Pets</Text>
-//     </View>
-//     : <View></View>
-//   }
-//   {
-//     item.amenities[0]['non-smoking rooms'] ?
-//     <View>
-//       <Icon name={'smoking-ban'} size={30} style={{color: 'green'}}/>
-//       <Text>Non-smoking{"\n"}Rooms</Text>
-//     </View>:
-//     <View></View>}
-//   {
-//     item.amenities[0]['fitness center'] ?
-//     <View>
-//       <Icon name={'dumbbell'} size={30} style={{color: 'green'}}/>
-//       <Text>Fitness{"\n"}Center</Text>
-//     </View>:
-//     <View></View>}
-//   {
-//     item.amenities[0]['bar'] ?
-//     <View>
-//       <Icon name={'glass-martini-alt'} size={30} style={{color: 'green'}}/>
-//       <Text>Bar</Text>
-//     </View>:
-//     <View></View>}
-//   {
-//     item.amenities[0]['tea/coffee'] ?
-//     <View>
-//       <Icon name={'mug-hot'} size={30} style={{color: 'green'}}/>
-//       <Text> Coffee / Tea </Text>
-//     </View> :
-//     <View></View>}
-//   {
-//     item.amenities[0]['pool']?
-//     <View>
-//       <Icon name={'swimmer'} size={30} style={{color: 'green'}}/>
-//       <Text>Pool</Text>
-//     </View> :
-//     <View></View>}
-// </View>
-
+// {
+//   item.amenities[0]['bar'] ?
+//   <View style={{padding: 8}}>
+//     <Icon name={'glass-martini-alt'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+//     <Text>Bar</Text>
+//   </View>:
+//   <View></View>}
 export default class Hotels extends Component {
 
 
@@ -117,6 +70,48 @@ export default class Hotels extends Component {
               {item.distance} miles away
             </Text>
           </View>
+          <View style={{flexDirection:'row', justifyContent: 'center', flex:1}}>
+            {
+              item.amenities[0].parking ?
+              <View style={{padding: 8}}>
+                <Icon name={'parking'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Parking</Text>
+              </View> :
+              <View></View>
+            }
+            {
+              item.amenities[0].pets ?
+              <View style={{padding: 8}}>
+                <Icon name={'paw'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Pets</Text>
+              </View>
+              : <View></View>
+            }
+            {
+              item.amenities[0]['non-smoking rooms'] ?
+              <View style={{padding: 8}}>
+                <Icon name={'smoking-ban'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Non-smoking</Text>
+                <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Rooms</Text>
+              </View>:
+              <View></View>}
+            {
+              item.amenities[0]['fitness center'] ?
+              <View style={{padding: 8}}>
+                <Icon name={'dumbbell'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Fitness{"\n"}Center</Text>
+              </View>:
+              <View></View>}
+
+            {
+              item.amenities[0]['pool']?
+              <View style={{padding: 8}}>
+                <Icon name={'swimmer'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Pool</Text>
+              </View> :
+              <View></View>}
+          </View>
+
           <View style={styles.buttonRow}>
             <TouchableOpacity
               style={styles.item}
@@ -176,10 +171,11 @@ const styles = StyleSheet.create({
     paddingBottom:2
   },
   infoContainer:{
-    flexDirection: 'row'
+    flexDirection: 'row',
+    borderRadius:5
   },
   item:{
-    backgroundColor: "green",
+    backgroundColor: "darkgreen",
     width: '33%', // is 50% of container width
     borderColor: 'green',
     borderRadius: 5,

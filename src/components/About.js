@@ -312,6 +312,25 @@ const AboutTab = () => {
 };
 
 export default class About extends Component {
+  constructor(){
+    super();
+    this.state = {
+      tab: 'info'
+    }
+  }
+  // static getDerivedStateFromProps(props, state) {
+  //   console.log("here")
+  //   console.log(props.navigation.state.params.tab)
+  //   if (props.navigation.state.params.tab !== state.tab) {
+  //     this.state = {
+  //       tab: 'info'
+  //     }
+  //     return {
+  //       tab: props.tab
+  //     };
+  //   }
+  //   return null;
+  // }
   componentDidMount = () => {
     Geolocation.getCurrentPosition(
       //Will give you the current location
@@ -331,12 +350,6 @@ export default class About extends Component {
     );
   }
 
-  constructor(){
-    super();
-    this.state = {
-      tab: 'info'
-    }
-  }
 
   render() {
     return (
