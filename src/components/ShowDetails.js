@@ -13,7 +13,6 @@ import {
 import Image from 'react-native-scalable-image';
 import RNCalendarEvents from 'react-native-calendar-events';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import ShareButton from './ShareButton'
 import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
 
@@ -130,6 +129,36 @@ export default class ShowDetails extends Component {
   };
 
   componentWillMount(){
+    handleCreateDate = (date) => {
+      var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      var current_month = monthNames[new Date().getMonth()]
+      var month = fullMonth(date[0]);
+
+      var show_month = monthNames.indexOf(month)
+      var current_month = monthNames.indexOf(current_month)
+
+      if(Math.abs(show_month-current_month)>2){
+        var year = new Date().getFullYear()+1
+      }else{
+        var year = new Date().getFullYear();
+      }
+
+      var day = date[1];
+      var eventDate = day + " " + date[0] + " " + year;
+      return eventDate;
+    }
+    handleCreateTime = (time) => {
+      //ADD 0 PLACEHOLDER
+      var showtime = time.replace("SHOW STARTS @ ", "");
+      var minutes = showtime.substring(showtime.length - 3)
+      showtime = showtime.substring(0, showtime.length - 3)
+      showtime = parseInt(showtime) + 12
+      showtime = showtime.toString();
+      showtime = showtime + minutes
+      return showtime
+    }
     // iOS
     RNCalendarEvents.authorizationStatus()
      .then(status => {
@@ -151,28 +180,7 @@ export default class ShowDetails extends Component {
       item: this.props.navigation.state.params.item
     })
 
-
     const item = this.props.navigation.state.params.item;
-    handleCreateDate = (date) => {
-      var month = date[0];
-      var year = new Date().getFullYear();
-      var day = date[1];
-      var eventDate = day + " " + month + " " + year;
-      return eventDate;
-    }
-    handleCreateTime = (time) => {
-      //ADD 0 PLACEHOLDER
-      var showtime = time.replace("SHOW STARTS @ ", "");
-      var minutes = showtime.substring(showtime.length - 3)
-      showtime = showtime.substring(0, showtime.length - 3)
-      showtime = parseInt(showtime) + 12
-      showtime = showtime.toString();
-      showtime = showtime + minutes
-      return showtime
-    }
-
-
-
 
     function myFunction(mystring){
         values = ['presented by:', 'presents:', 'present:']
@@ -222,7 +230,8 @@ export default class ShowDetails extends Component {
     var startDate = new Date(fullDate)
     var endDate = eventDate + " " + eventTime + " GMT-0400 (Eastern Daylight Time)";
     endDate = new Date(endDate)
-    endDate.setHours(endDate.getHours() + 1)
+    endDate.setHours(endDate.getHours() + 2)
+
 
     RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
     .then((promise) => {
@@ -253,24 +262,6 @@ export default class ShowDetails extends Component {
   handleAddEvent = () => {
     // console.log(JSON.stringify(props,0,2))
     if(this.state.cal_auth == 'authorized'){
-      handleCreateDate = (date) => {
-        var month = date[0];
-        var year = new Date().getFullYear();
-        var day = date[1];
-        var eventDate = day + " " + month + " " + year;
-        return eventDate;
-      }
-      handleCreateTime = (time) => {
-        //ADD 0 PLACEHOLDER
-        var showtime = time.replace("SHOW STARTS @ ", "");
-        var minutes = showtime.substring(showtime.length - 3)
-        showtime = showtime.substring(0, showtime.length - 3)
-        showtime = parseInt(showtime) + 12
-        showtime = showtime.toString();
-        showtime = showtime + minutes
-        return showtime
-      }
-      // console.log(this.state.item.information[3])
 
       var eventDate = handleCreateDate(this.state.item.date);
       var eventTime = handleCreateTime(this.state.item.information[3])

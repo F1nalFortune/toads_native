@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase'
 import { db } from '../../Firebase';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 export default class HomeScreen extends React.Component {

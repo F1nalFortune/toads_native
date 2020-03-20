@@ -7,7 +7,8 @@ import {
   Image,
   Linking,
   StyleSheet,
-    Button
+  Button,
+  Alert
 } from 'react-native';
 import LoadingScreen from './LoadingScreen';
 import GallerySwiper from "react-native-gallery-swiper";
@@ -29,6 +30,33 @@ export default class Calendar extends Component {
     }
   }
   async componentDidMount() {
+    const fullDay = function(day) {
+      switch (day) {
+        case 'Fri': return "Friday";
+        case 'Sat': return "Saturday";
+        case 'Sun': return "Sunday";
+        case 'Mon': return "Monday";
+        case 'Tue': return "Tuesday";
+        case 'Wed': return "Wednesday";
+        case 'Thu': return "Thursday"
+      }
+    }
+    const fullMonth = function(month){
+      switch(month) {
+        case 'Jan': return "January";
+        case 'Feb': return "February";
+        case 'Mar': return "March";
+        case 'Apr': return "April";
+        case 'May': return "May";
+        case 'Jun': return "June";
+        case 'Jul': return "July";
+        case 'Aug': return "August";
+        case 'Sep': return "September";
+        case 'Oct': return "October";
+        case 'Nov': return "November";
+        case 'Dec': return "December"
+      }
+    }
     function myFunction(mystring, variable){
         values = ['presented by:', 'presents:', 'present:']
         string_length = mystring.length
@@ -71,6 +99,26 @@ export default class Calendar extends Component {
           return false
         }
     }
+    uid = firebase.auth().currentUser.uid;
+    this.setState({
+      uid: uid
+    })
+    function writeNotification(uid, postData) {
+      // A post entry.
+      // postData = {
+      //   show: 'show',
+      //   date: 'date',
+      //   location: 'foreround/background/closed',
+      //   opened: true
+      // }
+      // Get a key for a new Post.
+      var newPostKey = db.ref('users/' + uid).child('notifications').push().key;
+      // Write the new post's data simultaneously in the posts list and the user's post list.
+      var updates = {};
+      updates['/notifications/' + newPostKey] = postData;
+
+      return db.ref('users/' + uid).update(updates);
+    }
       this.checkPermission();
       this.createNotificationListeners();
       console.disableYellowBox = true;
@@ -90,7 +138,6 @@ export default class Calendar extends Component {
               items[i].title = title
               items[i].presenter = presenter
             }
-            console.log(items[i])
           }
           var features = items[0]['slides']
           this.setState({
@@ -112,19 +159,27 @@ export default class Calendar extends Component {
     * Triggered when a particular notification has been received in foreground
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
+        var app_location = 'foreground'
         const { title, body } = notification;
         const {item} = notification._data;
-        this.showAlert(title, body, item);
+        this.showAlert(title, body, item, app_location);
+        console.log(JSON.stringify(item))
+        // writeNotifications(uid, {
+        //   show: title,
+        //   date: 'date',
+        //   location: 'foreground/background/closed',
+        //   opened: true
+        // })
     });
 
     /*
     * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+        var app_location = 'background'
         const { title, body } = notificationOpen.notification;
-        console.log(notificationOpen)
         const {item} = notificationOpen.notification._data;
-        this.showAlert(title, body, item);
+        this.showAlert(title, body, item, app_location);
     });
 
     /*
@@ -132,19 +187,20 @@ export default class Calendar extends Component {
     * */
     const notificationOpen = await firebase.notifications().getInitialNotification();
     if (notificationOpen) {
+        var app_location = 'closed'
         const { title, body } = notificationOpen.notification;
         const {item} = notificationOpen.notification._data;
-        this.showAlert(title, body, item);
+        this.showAlert(title, body, item, app_location);
     }
     /*
     * Triggered for data only payload in foreground
     * */
     this.messageListener = firebase.messaging().onMessage((message) => {
-      console.log(JSON.stringify(message));
+      console.log("Data only payload. Notification clicked, app in background")
     });
   }
 
-  showAlert(title, body, item) {
+  showAlert(title, body, item, app_location) {
     if(item!=undefined){
       item = JSON.parse(item)
       this.props.navigation.navigate('Details', {item})
@@ -152,7 +208,7 @@ export default class Calendar extends Component {
     Alert.alert(
       title, body,
       [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
+          { text: 'OK', onPress: () => console.log(app_location) },
       ],
       { cancelable: false },
     );
@@ -170,7 +226,6 @@ export default class Calendar extends Component {
   }
 
 
-    //3
   async getToken() {
     await firebase
       .messaging()
@@ -180,7 +235,7 @@ export default class Calendar extends Component {
         if (fcmToken) {
           userId = firebase.auth().currentUser.uid;
           if (userId) {
-            //search if current user already exists
+            //search if currents user already exists
             db
               .ref("users/" + userId)
               .once('value')
@@ -217,6 +272,9 @@ export default class Calendar extends Component {
                     },
                     posts: {
                       post: false
+                    },
+                    notifications: {
+                      notification: false
                     }
                   })
                 }
