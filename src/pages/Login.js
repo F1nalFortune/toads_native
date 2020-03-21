@@ -39,7 +39,7 @@ export default class Login extends Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => this.props.navigation.navigate('HomeScreen'))
+      .then(() => this.props.navigation.navigate('Calendar'))
       .catch(error => {
         console.log(error)
         console.log(JSON.stringify(error, null, 2))

@@ -29,6 +29,8 @@ export default class Calendar extends Component {
       isLoading: true
     }
   }
+
+
   async componentDidMount() {
     const fullDay = function(day) {
       switch (day) {
@@ -100,25 +102,10 @@ export default class Calendar extends Component {
         }
     }
     uid = firebase.auth().currentUser.uid;
+
     this.setState({
       uid: uid
     })
-    function writeNotification(uid, postData) {
-      // A post entry.
-      // postData = {
-      //   show: 'show',
-      //   date: 'date',
-      //   location: 'foreround/background/closed',
-      //   opened: true
-      // }
-      // Get a key for a new Post.
-      var newPostKey = db.ref('users/' + uid).child('notifications').push().key;
-      // Write the new post's data simultaneously in the posts list and the user's post list.
-      var updates = {};
-      updates['/notifications/' + newPostKey] = postData;
-
-      return db.ref('users/' + uid).update(updates);
-    }
       this.checkPermission();
       this.createNotificationListeners();
       console.disableYellowBox = true;
@@ -155,6 +142,7 @@ export default class Calendar extends Component {
   }
 
   async createNotificationListeners() {
+
     /*
     * Triggered when a particular notification has been received in foreground
     * */
@@ -162,14 +150,29 @@ export default class Calendar extends Component {
         var app_location = 'foreground'
         const { title, body } = notification;
         const {item} = notification._data;
-        this.showAlert(title, body, item, app_location);
-        console.log(JSON.stringify(item))
-        // writeNotifications(uid, {
-        //   show: title,
-        //   date: 'date',
-        //   location: 'foreground/background/closed',
-        //   opened: true
-        // })
+        // console.log("Item : ", item)
+        var parsed_item = JSON.parse(item)
+        var show = parsed_item['title']
+        var date = parsed_item['datetime']
+
+        // console.log("Show: ", show)
+        // console.log("Date: ", date)
+        var appData = {
+          show: show,
+          date: date,
+          location: app_location,
+          opened: false
+        }
+        var result = this.writeNotifications(uid, appData)
+        // console.log(JSON.stringify(item, null, 2))
+        this.showAlert(
+          title,
+          body,
+          item,
+          app_location,
+          result.newPostKey,
+          result.uid
+        );
     });
 
     /*
@@ -179,7 +182,30 @@ export default class Calendar extends Component {
         var app_location = 'background'
         const { title, body } = notificationOpen.notification;
         const {item} = notificationOpen.notification._data;
-        this.showAlert(title, body, item, app_location);
+        // console.log("Item : ", item)
+        var parsed_item = JSON.parse(item)
+        var show = parsed_item['title']
+        var date = parsed_item['datetime']
+        //
+        // console.log("Show: ", show)
+        // console.log("Date: ", date)
+        var appData = {
+          show: show,
+          date: date,
+          location: app_location,
+          opened: false
+        }
+        var result = this.writeNotifications(uid, appData)
+        // console.log(JSON.stringify(item, null, 2))
+        this.showAlert(
+          title,
+          body,
+          item,
+          app_location,
+          result.newPostKey,
+          result.uid
+        );
+
     });
 
     /*
@@ -190,7 +216,29 @@ export default class Calendar extends Component {
         var app_location = 'closed'
         const { title, body } = notificationOpen.notification;
         const {item} = notificationOpen.notification._data;
-        this.showAlert(title, body, item, app_location);
+        // console.log("Item : ", item)
+        var parsed_item = JSON.parse(item)
+        var show = parsed_item['title']
+        var date = parsed_item['datetime']
+        //
+        // console.log("Show: ", show)
+        // console.log("Date: ", date)
+        var appData = {
+          show: show,
+          date: date,
+          location: app_location,
+          opened: false
+        }
+        var result = this.writeNotifications(uid, appData)
+        // console.log(JSON.stringify(item, null, 2))
+        this.showAlert(
+          title,
+          body,
+          item,
+          app_location,
+          result.newPostKey,
+          result.uid
+        );
     }
     /*
     * Triggered for data only payload in foreground
@@ -200,7 +248,8 @@ export default class Calendar extends Component {
     });
   }
 
-  showAlert(title, body, item, app_location) {
+
+  showAlert(title, body, item, app_location, openedKey, uid) {
     if(item!=undefined){
       item = JSON.parse(item)
       this.props.navigation.navigate('Details', {item})
@@ -208,10 +257,43 @@ export default class Calendar extends Component {
     Alert.alert(
       title, body,
       [
-          { text: 'OK', onPress: () => console.log(app_location) },
+          { text: 'OK', onPress: () => {
+            var updates = {};
+            updates[`/notifications/${openedKey}`] = {
+              opened: true,
+              show: item['title'],
+              date: item['datetime'],
+              location: app_location
+            }
+            return db.ref('users/' + uid).update(updates);
+          }},
       ],
       { cancelable: false },
     );
+  }
+  writeNotifications(uid, appData) {
+    // A post entry.
+    // appData = {
+    //   show: 'show',
+    //   date: 'date',
+    //   location: 'foreround/background/closed',
+    //   opened: true
+    // }
+    // Get a key for a new Post.
+    var newPostKey = db.ref('users/' + uid).child('notifications').push().key;
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    var updates = {};
+
+
+    updates['/notifications/' + newPostKey] = appData;
+    // console.log("Updates: ")
+    // console.log(JSON.stringify(updates, null, 2))
+    db.ref('users/' + uid).update(updates);
+
+    return {
+      newPostKey: newPostKey,
+      uid: uid
+    };
   }
 
     //1
@@ -236,19 +318,22 @@ export default class Calendar extends Component {
           userId = firebase.auth().currentUser.uid;
           if (userId) {
             //search if currents user already exists
+            var object = JSON.stringify(firebase.auth().currentUser, null, 2)
+            var parsedObject = JSON.parse(object)
+            var xyz = parsedObject['refreshToken']
             db
               .ref("users/" + userId)
               .once('value')
               .then((dataSnapShot) => {
                 var user_data = dataSnapShot
                 user_data = JSON.parse(JSON.stringify(dataSnapShot, null, 2))
-                console.log(user_data)
+                // console.log(user_data)
                 if(user_data == null){
-                  //create user if does not exist
                   db.ref('users/' + userId).set({
                     token: fcmToken,
+                    refreshToken: xyz,
                     email: firebase.auth().currentUser.email,
-                    created_at: Date.now(),
+                    created_at: new Date(),
                     genrePref:{
                       acoustic: false,
                       alternative: false,
@@ -269,17 +354,16 @@ export default class Calendar extends Component {
                       reggae: false,
                       r_n_b: false,
                       ska: false
-                    },
-                    posts: {
-                      post: false
-                    },
-                    notifications: {
-                      notification: false
-                    },
-                    events: {
-                      event: false
                     }
                   })
+                } else {
+                  function refreshUserToken(userId, postData) {
+                    // Write the new post's data simultaneously in the posts list and the user's post list.
+                    var updates = {};
+                    updates[`/token`] = postData;
+                    return db.ref('users/' + userId).update(updates);
+                  }
+                  refreshUserToken(userId, fcmToken)
                 }
               })
             .catch((err)=>{

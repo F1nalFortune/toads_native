@@ -68,12 +68,11 @@ export default class ShowDetails extends Component {
         size={20}
         onPress={async () => {
           uid = firebase.auth().currentUser.uid;
-          function writeNewPost(uid, result) {
+          function writeNewPost(uid, result, current_itemzor) {
             // A post entry.
             var postData = {
               result: result
             };
-
             // Get a key for a new Post.
             var newPostKey = db.ref('users/' + uid).child('posts').push().key;
 
@@ -89,17 +88,19 @@ export default class ShowDetails extends Component {
               message:`${fullDay(current_itemzor.date[2])}, ${fullMonth(current_itemzor.date[0])} ${nth(current_itemzor.date[1])} at Toad's Place!`,
               url: 'http://www.toadsplace.com'
             });
-
             if (result.action === Share.sharedAction) {
               if (result.activityType) {
                 // shared with activity type of result.activityType
-                writeNewPost(uid, result)
-                console.log("Activity Type: ", result.activityType)
+                result['createdOn'] = new Date();
+                result['show'] = current_itemzor
+                console.log(JSON.stringify(result, null, 2))
+                writeNewPost(uid, result, current_itemzor)
               } else {
                 // shared
-                writeNewPost(uid, result)
-                console.log("Shared Result: ")
+                result['createdOn'] = new Date();
+                result['show'] = current_itemzor
                 console.log(JSON.stringify(result, null, 2))
+                writeNewPost(uid, result, current_itemzor)
               }
             } else if (result.action === Share.dismissedAction) {
               console.log("Dismissed Action")
@@ -225,11 +226,11 @@ export default class ShowDetails extends Component {
       })
     })
   }
-  handleAddEvent = () => {
+  handleAddEvent = (item) => {
     // console.log(JSON.stringify(props,0,2))
     if(this.state.cal_auth == 'authorized'){
-      var startDate = new Date(this.state.item.datetime)
-      var endDate = new Date(this.state.item.datetime)
+      var startDate = new Date(item.datetime)
+      var endDate = new Date(item.datetime)
       endDate.setHours(endDate.getHours() + 3)
       // console.log("Start Date: " + startDate)
       // console.log("End Date: " + endDate)
@@ -255,6 +256,27 @@ export default class ShowDetails extends Component {
                     'Event successfully removed from calendar.',
                     [
                       {text: 'OK', onPress: () => {
+                        // remove event from calendar
+                        uid = firebase.auth().currentUser.uid;
+                        db.ref('users/' + uid + '/events').once('value')
+                          .then((dataSnapShot) => {
+                            saved_events = []
+                            var data = JSON.stringify(dataSnapShot, null, 2)
+                            var data = JSON.parse(data)
+                            var keys = Object.keys(data)
+                            console.log("Keys: ", keys)
+                            console.log(JSON.stringify(data, null, 2))
+                            // console.log("State Item: ", this.state.item)
+                            console.log("Item: ", item)
+                            // console.log("Props: ", this.props.navigation.state.params.item)
+                            for(i=0;i<keys.length;i++){
+                              var current_event = data[keys[i]]
+                              if(current_event['title']==item.title && current_event['datetime'] == item.datetime){
+                                db.ref('users/' + uid+'/events/'+keys[i]).remove()
+                              }
+                            }
+
+                          })
                         console.log('OK Pressed')
                       }},
                     ],
@@ -337,6 +359,26 @@ export default class ShowDetails extends Component {
                     [
                       {text: 'OK', onPress: () => {
                         console.log('OK Pressed')
+                        uid = firebase.auth().currentUser.uid;
+                        function addEvent(uid, current_itemzor) {
+                          // A post entry.
+                          var postData = current_itemzor;
+
+                          var postData = {
+                            title: current_itemzor['title'],
+                            datetime: current_itemzor['datetime'],
+                            genre: current_itemzor['genre']
+                          }
+                          // Get a key for a new Post.
+                          var newPostKey = db.ref('users/' + uid).child('events').push().key;
+
+                          // Write the new post's data simultaneously in the posts list and the user's post list.
+                          var updates = {};
+                          updates['/events/' + newPostKey] = postData;
+
+                          return db.ref('users/' + uid).update(updates);
+                        }
+                        addEvent(uid, this.state.item)
                       }},
                     ],
                     {cancelable: false},
@@ -420,7 +462,7 @@ export default class ShowDetails extends Component {
     return(
       <ScrollView style={{backgroundColor: '#c0dfc066'}}>
         <TouchableOpacity
-          onPress={() => this.handleAddEvent()}
+          onPress={() => this.handleAddEvent(this.state.item)}
         >
           <View style={styles.imgWrapper}>
             <Image
@@ -509,7 +551,7 @@ export default class ShowDetails extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.menuTabs}
-          onPress={() => this.handleAddEvent()}>
+          onPress={() => this.handleAddEvent(this.state.item)}>
           <View style={styles.menuTabText}>
             <Text>
               {this.state.buttonText}

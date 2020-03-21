@@ -91,8 +91,8 @@ export default class SignUp extends Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        this.props.navigation.navigate('HomeScreen')
+      .then((user) => {
+        this.props.navigation.navigate('Calendar', {user})
       })
       .catch(error => {
         console.log(typeof error)
