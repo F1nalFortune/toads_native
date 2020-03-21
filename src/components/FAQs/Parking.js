@@ -4,17 +4,15 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  Linking
+  TouchableOpacity
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default class Payments extends Component {
+export default class CoatCheck extends Component {
 
 
   render() {
     return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor: '#c0dfc066'}}>
       <Text style={styles.title}>
         Parking Info
       </Text>
@@ -74,19 +72,29 @@ const styles = StyleSheet.create({
   infoContainer:{
     padding:15
   },
-  link:{
-    color: 'blue'
-  },
   title:{
-    paddingLeft:10,
-    paddingTop:10,
+    textAlign: 'center',
+    fontFamily: "Merriweather-Bold",
+    textTransform: 'uppercase',
     fontSize: 24,
-    color: 'grey',
-    fontWeight: 'bold'
+    paddingTop: 20,
+    paddingBottom: 0
+  },
+  serviceInfo:{
+    paddingLeft: 25,
+    paddingRight: 25,
+    lineHeight: 20,
+    fontSize: 16
+  },
+  serviceTitle:{
+    textAlign: 'center',
+    fontFamily: "Merriweather-Regular",
+    textTransform: 'uppercase',
+    fontSize: 18,
   },
   subtitle:{
     fontSize: 16,
-    fontFamily: "Merriweather-Regular",
-    lineHeight: 30,
+    textAlign: 'justify',
+    lineHeight: 20
   }
 })

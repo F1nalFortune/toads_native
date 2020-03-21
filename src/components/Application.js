@@ -110,7 +110,7 @@ export default class Application extends Component {
       Tickets: {
         screen: Tickets,
         navigationOptions: {
-          title: "Tickets",
+          // title: "Tickets",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -135,7 +135,7 @@ export default class Application extends Component {
       Payments: {
         screen: Payments,
         navigationOptions: {
-          title: "Payments",
+          // title: "Payments",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -160,7 +160,7 @@ export default class Application extends Component {
       Parking: {
         screen: Parking,
         navigationOptions: {
-          title: "Parking",
+          // title: "Parking",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -185,7 +185,7 @@ export default class Application extends Component {
       Requirements: {
         screen: Requirements,
         navigationOptions: {
-          title: "Parking",
+          // title: "Requirements",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -210,7 +210,7 @@ export default class Application extends Component {
       SmokingPolicy: {
         screen: SmokingPolicy,
         navigationOptions: {
-          title: "Parking",
+          // title: "Smoking Policy",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -235,7 +235,7 @@ export default class Application extends Component {
       AudioVideo: {
         screen: AudioVideo,
         navigationOptions: {
-          title: "Parking",
+          // title: "Audio / Video",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -260,7 +260,7 @@ export default class Application extends Component {
       Refunds: {
         screen: Refunds,
         navigationOptions: {
-          title: "Parking",
+          // title: "Refunds",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -285,7 +285,7 @@ export default class Application extends Component {
       CoatCheck: {
         screen: CoatCheck,
         navigationOptions: {
-          title: "Parking",
+          // title: "Coat Check",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -310,7 +310,7 @@ export default class Application extends Component {
       Hotels: {
         screen: Hotels,
         navigationOptions: {
-          title: "Area Hotels",
+          // title: "Area Hotels",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,

@@ -22,9 +22,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 //   <View></View>}
 export default class Hotels extends Component {
 
-
-
-
   render() {
     const ColoredLine = ({ color }) => (
       <View
