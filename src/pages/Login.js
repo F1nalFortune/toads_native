@@ -45,15 +45,57 @@ export default class Login extends Component {
         console.log(JSON.stringify(error, null, 2))
         switch(error.code){
           case "auth/invalid-email":
-            Alert.alert("Invalid Email", "Email format is invalid.");
+            Alert.alert(
+            "Invalid Email",
+            "Email format is invalid.",
+            [
+              {
+                text: 'Forgot Password',
+                onPress: () => this.props.navigation.navigate('Forgot'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => {
+                console.log("OK pressed")
+              }},
+            ],
+            {cancelable: false},
+          );
             break;
 
           case "auth/wrong-password":
-            Alert.alert("Incorrect Password", "Please try another password.");
+            Alert.alert(
+            "Incorrect Password",
+            "Please try another password.",
+            [
+              {
+                text: 'Forgot Password',
+                onPress: () => this.props.navigation.navigate('Forgot'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => {
+                console.log("OK pressed")
+              }},
+            ],
+            {cancelable: false},
+            );
             break;
 
           default:
-            Alert.alert("Error", "Invalid email and password combination.");
+            Alert.alert(
+            "Error",
+            "Invalid email and password combination.",
+            [
+              {
+                text: 'Forgot Password',
+                onPress: () => this.props.navigation.navigate('Forgot'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => {
+                console.log("OK pressed")
+              }},
+            ],
+            {cancelable: false},
+            );
         }
       })
   }
@@ -73,7 +115,8 @@ export default class Login extends Component {
             onPress={() => this.handleSignIn()}
             style={styles.button}>
             <Text style={styles.buttonText}> Sign In</Text>
-          </TouchableOpacity>
+        </TouchableOpacity>
+
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Don't have an account yet?</Text>
           <TouchableOpacity

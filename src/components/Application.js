@@ -41,6 +41,7 @@ import firebase from 'react-native-firebase';
 import Loading from './Loading'
 import SignUp from '../pages/SignUp'
 import Login from '../pages/Login'
+import ForgotPassword from '../pages/ForgotPassword'
 
 import BottomTabBar from 'react-navigation-selective-tab-bar';
 
@@ -557,6 +558,9 @@ export default class Application extends Component {
       },
       Login: {
         screen: Login,
+      },
+      Forgot: {
+        screen: ForgotPassword
       },
       App: {
         screen: MainTabs
