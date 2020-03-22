@@ -106,6 +106,7 @@ export default class ForgotPassword extends Component {
 
 
   render() {
+    firebase.analytics().setCurrentScreen('forgotPw');
     return (
     <View style={{ flex: 1, backgroundColor: 'white'  }}>
       <GeneralStatusBarColor backgroundColor="#345f3f"

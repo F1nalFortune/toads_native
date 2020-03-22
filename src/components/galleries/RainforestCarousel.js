@@ -4,6 +4,7 @@ import GallerySwiper from "react-native-gallery-swiper";
 
 export default class RainforestCarousel extends Component {
   render() {
+    firebase.analytics().setCurrentScreen('rainforest');
     var images = [
         {
           source: require("../../../assets/images/RainForest/rain1.jpg"),

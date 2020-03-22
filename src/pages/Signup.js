@@ -124,6 +124,7 @@ export default class SignUp extends Component {
 
 
   render() {
+    firebase.analytics().setCurrentScreen('signup');
     const { handleSubmit } = this.props
     return (
     <View style={{ flex: 1, backgroundColor: 'white'  }}>

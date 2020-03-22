@@ -4,6 +4,7 @@ import GallerySwiper from "react-native-gallery-swiper";
 
 export default class LillysCarousel extends Component {
   render() {
+    firebase.analytics().setCurrentScreen('lillys');
     var images = [
         {
           source: require("../../../assets/images/Lilly/lilly_1.jpg"),

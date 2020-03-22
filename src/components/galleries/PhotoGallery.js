@@ -1420,6 +1420,7 @@ export default class PhotoGallery extends Component {
   }
 
   render() {
+    firebase.analytics().setCurrentScreen('gallery');
     var shuffle = function (array) {
 
     	var currentIndex = array.length;

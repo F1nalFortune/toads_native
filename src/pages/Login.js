@@ -102,6 +102,7 @@ export default class Login extends Component {
 
 
   render() {
+    firebase.analytics().setCurrentScreen('login');
     return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <GeneralStatusBarColor backgroundColor="#345f3f"
