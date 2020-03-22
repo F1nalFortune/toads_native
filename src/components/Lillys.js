@@ -6,7 +6,8 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  ImageBackground
+  ImageBackground,
+  Dimensions
 } from 'react-native';
 import firebase from 'react-native-firebase';
 
@@ -20,7 +21,8 @@ export default class Lillys extends Component {
           borderBottomWidth: 1,
           width: '90%',
           paddingTop: 10,
-          marginBottom: 10
+          marginLeft: 'auto',
+          marginRight: 'auto'
         }}
       />
     );
@@ -36,30 +38,53 @@ export default class Lillys extends Component {
       >
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.subhead}>Available for Private Parties (21+)</Text>
+          <Text style={styles.header}>Looking for a place to have your next party?</Text>
           <ColoredLine color="green" />
-          <Text style={{fontSize: 18}}>Looking for a place to have your next party?</Text>
+          <Text style={styles.subhead}>Available for Private Parties (21+)</Text>
           <Text style={styles.info}>
-            For information regarding rentals, please fill out our contact form
-            or call (203) 562 - 5589 x10.
+            Whether you're planning a graduation, meeting, anniversery, fundraiser,
+            cocktail party, or special event, Toad's has you covered.
+            {"\n"}{"\n"}
+            For information regarding rentals, please contact Kayla at kayla@toadsplace.com.
+            {"\n"}{"\n"}
+            Please include a call back number you can be reached at or call (203) 562 - 5589 x10.
           </Text>
-          <View>
+
+          <View style={styles.privateContainer}>
+            <Text style={styles.privateHeader}>
+              Lilly's Pad
+            </Text>
+            <Image
+            source={require("../../assets/images/lillys_pic.png")}
+            />
+            <Text>
+              Great choice for any private party!
+            </Text>
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate('LillysScreen')}
             >
-              <Text>Lilly's Pad</Text>
+              <Text>View Lilly's Pad Gallery</Text>
             </TouchableOpacity>
           </View>
-          <Text> We also have our Rainforest Room Available to Rent!</Text>
-          <View>
+
+          <View style={styles.privateContainer}>
+            <Text style={styles.privateHeader}>
+              Rainforest Room
+            </Text>
+              <Image
+              source={require("../../assets/images/rainforest_pic.png")}
+              />
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate('RainforestScreen')}
             >
-              <Text>Rainforest Room</Text>
+              <Text>View Rainforest Gallery</Text>
             </TouchableOpacity>
           </View>
+
+
+
         </View>
       </ScrollView>
     </ImageBackground>
@@ -78,13 +103,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: "Merriweather-Light",
     color: 'red',
-    paddingTop: 5
+    paddingTop: 10
   },
   container:{
-     flex: 1,
-     // justifyContent: "center",
-     alignItems: "center",
-     marginTop: 10
+    paddingTop:20
   },
   button:{
     borderColor: 'green',
@@ -101,6 +123,23 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   info:{
-    paddingTop: 10
+    padding: 25,
+    lineHeight: 20,
+    fontSize: 18,
+    textAlign: 'justify'
+  },
+  privateContainer:{
+    paddingTop: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },
+  privateHeader:{
+    fontSize: 22,
+    fontWeight: 'bold',
+    fontFamily: "Merriweather-Bold",
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center'
   }
 })

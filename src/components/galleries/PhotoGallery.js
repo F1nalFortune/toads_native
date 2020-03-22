@@ -11,6 +11,7 @@ import {
 import GallerySwiper from "react-native-gallery-swiper";
 import LoadingScreen from '../LoadingScreen';
 const { width, height } = Dimensions.get('window');
+import firebase from 'react-native-firebase';
 
 export default class PhotoGallery extends Component {
   constructor(props) {

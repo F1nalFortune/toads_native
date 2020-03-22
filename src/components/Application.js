@@ -395,7 +395,7 @@ export default class Application extends Component {
       Lillys: {
         screen: Lillys,
         navigationOptions: {
-          title: "Lilly's Pad",
+          title: "Private Parties",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,
@@ -447,7 +447,7 @@ export default class Application extends Component {
       RainforestScreen: {
         screen: RainforestCarousel,
         navigationOptions: {
-          title: "Rainforest Room",
+          title: "Rainforest",
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,

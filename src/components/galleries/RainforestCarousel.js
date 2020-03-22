@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import GallerySwiper from "react-native-gallery-swiper";
+import firebase from 'react-native-firebase';
 
 export default class RainforestCarousel extends Component {
   render() {
