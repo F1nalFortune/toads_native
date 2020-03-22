@@ -14,8 +14,8 @@ import {
   SafeAreaView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import VenueInfoRouter from './VenueInfoRouter';
 import Geolocation from '@react-native-community/geolocation';
+import firebase from 'react-native-firebase';
 const width = '40%';
 const height = '20%';
 
@@ -352,6 +352,7 @@ export default class About extends Component {
 
 
   render() {
+    firebase.analytics().setCurrentScreen('venueInfo');
     return (
     <ScrollView style={styles.background}>
       <SafeAreaView>

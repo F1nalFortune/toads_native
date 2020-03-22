@@ -10,7 +10,7 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import firebase from 'react-native-firebase';
 
 // AMENITIES
 // {
@@ -23,6 +23,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 export default class Hotels extends Component {
 
   render() {
+    firebase.analytics().setCurrentScreen('hotels');
     const ColoredLine = ({ color }) => (
       <View
         style={{

@@ -9,11 +9,11 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import firebase from 'react-native-firebase';
 
 export default class Tickets extends Component {
-
-
   render() {
+    firebase.analytics().setCurrentScreen('tickets');
     return (
     <ScrollView style={{backgroundColor: '#c0dfc066'}}>
       <Text style={styles.title}>

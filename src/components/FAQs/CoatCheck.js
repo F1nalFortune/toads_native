@@ -5,11 +5,13 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import firebase from 'react-native-firebase';
 
 export default class CoatCheck extends Component {
 
 
   render() {
+    firebase.analytics().setCurrentScreen('coatCheck');
     return (
     <ScrollView style={{backgroundColor: '#c0dfc066'}}>
       <Text style={styles.title}>

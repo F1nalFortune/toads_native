@@ -393,7 +393,7 @@ export default class Calendar extends Component {
 
 
   render(){
-
+    firebase.analytics().setCurrentScreen('calendar');
 
     const ColoredLine = ({ color }) => (
       <View

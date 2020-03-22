@@ -13,7 +13,7 @@ import RNCalendarEvents from 'react-native-calendar-events';
 import { db } from '../../Firebase';
 
 
-export default class Dance extends Component {
+export default class Settings extends Component {
   componentWillMount(){
     //Authorize Calendar Events
     RNCalendarEvents.authorizationStatus()
@@ -134,6 +134,7 @@ export default class Dance extends Component {
     }
   }
   render() {
+    firebase.analytics().setCurrentScreen('settings');
 
 
     const ColoredLine = ({ color }) => (

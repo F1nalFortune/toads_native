@@ -8,9 +8,11 @@ import {
   Image,
   ImageBackground
 } from 'react-native';
+import firebase from 'react-native-firebase';
 
 export default class Lillys extends Component {
   render() {
+    firebase.analytics().setCurrentScreen('privateParties');
     const ColoredLine = ({ color }) => (
       <View
         style={{

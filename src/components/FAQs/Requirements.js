@@ -5,11 +5,13 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import firebase from 'react-native-firebase';
 
 export default class Requirements extends Component {
 
 
   render() {
+    firebase.analytics().setCurrentScreen('requirements');
     return (
     <ScrollView style={{backgroundColor: '#c0dfc066'}}>
       <Text style={styles.title}>

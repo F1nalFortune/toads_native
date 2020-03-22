@@ -5,11 +5,13 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import firebase from 'react-native-firebase';
 
 export default class AudioVideo extends Component {
 
 
   render() {
+    firebase.analytics().setCurrentScreen('audioVideo');
     return (
     <ScrollView style={{backgroundColor: '#c0dfc066'}}>
       <Text style={styles.title}>

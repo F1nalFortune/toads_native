@@ -18,7 +18,6 @@ import Image from 'react-native-scalable-image';
 import { createStackNavigator, createBottomTabNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Calendar from './Calendar';
-import HomeScreen from './HomeScreen';
 import Lillys from './Lillys';
 import Settings from './Settings';
 import LillysCarousel from './galleries/LillysCarousel';
