@@ -597,6 +597,17 @@ export default class Calendar extends Component {
           refreshing:false
         })
       })
+      .catch((err) =>{
+        var title = 'Error'
+        var body = 'Please check internet connection and try again.'
+        Alert.alert(
+          title, body,
+          [
+              { text: 'OK'},
+          ],
+          { cancelable: false },
+        );
+      })
   }
 
 
