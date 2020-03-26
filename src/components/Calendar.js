@@ -8,7 +8,8 @@ import {
   Linking,
   StyleSheet,
   Button,
-  Alert
+  Alert,
+  RefreshControl
 } from 'react-native';
 import LoadingScreen from './LoadingScreen';
 import GallerySwiper from "react-native-gallery-swiper";
@@ -29,6 +30,7 @@ export default class Calendar extends Component {
       isLoading: true
     }
   }
+
 
 
   async componentDidMount() {
@@ -101,38 +103,37 @@ export default class Calendar extends Component {
           return false
         }
     }
+    this.checkPermission();
+    this.createNotificationListeners();
     uid = firebase.auth().currentUser.uid;
-
     this.setState({
       uid: uid
     })
-      this.checkPermission();
-      this.createNotificationListeners();
-      console.disableYellowBox = true;
-      db.ref('events').once('value')
-        .then((dataSnapShot) => {
-          saved_shows = []
-          dataSnapShot.forEach(function(childSnapshot) {
-            // childData will be the actual contents of the child
-            var childData = childSnapshot.val();
-            saved_shows.push(childData)
-          });
-          var items = saved_shows
-          for(i=0;i<items.length;i++){
-            if(myFunction(items[i].title, 'presenter')){
-              var title = myFunction(items[i].title, 'show')
-              var presenter = myFunction(items[i].title, 'presenter')
-              items[i].title = title
-              items[i].presenter = presenter
-            }
+    console.disableYellowBox = true;
+    db.ref('events').once('value')
+      .then((dataSnapShot) => {
+        saved_shows = []
+        dataSnapShot.forEach(function(childSnapshot) {
+          // childData will be the actual contents of the child
+          var childData = childSnapshot.val();
+          saved_shows.push(childData)
+        });
+        var items = saved_shows
+        for(i=0;i<items.length;i++){
+          if(myFunction(items[i].title, 'presenter')){
+            var title = myFunction(items[i].title, 'show')
+            var presenter = myFunction(items[i].title, 'presenter')
+            items[i].title = title
+            items[i].presenter = presenter
           }
-          var features = items[0]['slides']
-          this.setState({
-            items: items,
-            isLoading: false,
-            features: features
-          })
+        }
+        var features = items[0]['slides']
+        this.setState({
+          items: items,
+          isLoading: false,
+          features: features
         })
+      })
     }
 
 //Remove listeners allocated in createNotificationListeners()
@@ -395,6 +396,9 @@ export default class Calendar extends Component {
   render(){
     firebase.analytics().setCurrentScreen('calendar');
 
+
+
+
     const ColoredLine = ({ color }) => (
       <View
         style={{
@@ -408,11 +412,16 @@ export default class Calendar extends Component {
     }
 
     return(
-      <ScrollView style={{backgroundColor: '#c0dfc066'}}>
+      <ScrollView
+        style={{backgroundColor: '#c0dfc066'}}
+        refreshControl={this._refreshControl()}>
         <View>
           <SliderBox
             images={this.state.features}
-            ImageComponentStyle={{borderRadius: 15, width: '95%', marginTop: 5, marginBottom: 5}}
+            ImageComponentStyle={{
+              borderRadius: 15,
+              resizeMode: 'contain',
+            flex: 1}}
             dotColor='#008000'
             autoplay
             circleLoop />
@@ -474,7 +483,126 @@ export default class Calendar extends Component {
       </ScrollView>
     )
   }
+
+  _refreshControl(){
+    return (
+      <RefreshControl
+        refreshing={this.state.refreshing}
+        onRefresh={()=>this._refreshListView()} />
+    )
+  }
+
+  _refreshListView(){
+    uid = firebase.auth().currentUser.uid;
+    //Start Rendering Spinner
+    console.log("Checking for new shows...")
+    this.setState({
+      refreshing:true,
+      uid: uid
+    })
+    const fullDay = function(day) {
+      switch (day) {
+        case 'Fri': return "Friday";
+        case 'Sat': return "Saturday";
+        case 'Sun': return "Sunday";
+        case 'Mon': return "Monday";
+        case 'Tue': return "Tuesday";
+        case 'Wed': return "Wednesday";
+        case 'Thu': return "Thursday"
+      }
+    }
+    const fullMonth = function(month){
+      switch(month) {
+        case 'Jan': return "January";
+        case 'Feb': return "February";
+        case 'Mar': return "March";
+        case 'Apr': return "April";
+        case 'May': return "May";
+        case 'Jun': return "June";
+        case 'Jul': return "July";
+        case 'Aug': return "August";
+        case 'Sep': return "September";
+        case 'Oct': return "October";
+        case 'Nov': return "November";
+        case 'Dec': return "December"
+      }
+    }
+    function myFunction(mystring, variable){
+        values = ['presented by:', 'presents:', 'present:']
+        string_length = mystring.length
+        if (mystring.toLowerCase().includes(values[0])){
+          var presenter = mystring.toLowerCase().split(values[0])
+          presenter[0] = presenter[0].trim() + " " + values[0]
+          var show = presenter[1]
+
+          presenter = mystring.substring(0, presenter[0].length)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else if(mystring.toLowerCase().includes(values[1])){
+          var presenter = mystring.toLowerCase().split(values[1])
+          presenter[0] = presenter[0].trim() + " " + values[1]
+          presenter = mystring.substring(0, presenter[0].length)
+          // console.log(presenter)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          // console.log(show)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else if(mystring.toLowerCase().includes(values[2])){
+          var presenter = mystring.toLowerCase().split(values[2])
+          presenter[0] = presenter[0].trim() + " " + values[2]
+
+          presenter = mystring.substring(0, presenter[0].length)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else{
+          return false
+        }
+    }
+    this.checkPermission();
+    this.createNotificationListeners();
+    console.disableYellowBox = true;
+    db.ref('events').once('value')
+      .then((dataSnapShot) => {
+        saved_shows = []
+        dataSnapShot.forEach(function(childSnapshot) {
+          // childData will be the actual contents of the child
+          var childData = childSnapshot.val();
+          saved_shows.push(childData)
+        });
+        var items = saved_shows
+        for(i=0;i<items.length;i++){
+          if(myFunction(items[i].title, 'presenter')){
+            var title = myFunction(items[i].title, 'show')
+            var presenter = myFunction(items[i].title, 'presenter')
+            items[i].title = title
+            items[i].presenter = presenter
+          }
+        }
+        var features = items[0]['slides']
+        this.setState({
+          items: items,
+          isLoading: false,
+          features: features,
+          refreshing:false
+        })
+      })
+  }
+
+
 }
+
+
 
 const styles = StyleSheet.create ({
  touchable:{
