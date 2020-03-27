@@ -13,6 +13,7 @@ import {
 import Logo from '../components/Logo'
 import LoginForm from '../components/LoginForm'
 import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
+import KeyboardShift from '../components/KeyboardShift';
 
 import InputText from '../components/InputText';
 import firebase from 'react-native-firebase';
@@ -127,48 +128,53 @@ export default class SignUp extends Component {
     firebase.analytics().setCurrentScreen('signup');
     const { handleSubmit } = this.props
     return (
-    <View style={{ flex: 1, backgroundColor: 'white'  }}>
-      <GeneralStatusBarColor backgroundColor="#345f3f"
-            barStyle="light-content"/>
-      <SafeAreaView style={styles.container}>
-        <Logo />
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputBox}
-            placeholder="Email"
-            placeholderTextColor="white"
-            selectionColor="#345f3f"
-            keyboardType="email-address"
-            onSubmitEditing={() => this.password.focus()}
-            onChangeText={email => this.setState({ email })}
-            value={this.state.email}
-            blurOnSubmit={false}
-            />
-          <TextInput
-            style={styles.inputBox}
-            placeholder="Password"
-            placeholderTextColor="white"
-            secureTextEntry={true}
-            selectionColor="#345f3f"
-            ref={(input) => this.password = input}
-            onChangeText={password => this.setState({ password })}
-            value={this.state.password}
-            />
+      <KeyboardShift>
+        {() => (
+          <View style={{ flex: 1, backgroundColor: 'white'  }}>
+          <GeneralStatusBarColor backgroundColor="#345f3f"
+                barStyle="light-content"/>
+          <SafeAreaView style={styles.container}>
+            <Logo />
+            <View style={styles.container}>
+              <TextInput
+                style={styles.inputBox}
+                placeholder="Email"
+                placeholderTextColor="white"
+                selectionColor="#345f3f"
+                keyboardType="email-address"
+                onSubmitEditing={() => this.password.focus()}
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
+                blurOnSubmit={false}
+                />
+              <TextInput
+                style={styles.inputBox}
+                placeholder="Password"
+                placeholderTextColor="white"
+                secureTextEntry={true}
+                selectionColor="#345f3f"
+                ref={(input) => this.password = input}
+                onChangeText={password => this.setState({ password })}
+                value={this.state.password}
+                />
+            </View>
+            <TouchableOpacity
+                onPress={() => this.createNewUser()}
+                style={styles.button}>
+                <Text style={styles.buttonText}> Sign Up</Text>
+            </TouchableOpacity>
+            <View style={styles.signupTextCont}>
+              <Text style={styles.signupText}>Already have an account?</Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Login')}>
+                <Text style={styles.signupButton}> Sign in</Text>
+              </TouchableOpacity>
+            </View>
+          </SafeAreaView>
         </View>
-        <TouchableOpacity
-            onPress={() => this.createNewUser()}
-            style={styles.button}>
-            <Text style={styles.buttonText}> Sign Up</Text>
-        </TouchableOpacity>
-        <View style={styles.signupTextCont}>
-          <Text style={styles.signupText}>Already have an account?</Text>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Login')}>
-            <Text style={styles.signupButton}> Sign in</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    </View>
+      )}
+      </KeyboardShift>
+
     );
   }
 }

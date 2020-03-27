@@ -318,28 +318,16 @@ export default class About extends Component {
       tab: 'info'
     }
   }
-  // static getDerivedStateFromProps(props, state) {
-  //   console.log("here")
-  //   console.log(props.navigation.state.params.tab)
-  //   if (props.navigation.state.params.tab !== state.tab) {
-  //     this.state = {
-  //       tab: 'info'
-  //     }
-  //     return {
-  //       tab: props.tab
-  //     };
-  //   }
-  //   return null;
-  // }
+
   componentDidMount = () => {
     Geolocation.getCurrentPosition(
       //Will give you the current location
        (position) => {
           const currentLongitude = position.coords.longitude;
-          console.log("Longitude: " + JSON.stringify(position.coords.longitude))
+          // console.log("Longitude: " + JSON.stringify(position.coords.longitude))
           //getting the Longitude from the location json
           const currentLatitude = position.coords.latitude;
-          console.log("Latitude: " + JSON.stringify(position.coords.latitude));
+          // console.log("Latitude: " + JSON.stringify(position.coords.latitude));
           //getting the Latitude from the location json
           this.setState({ longitude:currentLongitude });
           //Setting state Longitude to re re-render the Longitude Text

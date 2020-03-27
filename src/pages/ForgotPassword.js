@@ -13,6 +13,7 @@ import {
 import Logo from '../components/Logo'
 import LoginForm from '../components/LoginForm'
 import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
+import KeyboardShift from '../components/KeyboardShift';
 
 import InputText from '../components/InputText';
 import firebase from 'react-native-firebase';
@@ -108,37 +109,42 @@ export default class ForgotPassword extends Component {
   render() {
     firebase.analytics().setCurrentScreen('forgotPw');
     return (
-    <View style={{ flex: 1, backgroundColor: 'white'  }}>
-      <GeneralStatusBarColor backgroundColor="#345f3f"
-            barStyle="light-content"/>
-      <SafeAreaView style={styles.container}>
-        <Logo />
-        <View style={styles.container}>
-          <TextInput
-            style={styles.inputBox}
-            placeholder="Email"
-            placeholderTextColor="white"
-            selectionColor="#345f3f"
-            keyboardType="email-address"
-            onChangeText={email => this.setState({ email })}
-            value={this.state.email}
-            blurOnSubmit={false}
-            />
+      <KeyboardShift>
+        {() => (
+          <View style={{ flex: 1, backgroundColor: 'white'  }}>
+          <GeneralStatusBarColor backgroundColor="#345f3f"
+                barStyle="light-content"/>
+          <SafeAreaView style={styles.container}>
+            <Logo />
+            <View style={styles.container}>
+              <TextInput
+                style={styles.inputBox}
+                placeholder="Email"
+                placeholderTextColor="white"
+                selectionColor="#345f3f"
+                keyboardType="email-address"
+                onChangeText={email => this.setState({ email })}
+                value={this.state.email}
+                blurOnSubmit={false}
+                />
+            </View>
+            <TouchableOpacity
+                onPress={() => this.resetPassword(this.props)}
+                style={styles.button}>
+                <Text style={styles.buttonText}> Reset Password</Text>
+            </TouchableOpacity>
+            <View style={styles.signupTextCont}>
+              <Text style={styles.signupText}>Already have an account?</Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Login')}>
+                <Text style={styles.signupButton}> Sign in</Text>
+              </TouchableOpacity>
+            </View>
+          </SafeAreaView>
         </View>
-        <TouchableOpacity
-            onPress={() => this.resetPassword(this.props)}
-            style={styles.button}>
-            <Text style={styles.buttonText}> Reset Password</Text>
-        </TouchableOpacity>
-        <View style={styles.signupTextCont}>
-          <Text style={styles.signupText}>Already have an account?</Text>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Login')}>
-            <Text style={styles.signupButton}> Sign in</Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
-    </View>
+      )}
+      </KeyboardShift>
+
     );
   }
 }

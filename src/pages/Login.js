@@ -16,7 +16,9 @@ import Logo from '../components/Logo'
 import LoginForm from '../components/LoginForm'
 import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
 
-import {Actions} from 'react-native-router-flux';
+import KeyboardShift from '../components/KeyboardShift';
+
+
 export default class Login extends Component {
   // Initialize empty state here
    state = {
@@ -34,8 +36,6 @@ export default class Login extends Component {
 
   handleSignIn = () => {
     const { email, password } = this.state
-    console.log("Email: ", email)
-    console.log("Password; ", password)
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -49,11 +49,6 @@ export default class Login extends Component {
             "Invalid Email",
             "Email format is invalid.",
             [
-              {
-                text: 'Forgot Password',
-                onPress: () => this.props.navigation.navigate('Forgot'),
-                style: 'cancel',
-              },
               {text: 'OK', onPress: () => {
                 console.log("OK pressed")
               }},
@@ -61,7 +56,6 @@ export default class Login extends Component {
             {cancelable: false},
           );
             break;
-
           case "auth/wrong-password":
             Alert.alert(
             "Incorrect Password",
@@ -85,11 +79,6 @@ export default class Login extends Component {
             "Error",
             "Invalid email and password combination.",
             [
-              {
-                text: 'Forgot Password',
-                onPress: () => this.props.navigation.navigate('Forgot'),
-                style: 'cancel',
-              },
               {text: 'OK', onPress: () => {
                 console.log("OK pressed")
               }},
@@ -104,30 +93,35 @@ export default class Login extends Component {
   render() {
     firebase.analytics().setCurrentScreen('login');
     return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <GeneralStatusBarColor backgroundColor="#345f3f"
-            barStyle="light-content"/>
-      <SafeAreaView style={styles.container}>
-        <Logo />
-        <LoginForm
-          changeText={(text, type) => this.handleChangeText(text, type)} // Added new props here & also removed the type props
-        />
-        <TouchableOpacity
-            onPress={() => this.handleSignIn()}
-            style={styles.button}>
-            <Text style={styles.buttonText}> Sign In</Text>
-        </TouchableOpacity>
+      <KeyboardShift>
+        {() => (
+          <View style={{ flex: 1, backgroundColor: 'white' }}>
+          <GeneralStatusBarColor backgroundColor="#345f3f"
+                barStyle="light-content"/>
+          <SafeAreaView style={styles.container}>
+            <Logo />
+            <LoginForm
+              changeText={(text, type) => this.handleChangeText(text, type)} // Added new props here & also removed the type props
+            />
+            <TouchableOpacity
+                onPress={() => this.handleSignIn()}
+                style={styles.button}>
+                <Text style={styles.buttonText}> Sign In</Text>
+            </TouchableOpacity>
 
-        <View style={styles.signupTextCont}>
-          <Text style={styles.signupText}>Don't have an account yet?</Text>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('SignUp')}
-          >
-            <Text style={styles.signupButton}> Signup</Text>
-          </TouchableOpacity>
+            <View style={styles.signupTextCont}>
+              <Text style={styles.signupText}>Don't have an account yet?</Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('SignUp')}
+              >
+                <Text style={styles.signupButton}> Signup</Text>
+              </TouchableOpacity>
+            </View>
+          </SafeAreaView>
         </View>
-      </SafeAreaView>
-    </View>
+      )}
+      </KeyboardShift>
+
     );
   }
 
