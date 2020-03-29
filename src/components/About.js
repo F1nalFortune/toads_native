@@ -8,7 +8,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Dimensions,
   Linking,
   NativeModules,
   SafeAreaView

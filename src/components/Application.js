@@ -41,6 +41,7 @@ import Loading from './Loading'
 import SignUp from '../pages/SignUp'
 import Login from '../pages/Login'
 import ForgotPassword from '../pages/ForgotPassword'
+import IntroSlider from '../pages/IntroSlider'
 
 import BottomTabBar from 'react-navigation-selective-tab-bar';
 
@@ -550,13 +551,16 @@ export default class Application extends Component {
 
     const Application = createAppContainer(createSwitchNavigator({
       Loading: {
-        screen: Loading,
+        screen: Loading
+      },
+      Welcome: {
+        screen: IntroSlider
       },
       SignUp: {
-        screen: SignUp,
+        screen: SignUp
       },
       Login: {
-        screen: Login,
+        screen: Login
       },
       Forgot: {
         screen: ForgotPassword
