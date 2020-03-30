@@ -21,7 +21,6 @@ import { db } from '../../Firebase';
 
 
 
-
 export default class Calendar extends Component {
   constructor(props) {
     super(props);
@@ -112,21 +111,6 @@ export default class Calendar extends Component {
       uid: uid
     })
     console.disableYellowBox = true;
-    db.ref(`users/${uid}/genrePref`).once('value')
-      .then((dataSnapShot) => {
-        var string = JSON.stringify(dataSnapShot, null, 2)
-        var object = JSON.parse(string)
-        var genres = Object.keys(object)
-        var preferences = Object.values(object)
-        genrePrefs = []
-        for (i=0;i<preferences.length;i++){
-          if(preferences[i]){
-            genrePrefs.push(genres[i])
-          }
-        }
-        // console.log(JSON.stringify(genrePrefs, null, 2))
-        this.setState({genrePrefs: genrePrefs})
-      })
     db.ref('events').once('value')
       .then((dataSnapShot) => {
         saved_shows = []
@@ -136,35 +120,19 @@ export default class Calendar extends Component {
           saved_shows.push(childData)
         });
         var items = saved_shows
-        var matches = []
         for(i=0;i<items.length;i++){
-          var index = items.indexOf(items[i])
-          items[i]['index'] = index
           if(myFunction(items[i].title, 'presenter')){
             var title = myFunction(items[i].title, 'show')
             var presenter = myFunction(items[i].title, 'presenter')
             items[i].title = title
             items[i].presenter = presenter
           }
-          //find events with user genre preference
-          var genres = items[i]['genre']
-          genres = Object.values(genres)
-          var match = this.state.genrePrefs.some(r=> genres.includes(r))
-          if(match){
-            matches.push(items[i])
-          }
         }
-        console.log("Genre Preferences")
-        console.log(JSON.stringify(this.state.genrePrefs, null, 2))
-        console.log("Matched Shows")
-        console.log(JSON.stringify(matches, null, 2))
         var features = items[0]['slides']
         this.setState({
           items: items,
           isLoading: false,
-          features: features,
-          recommended: matches,
-          tab: 'all'
+          features: features
         })
       })
     }
@@ -429,18 +397,8 @@ export default class Calendar extends Component {
   render(){
     firebase.analytics().setCurrentScreen('calendar');
 
-    const ColoredLine = ({ color }) => (
-      <View
-        style={{
-          borderBottomColor: color,
-          borderBottomWidth: 1
-        }}
-      />
-    );
-    if (this.state.isLoading) {
-      return <LoadingScreen />;
-    }
-    const ListShows = ({item}) => (<View>
+
+    const ListShows = ({ item }) => (<View key={this.state.items.indexOf(item)}>
       <TouchableOpacity
         style={styles.touchable}
         onPress={() => this.props.navigation.navigate('Details', {item})}
@@ -491,7 +449,20 @@ export default class Calendar extends Component {
           <Text style={styles.buttonTxt}>EVENT DETAILS</Text>
         </TouchableOpacity>
       </View>
-    </View>);
+    </View>)
+
+    const ColoredLine = ({ color }) => (
+      <View
+        style={{
+          borderBottomColor: color,
+          borderBottomWidth: 1
+        }}
+      />
+    );
+    if (this.state.isLoading) {
+      return <LoadingScreen />;
+    }
+
     return(
       <ScrollView
         style={{backgroundColor: '#c0dfc066'}}
@@ -522,7 +493,7 @@ export default class Calendar extends Component {
             </TouchableOpacity>
           </View>
         </View>
-        {this.state.tab=='all' ? this.state.items.map(item => <ListShows item={item} key={this.state.items.indexOf(item)}/>) :this.state.recommended.map(item => <ListShows item={item} key={this.state.recommended.indexOf(item)}/>)}
+        {this.state.tab=='all' ? this.state.items.map(item => <ListShows item={item}/>) :this.state.suggestedShows.map(item => <ListShows item={item}/>)}
       </ScrollView>
     )
   }
@@ -759,33 +730,60 @@ const styles = StyleSheet.create ({
  buttonTxt:{
    color: 'white',
    fontWeight: 'bold'
- },
- tabbar:{
-   flexDirection: 'row',
-   paddingLeft:20,
-   paddingRight: 20
- },
- tabBtn:{
-   padding:10,
-   fontWeight: 'bold',
-   fontSize: 16
- },
- tabBtnActive: {
-   width: '50%',
-   textAlign: 'center',
-   justifyContent: 'center',
-   alignItems: 'center',
-   fontWeight: 'bold',
-   fontSize: 16,
-   borderBottomColor: 'green',
-   borderBottomWidth: 1,
- },
- tabBtnInactive: {
-   width: '50%',
-   textAlign: 'center',
-   justifyContent: 'center',
-   alignItems: 'center',
-   fontWeight: 'bold',
-   fontSize: 16
- },
+ }
 })
+
+
+
+const ListShows = ({ item }) => (<View key={this.state.items.indexOf(item)}>
+  <TouchableOpacity
+    style={styles.touchable}
+    onPress={() => this.props.navigation.navigate('Details', {item})}
+  >
+    <View style={styles.imgWrapper}>
+      <Image style={styles.img} source={{uri: item.img}}/>
+    </View>
+    <View style = {styles.wrapper}>
+      <View style={styles.dateWrapper}>
+        <Text style= {styles.date}>{item.date[0]}</Text>
+        <Text style= {styles.dateNumber}>{item.date[1]}</Text>
+        <ColoredLine color="green" />
+        <Text style= {styles.date}>{item.date[2]}</Text>
+      </View>
+      <View style={styles.titleWrapper}>
+
+          {
+              item.presenter ?
+              <View>
+                <Text style={styles.subTitle}>
+                  {item.presenter}
+                </Text>
+                <Text style={styles.title}>
+                  {item.title}
+                </Text>
+              </View> :
+              <View>
+                <Text style={styles.title}>
+                  {item.title}
+                </Text>
+              </View>
+          }
+
+        {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}{"\n"}</Text> : <Text></Text>}
+        <Text style={styles.info}>{item.information[2]}</Text>
+        <Text style={styles.info}>{item.information[3]}</Text>
+      </View>
+    </View>
+    <View style={styles.footer}>
+      <Text style={styles.info}>{item.information[4]}</Text>
+    </View>
+  </TouchableOpacity>
+  <View style={styles.buttonContainer}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={() => this.props.navigation.navigate('Details', {item})}
+    >
+      <Text style={styles.buttonTxt}>EVENT DETAILS</Text>
+    </TouchableOpacity>
+  </View>
+</View>)

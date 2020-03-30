@@ -704,11 +704,6 @@ const styles = StyleSheet.create({
     color: 'purple',
     marginHorizontal: 100
   },
-  tabBtn:{
-    padding:10,
-    fontWeight: 'bold',
-    fontSize: 16
-  },
   image: {
       width: 50,
       resizeMode: 'contain',
@@ -755,6 +750,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft:20,
     paddingRight: 20
+  },
+  tabBtn:{
+    padding:10,
+    fontWeight: 'bold',
+    fontSize: 16
   },
   tabBtnActive: {
     width: '50%',
