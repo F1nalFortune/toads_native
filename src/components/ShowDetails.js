@@ -965,7 +965,8 @@ export default class ShowDetails extends Component {
             shadowRadius: 13.16,
             elevation: 20,
             marginBottom: 50
-          }}>
+          }}
+          onPress={() => this.props.navigation.push('Details', {item})}>
             <View>
               <Image
               source={{uri: item.img }}
@@ -1126,7 +1127,9 @@ export default class ShowDetails extends Component {
       return <LoadingScreen />;
     }
     return(
-      <ScrollView style={{backgroundColor: '#c0dfc066'}}>
+      <ScrollView
+        style={{backgroundColor: '#c0dfc066'}}
+        showsVerticalScrollIndicator={false}>
         <TouchableOpacity
           onPress={() => this.handleAddEvent(this.state.item)}
         >
