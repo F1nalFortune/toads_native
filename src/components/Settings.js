@@ -128,7 +128,8 @@ export default class Settings extends Component {
   signOutUser = async () => {
     try {
         await firebase.auth().signOut();
-        this.props.navigation.navigate('Login')
+        navigate('Login')
+
     } catch (e) {
         console.log(e);
     }
@@ -318,7 +319,9 @@ export default class Settings extends Component {
           <View>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.signOutUser()}
+              onPress={() => {
+                this.signOutUser()
+              }}
             >
               <Text>Signout</Text>
             </TouchableOpacity>

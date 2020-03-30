@@ -56,9 +56,47 @@ export default class ShowDetails extends Component {
         case 'Dec': return "December"
       }
     }
+    function ordinal_suffix(i) {
+      var j = i % 10,
+      k = i % 100;
+      if (j == 1 && k != 11) {
+        return i + "st";
+      }
+      if (j == 2 && k != 12) {
+        return i + "nd";
+      }
+      if (j == 3 && k != 13) {
+        return i + "rd";
+      }
+      return i + "th";
+    }
+    function cleanGenreName(genre){
+      var genres = {
+        acoustic: 'acoustic',
+        alternative: 'alternative',
+        alternative_rock: 'alternative rock',
+        classic_rock: 'classic rock',
+        american_rock: 'American rock',
+        comedy: 'comedy',
+        dance: 'dance',
+        dubstep: 'dubstep',
+        emo: 'emo',
+        hip_hop: 'hip-hop',
+        funk: 'funk',
+        indie: 'indie',
+        metal: 'metal',
+        musical_theatre: 'musical theatre',
+        pop: 'pop',
+        rap: 'rap',
+        reggae: 'reggae',
+        r_n_b: 'R&B',
+        ska: 'ska'
+      }
+      return genres[genre]
+    }
     var current_itemzor = navigation.state.params.item
     return {
-      headerTitle: "Event Info",
+      // headerTitle: "Event Info",
       headerRight: <Icon
         style={{
           color:'#fff',
@@ -68,6 +106,44 @@ export default class ShowDetails extends Component {
         size={20}
         onPress={async () => {
           uid = firebase.auth().currentUser.uid;
+
+          var fixed_genres = []
+          var doors_time =current_itemzor['information'][2].substr(current_itemzor['information'][2].length-5).trim() + ' PM'
+          var show_time = current_itemzor['information'][3].substr(current_itemzor['information'][2].length-5).trim() + ' PM'
+          var age_limit = current_itemzor['information'][4]
+          var title = current_itemzor['title']
+          var month = current_itemzor['date'][0]
+          var date = current_itemzor['date'][1]
+          var day = current_itemzor['date'][2]
+          for(a=0;a<current_itemzor['genre'].length;a++){
+            var genre = current_itemzor['genre'][a]
+            genre = cleanGenreName(genre)
+            fixed_genres.push(genre)
+          }
+          var message = `${title} - live at Toad's Place!\n\n`
+
+          if(fixed_genres.length<2){
+
+            var s = fixed_genres[0]
+            var message = message + `Come down for some ${s} music.`
+            message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+            message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+          }else if(fixed_genres.length > 1 && fixed_genres.length < 3){
+
+            var s = fixed_genres[0] + " and " + fixed_genres[1]
+            var message = message + `Come check out the show tonight for a blend of ${s} music.`
+            message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+            message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+          }else if(fixed_genres.length > 2){
+
+            var s = fixed_genres.slice(0, fixed_genres.length - 1).join(', ') + ", and " + fixed_genres.slice(-1);
+            var message = message + `Come check out the show tonight a blend of ${s} music.`
+            message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+            message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+          }
           function writeNewPost(uid, result, current_itemzor) {
             // A post entry.
             var postData = {
@@ -85,7 +161,7 @@ export default class ShowDetails extends Component {
           try {
             const result = await Share.share({
               title: current_itemzor.title,
-              message:`${fullDay(current_itemzor.date[2])}, ${fullMonth(current_itemzor.date[0])} ${nth(current_itemzor.date[1])} at Toad's Place!`,
+              message: message,
               url: 'http://www.toadsplace.com'
             });
             if (result.action === Share.sharedAction) {
@@ -463,14 +539,19 @@ export default class ShowDetails extends Component {
     var currentDate = formatDate(this.props.navigation.state.params.item['datetime'])
     var title = this.props.navigation.state.params.item['title']
     firebase.analytics().setCurrentScreen(`${title}(${currentDate})`);
-    const ColoredLine = ({ color }) => (
+    const ColoredLine = ({ color, width }) => (
       <View
         style={{
           borderBottomColor: color,
           borderBottomWidth: 1,
-          width: '90%',
+          width: width,
           paddingTop: 10,
-          marginBottom: 10
+          marginBottom: 10,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center'
         }}
       />
     );
@@ -507,20 +588,33 @@ export default class ShowDetails extends Component {
                 {' ' + item.date[0] + ' ' + item.date[1]}
               </Text>
           </Text>
-          <ColoredLine color="green" />
-        </View>
-
-        <View style={styles.wrapper}>
-          <View style={styles.info}>
-            <Text>Opening Acts</Text>
-            <ColoredLine color="green" />
-            {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)} style={{textAlign: 'justify'}}>{act}</Text>) : <Text></Text>}
-          </View>
-          <View style={styles.info}>
-            <Text>Showtime</Text>
-            <ColoredLine color="green" />
+          <View style={{borderTopWidth: 2, borderTopColor: 'green'}}>
             <Text>{item.information[2]}</Text>
             <Text>{item.information[3]}</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => Linking.openURL(item.ticket)}
+        >
+          <Text style={{color: 'white', fontWeight: 'bold'}}>GET TIX</Text>
+        </TouchableOpacity>
+        <ColoredLine color="green" width="90%" />
+
+        <View style={styles.wrapper}>
+          <View style={{
+            width: '100%',
+            padding: '2.5%'
+          }}>
+            <Text style={{
+              fontSize: 18,
+              textAlign: 'center',
+              fontFamily: "Merriweather-Regular",
+              paddingBottom: '2.5%'
+            }}>Opening Acts</Text>
+            {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)} style={{textAlign: 'justify'}}>{act}</Text>) : <Text></Text>}
+
           </View>
         </View>
         <View>
@@ -540,13 +634,8 @@ export default class ShowDetails extends Component {
               {infoLink.text}**
             </Text>) : <Text></Text>}
         </View>
+        <ColoredLine color="green" width="100%" />
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => Linking.openURL(item.ticket)}
-        >
-          <Text style={{color: 'white', fontWeight: 'bold'}}>GET TIX</Text>
-        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.menuTabs}
@@ -606,7 +695,7 @@ const styles = StyleSheet.create ({
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 10,
-    marginTop:0,
+    marginTop: 20,
     backgroundColor: 'green',
     fontWeight: 'bold'
   },

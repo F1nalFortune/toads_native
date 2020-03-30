@@ -33,7 +33,7 @@ export default class IntroSlider extends Component {
                 ),
                 lastNextElement: (
                   <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('SignUp')}>
+                    onPress={() => this.props.navigation.navigate('Login')}>
                     <Text style={{color: '#345f3f', fontWeight: 'bold'}}>Got it</Text>
                   </TouchableOpacity>
                 ),
@@ -62,10 +62,13 @@ export default class IntroSlider extends Component {
                 justifyContent: 'flex-end',
                 marginBottom: 50}}>
                   <Text style={styles.header}>Welcome to the Toad's Place mobile app!</Text>
-                  <Text style={styles.subHeader}>Let's hop to it</Text>
+                  <Text style={styles.subHeader}>Let's hop right in</Text>
                   <Image
-                    style={{width: 400,height:500, paddingTop: 250}}
-                    source={require('../../assets/images/upcoming_shows.png')}
+                  style={{
+                    maxWidth: Dimensions.get('window').width*.75 ,
+                    maxHeight:Dimensions.get('window').height*.5,
+                    paddingTop: 250
+                  }}                    source={require('../../assets/images/upcoming_shows.png')}
                     resizeMode="contain"
                   />
                 </View>
@@ -75,10 +78,14 @@ export default class IntroSlider extends Component {
                 justifyContent: 'flex-end',
                 marginBottom: 50}}>
                   <Text style={styles.header}>Stay informed on the go.</Text>
-                  <Text style={styles.subHeader}>View line up offline. Subscribe to
+                  <Text style={styles.subHeader}>Subscribe to
                   announcements & receive realtime alerts</Text>
                   <Image
-                    style={{width: 400,height:500, paddingTop: 250}}
+                    style={{
+                      maxWidth: Dimensions.get('window').width*.75 ,
+                      maxHeight:Dimensions.get('window').height*.5,
+                      paddingTop: 250
+                    }}
                     source={require('../../assets/images/upcoming_shows.png')}
                     resizeMode="contain"
                   />
@@ -88,11 +95,15 @@ export default class IntroSlider extends Component {
                 <View style={{ flex: 1, alignItems: "center",
                 justifyContent: 'flex-end',
                 marginBottom: 50}}>
-                  <Text style={styles.header}>Don't ever miss a show!</Text>
+                  <Text style={styles.header}>Don't ever miss a show</Text>
                   <Text style={styles.subHeader}>Save events in your calenedar
                   with the press of a button</Text>
                   <Image
-                    style={{width: 400,height:500, paddingTop: 250}}
+                  style={{
+                    maxWidth: Dimensions.get('window').width*.75 ,
+                    maxHeight:Dimensions.get('window').height*.5,
+                    paddingTop: 250
+                  }}
                     source={require('../../assets/images/upcoming_shows.png')}
                     resizeMode="contain"
                   />
@@ -119,7 +130,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     color: 'grey',
-    marginBottom: 50
+    padding: 25,
+    paddingBottom: 50
   },
   slideContainer: {
     flex: 1,

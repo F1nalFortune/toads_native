@@ -653,14 +653,22 @@ const styles = StyleSheet.create ({
    fontSize: 32
  },
  imgWrapper:{
-   width: '90%'
+   width: '100%',
+   flex: 1,
+   alignItems: "center",
+   justifyContent: 'center'
  },
  img:{
    width: '100%',
-   height: 200,
+   height: 250,
    marginTop: 10,
-   marginLeft: '5%',
-   borderRadius: 5
+   paddingBottom: 10,
+   marginLeft: 10,
+   marginRight: 10,
+   // marginTop: 10,
+   // marginLeft: '5%',
+   borderRadius: 5,
+   resizeMode: 'contain'
  },
  subTitle:{
    fontSize: 16
