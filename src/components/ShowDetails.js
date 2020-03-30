@@ -15,6 +15,8 @@ import RNCalendarEvents from 'react-native-calendar-events';
 import Carousel from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import LoadingScreen from './LoadingScreen';
+
 import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
 
@@ -273,6 +275,12 @@ const mapStyle = [
   }]
 
 export default class ShowDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true
+    }
+  }
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
     const nth = function(d) {
@@ -478,6 +486,42 @@ export default class ShowDetails extends Component {
         }
       })
     .catch(error => console.warn('Auth Error: ', error));
+    // grab user genre preferences
+    var user_id = firebase.auth().currentUser.uid
+    db.ref(`users/${user_id}/genrePref`).once('value')
+      .then((dataSnapShot) => {
+        var string = JSON.stringify(dataSnapShot, null, 2)
+        var object = JSON.parse(string)
+        var genrePrefs = Object.keys(object)
+        // console.log(JSON.stringify(genrePrefs, null, 2))
+        this.setState({genrePrefs: genrePrefs})
+      })
+
+    db.ref('events').once('value')
+      .then((dataSnapShot) => {
+        saved_shows = []
+        dataSnapShot.forEach(function(childSnapshot) {
+          // childData will be the actual contents of the child
+          var childData = childSnapshot.val();
+          saved_shows.push(childData)
+        });
+        var items = saved_shows
+        var matches = []
+        // console.log(JSON.stringify(items, null, 2))
+        for(i=0;i<items.length;i++){
+          var genres = items[i]['genre']
+          genres = Object.values(genres)
+          var match = this.state.genrePrefs.some(r=> genres.includes(r))
+          if(match){
+            matches.push(items[i])
+          }
+        }
+        console.log(JSON.stringify(matches, null, 2))
+        this.setState({
+          suggestedShows: matches,
+          isLoading: false
+        })
+      })
     this.setState({
       item: this.props.navigation.state.params.item
     })
@@ -776,7 +820,17 @@ export default class ShowDetails extends Component {
     }
 
     }
-
+    _renderItem = ({item, index}) => {
+        return (
+            <View>
+              <Image
+                 width={Dimensions.get('window').width*.75}
+                 resizeMode={'contain'}   /* <= changed  */
+                 source={{uri: item.img }}/>
+              <Text>{ item.title }</Text>
+            </View>
+        );
+    }
   render(){
     function formatDate(date) {
         var d = new Date(date),
@@ -811,6 +865,9 @@ export default class ShowDetails extends Component {
       />
     );
     const item = this.props.navigation.state.params.item;
+    if (this.state.isLoading) {
+      return <LoadingScreen />;
+    }
     return(
       <ScrollView style={{backgroundColor: '#c0dfc066'}}>
         <TouchableOpacity
@@ -959,10 +1016,17 @@ export default class ShowDetails extends Component {
               paddingBottom: '2.5%'
             }}>Suggestions for you</Text>
           </View>
-        </View>
-
-        <View>
-
+          <View style={{
+            width: '100%'
+          }}>
+            <Carousel
+              ref={(c) => { this._carousel = c; }}
+              data={this.state.suggestedShows}
+              renderItem={this._renderItem}
+              sliderWidth={Dimensions.get('window').width}
+              itemWidth={Dimensions.get('window').width*.70}
+            />
+          </View>
         </View>
       </ScrollView>
     )
