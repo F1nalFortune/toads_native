@@ -556,12 +556,13 @@ export default class ShowDetails extends Component {
         var matches = []
         // console.log(JSON.stringify(items, null, 2))
         for(i=0;i<items.length;i++){
-          // if(myFunction(items[i].title, 'presenter')){
-          //   var title = myFunction(items[i].title, 'show')
-          //   var presenter = myFunction(items[i].title, 'presenter')
-          //   items[i].title = title
-          //   items[i].presenter = presenter
-          // }
+          if(myFunction(items[i].title, 'presenter')){
+            console.log("HERE")
+            var title = myFunction(items[i].title, 'show')
+            var presenter = myFunction(items[i].title, 'presenter')
+            items[i].title = title.show
+            items[i].presenter = presenter.presenter
+          }
           var genres = items[i]['genre']
           genres = Object.values(genres)
 
@@ -881,8 +882,75 @@ export default class ShowDetails extends Component {
 
     }
     _renderItem = ({item, index}) => {
+      const fullDay = function(day) {
+        switch (day) {
+          case 'Fri': return "Friday";
+          case 'Sat': return "Saturday";
+          case 'Sun': return "Sunday";
+          case 'Mon': return "Monday";
+          case 'Tue': return "Tuesday";
+          case 'Wed': return "Wednesday";
+          case 'Thu': return "Thursday"
+        }
+      }
+      const fullMonth = function(month){
+        switch(month) {
+          case 'Jan': return "January";
+          case 'Feb': return "February";
+          case 'Mar': return "March";
+          case 'Apr': return "April";
+          case 'May': return "May";
+          case 'Jun': return "June";
+          case 'Jul': return "July";
+          case 'Aug': return "August";
+          case 'Sep': return "September";
+          case 'Oct': return "October";
+          case 'Nov': return "November";
+          case 'Dec': return "December"
+        }
+      }
+      function ordinal_suffix(i) {
+        var j = i % 10,
+        k = i % 100;
+        if (j == 1 && k != 11) {
+          return i + "st";
+        }
+        if (j == 2 && k != 12) {
+          return i + "nd";
+        }
+        if (j == 3 && k != 13) {
+          return i + "rd";
+        }
+        return i + "th";
+      }
+      function cleanGenreName(genre){
+        var genres = {
+          acoustic: 'acoustic',
+          alternative: 'alternative',
+          alternative_rock: 'alternative rock',
+          classic_rock: 'classic rock',
+          american_rock: 'American rock',
+          comedy: 'comedy',
+          dance: 'dance',
+          dubstep: 'dubstep',
+          emo: 'emo',
+          hip_hop: 'hip-hop',
+          funk: 'funk',
+          indie: 'indie',
+          metal: 'metal',
+          musical_theatre: 'musical theatre',
+          pop: 'pop',
+          rap: 'rap',
+          reggae: 'reggae',
+          r_n_b: 'R&B',
+          ska: 'ska'
+        }
+        return genres[genre]
+      }
+      var current_itemzor = item
+
         return (
-          <View
+          <TouchableOpacity
           style={{
             borderWidth: 2,
             borderRadius: 5,
@@ -898,15 +966,13 @@ export default class ShowDetails extends Component {
             elevation: 20,
             marginBottom: 50
           }}>
-            <TouchableOpacity
-            >
-              <View>
-                <Image
-                source={{uri: item.img }}
-                style={{width: '100%', height: 250, borderRadius: 5}}>
-                </Image>
-              </View>
-            </TouchableOpacity>
+            <View>
+              <Image
+              source={{uri: item.img }}
+              style={{width: '100%', height: 250, borderRadius: 5}}>
+              </Image>
+            </View>
+
             <View
               style={[styles.similarArtistWrapper]}>
               { item.presenter ?
@@ -930,8 +996,96 @@ export default class ShowDetails extends Component {
                 <Text>{item.information[2]}</Text>
                 <Text>{item.information[3]}</Text>
               </View>
+              <Icon
+                style={{
+                  color:'black',
+                  padding: 10
+                 }}
+                name={'upload'}
+                size={20}
+                onPress={async () => {
+                  uid = firebase.auth().currentUser.uid;
+
+                  var fixed_genres = []
+                  var doors_time =current_itemzor['information'][2].substr(current_itemzor['information'][2].length-5).trim() + ' PM'
+                  var show_time = current_itemzor['information'][3].substr(current_itemzor['information'][2].length-5).trim() + ' PM'
+                  var age_limit = current_itemzor['information'][4]
+                  var title = current_itemzor['title']
+                  var month = current_itemzor['date'][0]
+                  var date = current_itemzor['date'][1]
+                  var day = current_itemzor['date'][2]
+                  for(a=0;a<current_itemzor['genre'].length;a++){
+                    var genre = current_itemzor['genre'][a]
+                    genre = cleanGenreName(genre)
+                    fixed_genres.push(genre)
+                  }
+                  var message = `${title} - live at Toad's Place!\n\n`
+
+                  if(fixed_genres.length<2){
+
+                    var s = fixed_genres[0]
+                    var message = message + `Come down for some ${s} music.`
+                    message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+                    message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+                  }else if(fixed_genres.length > 1 && fixed_genres.length < 3){
+
+                    var s = fixed_genres[0] + " and " + fixed_genres[1]
+                    var message = message + `Come check out the show tonight for a blend of ${s} music.`
+                    message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+                    message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+                  }else if(fixed_genres.length > 2){
+
+                    var s = fixed_genres.slice(0, fixed_genres.length - 1).join(', ') + ", and " + fixed_genres.slice(-1);
+                    var message = message + `Come check out the show tonight a blend of ${s} music.`
+                    message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+                    message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+                  }
+                  function writeNewPost(uid, result, current_itemzor) {
+                    // A post entry.
+                    var postData = {
+                      result: result
+                    };
+                    // Get a key for a new Post.
+                    var newPostKey = db.ref('users/' + uid).child('posts').push().key;
+
+                    // Write the new post's data simultaneously in the posts list and the user's post list.
+                    var updates = {};
+                    updates['/posts/' + newPostKey] = postData;
+
+                    return db.ref('users/' + uid).update(updates);
+                  }
+                  try {
+                    const result = await Share.share({
+                      title: current_itemzor.title,
+                      message: message,
+                      url: 'http://www.toadsplace.com'
+                    });
+                    if (result.action === Share.sharedAction) {
+                      if (result.activityType) {
+                        // shared with activity type of result.activityType
+                        result['createdOn'] = new Date();
+                        result['show'] = current_itemzor
+                        console.log(JSON.stringify(result, null, 2))
+                        writeNewPost(uid, result, current_itemzor)
+                      } else {
+                        // shared
+                        result['createdOn'] = new Date();
+                        result['show'] = current_itemzor
+                        console.log(JSON.stringify(result, null, 2))
+                        writeNewPost(uid, result, current_itemzor)
+                      }
+                    } else if (result.action === Share.dismissedAction) {
+                      console.log("Dismissed Action")
+                    }
+                  } catch (error) {
+                    alert(error.message);
+                  }
+                }}/>
             </View>
-          </View>
+          </TouchableOpacity>
         );
     }
   render(){
@@ -1066,11 +1220,13 @@ export default class ShowDetails extends Component {
             customMapStyle={mapStyle}
           >
             <MapView.Marker
-              coordinate={{        latitude: 41.304560,
-                      longitude: -72.934500,
-                      latitudeDelta: 0.0922,
-                      longitudeDelta: 0.0421}}>
-                      <Image source={require('../../assets/images/custom_marker.png')}/>
+              coordinate={{
+                latitude: 41.304560,
+                longitude: -72.934500,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+              }}>
+              <Image source={require('../../assets/images/custom_marker.png')}/>
             </MapView.Marker>
           </MapView>
         </TouchableOpacity>
