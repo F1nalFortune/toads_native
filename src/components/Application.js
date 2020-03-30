@@ -392,6 +392,23 @@ export default class Application extends Component {
       }
     });
 
+    // This code let you hide the bottom app bar while "Details" is rendered
+    CalendarStack.navigationOptions = ({ navigation }) => {
+      let tabBarVisible;
+      if (navigation.state.routes.length > 1) {
+        navigation.state.routes.map(route => {
+          if (route.routeName === "Details") {
+            tabBarVisible = false;
+          } else {
+            tabBarVisible = true;
+          }
+        });
+      }
+      return {
+        tabBarVisible
+      };
+    };
+
     const LillyStack = createStackNavigator({
       Lillys: {
         screen: Lillys,

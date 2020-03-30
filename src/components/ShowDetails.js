@@ -9,9 +9,9 @@ import {
   Alert,
   Linking,
   Share,
-  ImageBackground
+  ImageBackground,
+  Image
 } from 'react-native';
-import Image from 'react-native-scalable-image';
 
 import RNCalendarEvents from 'react-native-calendar-events';
 import Carousel from 'react-native-snap-carousel';
@@ -490,15 +490,18 @@ export default class ShowDetails extends Component {
     .catch(error => console.warn('Auth Error: ', error));
     // grab user genre preferences
     var user_id = firebase.auth().currentUser.uid
-    db.ref(`users/${user_id}/genrePref`).once('value')
-      .then((dataSnapShot) => {
-        var string = JSON.stringify(dataSnapShot, null, 2)
-        var object = JSON.parse(string)
-        var genrePrefs = Object.keys(object)
-        // console.log(JSON.stringify(genrePrefs, null, 2))
-        this.setState({genrePrefs: genrePrefs})
-      })
-
+    // db.ref(`users/${user_id}/genrePref`).once('value')
+    //   .then((dataSnapShot) => {
+    //     var string = JSON.stringify(dataSnapShot, null, 2)
+    //     var object = JSON.parse(string)
+    //     var genrePrefs = Object.keys(object)
+    //     // console.log(JSON.stringify(genrePrefs, null, 2))
+    //     this.setState({genrePrefs: genrePrefs})
+    //   })
+    var similarArtists = Object.values(this.props.navigation.state.params.item.genre)
+    this.setState({
+      similarArtists: similarArtists
+    })
     db.ref('events').once('value')
       .then((dataSnapShot) => {
         saved_shows = []
@@ -513,14 +516,14 @@ export default class ShowDetails extends Component {
         for(i=0;i<items.length;i++){
           var genres = items[i]['genre']
           genres = Object.values(genres)
-          var match = this.state.genrePrefs.some(r=> genres.includes(r))
+          var match = this.state.similarArtists.some(r=> genres.includes(r))
           if(match){
             matches.push(items[i])
           }
         }
         console.log(JSON.stringify(matches, null, 2))
         this.setState({
-          suggestedShows: matches,
+          similarArtists: matches,
           isLoading: false
         })
       })
@@ -839,10 +842,18 @@ export default class ShowDetails extends Component {
               elevation: 20,
               marginBottom: 50
             }}>
-                <ImageBackground
+                <Image
                 source={{uri: item.img }}
                 style={{width: '100%', height: 250}}>
-                </ImageBackground>
+                </Image>
+                <View  style={{
+                  paddingTop:50,
+                  backgroundColor: 'white'
+                }}>
+                  <Text>
+                    Testing
+                  </Text>
+                </View>
             </View>
         );
     }
@@ -888,12 +899,11 @@ export default class ShowDetails extends Component {
         <TouchableOpacity
           onPress={() => this.handleAddEvent(this.state.item)}
         >
-          <View style={styles.imgWrapper}>
+          <View>
             <Image
-               width={Dimensions.get('window').width}
-               style={styles.image}
-               resizeMode={'contain'}   /* <= changed  */
-               source={{uri: item.img }}/>
+            source={{uri: item.img }}
+            style={{width: '100%', height: 250, borderRadius: 5}}>
+            </Image>
           </View>
         </TouchableOpacity>
         <View
@@ -1030,14 +1040,14 @@ export default class ShowDetails extends Component {
               fontSize: 18,
               fontFamily: "Merriweather-Regular",
               paddingBottom: '2.5%'
-            }}>Suggestions for you</Text>
+            }}>Similar Artists</Text>
           </View>
           <View style={{
             width: '100%'
           }}>
             <Carousel
               ref={(c) => { this._carousel = c; }}
-              data={this.state.suggestedShows}
+              data={this.state.similarArtists}
               renderItem={this._renderItem}
               sliderWidth={Dimensions.get('window').width}
               itemWidth={Dimensions.get('window').width*.8}
