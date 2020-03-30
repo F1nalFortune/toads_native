@@ -12,10 +12,265 @@ import {
 } from 'react-native';
 import Image from 'react-native-scalable-image';
 import RNCalendarEvents from 'react-native-calendar-events';
+import Carousel from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
 
+const mapStyle = [
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#242f3e"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#746855"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#242f3e"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.locality",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#d59563"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#263c3f"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#6b9a76"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.school",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.school",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.school",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#38414e"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#212a37"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9ca5b3"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#746855"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry.stroke",
+    "stylers": [
+      {
+        "color": "#1f2835"
+      },
+      {
+        "visibility": "on"
+      },
+      {
+        "weight": 8
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#f3d19c"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#2f3948"
+      }
+    ]
+  },
+  {
+    "featureType": "transit.station",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#d59563"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#17263c"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#515c6d"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#17263c"
+      }
+    ]
+  }]
 
 export default class ShowDetails extends Component {
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -634,8 +889,32 @@ export default class ShowDetails extends Component {
               {infoLink.text}**
             </Text>) : <Text></Text>}
         </View>
-        <ColoredLine color="green" width="100%" />
-
+        <ColoredLine color="green" width="90%" />
+        <View>
+          <Text style={styles.addressTitle}>Location</Text>
+          <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
+        </View>
+        <TouchableOpacity>
+          <MapView
+            style={{height: 250, width: '100%'}}
+            provider={PROVIDER_GOOGLE}
+            region={{
+              latitude: 41.304560,
+              longitude: -72.934500,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421
+            }}
+            customMapStyle={mapStyle}
+          >
+            <MapView.Marker
+              coordinate={{        latitude: 41.304560,
+                      longitude: -72.934500,
+                      latitudeDelta: 0.0922,
+                      longitudeDelta: 0.0421}}>
+                      <Image source={require('../../assets/images/custom_marker.png')}/>
+            </MapView.Marker>
+          </MapView>
+        </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.menuTabs}
@@ -669,15 +948,43 @@ export default class ShowDetails extends Component {
               size={20}/>
           </View>
         </TouchableOpacity>
+        <View style={styles.wrapper}>
+          <View style={{
+            width: '100%',
+            padding: '2.5%'
+          }}>
+            <Text style={{
+              fontSize: 18,
+              fontFamily: "Merriweather-Regular",
+              paddingBottom: '2.5%'
+            }}>Suggestions for you</Text>
+          </View>
+        </View>
+
+        <View>
+
+        </View>
       </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create ({
+
   act:{
     width: '45%',
     marginRight: '2.5%'
+  },
+  address:{
+    paddingTop: 0,
+    paddingLeft: 20,
+    paddingBottom: 20
+  },
+  addressTitle:{
+    paddingLeft:20,
+    paddingTop:10,
+    fontWeight: 'bold',
+    fontSize: 18
   },
   bold:{
     fontWeight: 'bold'
