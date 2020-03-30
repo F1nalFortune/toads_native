@@ -8,9 +8,11 @@ import {
   Dimensions,
   Alert,
   Linking,
-  Share
+  Share,
+  ImageBackground
 } from 'react-native';
 import Image from 'react-native-scalable-image';
+
 import RNCalendarEvents from 'react-native-calendar-events';
 import Carousel from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -822,12 +824,25 @@ export default class ShowDetails extends Component {
     }
     _renderItem = ({item, index}) => {
         return (
-            <View>
-              <Image
-                 width={Dimensions.get('window').width*.75}
-                 resizeMode={'contain'}   /* <= changed  */
-                 source={{uri: item.img }}/>
-              <Text>{ item.title }</Text>
+            <View style={{
+              borderWidth: 2,
+              borderRadius: 5,
+              borderColor: 'green',
+              flex: 1,
+              shadowColor: "#000",
+              shadowOffset: {
+              	width: 0,
+              	height: 10,
+              },
+              shadowOpacity: 0.51,
+              shadowRadius: 13.16,
+              elevation: 20,
+              marginBottom: 50
+            }}>
+                <ImageBackground
+                source={{uri: item.img }}
+                style={{width: '100%', height: 250}}>
+                </ImageBackground>
             </View>
         );
     }
@@ -1005,6 +1020,7 @@ export default class ShowDetails extends Component {
               size={20}/>
           </View>
         </TouchableOpacity>
+        <ColoredLine color="green" width="90%" />
         <View style={styles.wrapper}>
           <View style={{
             width: '100%',
@@ -1024,7 +1040,7 @@ export default class ShowDetails extends Component {
               data={this.state.suggestedShows}
               renderItem={this._renderItem}
               sliderWidth={Dimensions.get('window').width}
-              itemWidth={Dimensions.get('window').width*.70}
+              itemWidth={Dimensions.get('window').width*.8}
             />
           </View>
         </View>
@@ -1128,7 +1144,8 @@ const styles = StyleSheet.create ({
   imgWrapper:{
     width: '100%',
     borderBottomColor: 'green',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    flex: 1
   },
   image: {
       flex: 1,
