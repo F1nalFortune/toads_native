@@ -509,18 +509,20 @@ export default class Calendar extends Component {
 
         </View>
         <View>
-          <View style={styles.tabbar}>
-            <TouchableOpacity
-              onPress={() => this.setState({tab: 'all'})}
-              style={this.state.tab=='all' ? styles.tabBtnActive : styles.tabBtnInactive}>
-                <Text style={styles.tabBtn}>All Shows</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.setState({tab: 'recommended'})}
-              style={this.state.tab=='recommended' ? styles.tabBtnActive : styles.tabBtnInactive}>
-                <Text style={styles.tabBtn}>Recommended</Text>
-            </TouchableOpacity>
-          </View>
+          {this.state.recommended.length > 0 ? (
+            <View style={styles.tabbar}>
+              <TouchableOpacity
+                onPress={() => this.setState({tab: 'all'})}
+                style={this.state.tab=='all' ? styles.tabBtnActive : styles.tabBtnInactive}>
+                  <Text style={styles.tabBtn}>All Shows</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.setState({tab: 'recommended'})}
+                style={this.state.tab=='recommended' ? styles.tabBtnActive : styles.tabBtnInactive}>
+                  <Text style={styles.tabBtn}>Recommended</Text>
+              </TouchableOpacity>
+            </View>
+        ) : <View></View>}
         </View>
         {this.state.tab=='all' ? this.state.items.map(item => <ListShows item={item} key={this.state.items.indexOf(item)}/>) :this.state.recommended.map(item => <ListShows item={item} key={this.state.recommended.indexOf(item)}/>)}
       </ScrollView>
@@ -615,6 +617,21 @@ export default class Calendar extends Component {
     this.checkPermission();
     this.createNotificationListeners();
     console.disableYellowBox = true;
+    db.ref(`users/${uid}/genrePref`).once('value')
+      .then((dataSnapShot) => {
+        var string = JSON.stringify(dataSnapShot, null, 2)
+        var object = JSON.parse(string)
+        var genres = Object.keys(object)
+        var preferences = Object.values(object)
+        genrePrefs = []
+        for (i=0;i<preferences.length;i++){
+          if(preferences[i]){
+            genrePrefs.push(genres[i])
+          }
+        }
+        // console.log(JSON.stringify(genrePrefs, null, 2))
+        this.setState({genrePrefs: genrePrefs})
+      })
     db.ref('events').once('value')
       .then((dataSnapShot) => {
         saved_shows = []
@@ -624,20 +641,36 @@ export default class Calendar extends Component {
           saved_shows.push(childData)
         });
         var items = saved_shows
+        var matches = []
         for(i=0;i<items.length;i++){
+          var index = items.indexOf(items[i])
+          items[i]['index'] = index
           if(myFunction(items[i].title, 'presenter')){
             var title = myFunction(items[i].title, 'show')
             var presenter = myFunction(items[i].title, 'presenter')
             items[i].title = title
             items[i].presenter = presenter
           }
+          //find events with user genre preference
+          var genres = items[i]['genre']
+          genres = Object.values(genres)
+          var match = this.state.genrePrefs.some(r=> genres.includes(r))
+          if(match){
+            matches.push(items[i])
+          }
         }
+        console.log("Genre Preferences")
+        console.log(JSON.stringify(this.state.genrePrefs, null, 2))
+        console.log("Matched Shows")
+        console.log(JSON.stringify(matches, null, 2))
         var features = items[0]['slides']
         this.setState({
           items: items,
           isLoading: false,
+          refreshing:false,
           features: features,
-          refreshing:false
+          recommended: matches,
+          tab: 'all'
         })
       })
       .catch((err) =>{
@@ -651,6 +684,7 @@ export default class Calendar extends Component {
           { cancelable: false },
         );
       })
+
   }
 
 

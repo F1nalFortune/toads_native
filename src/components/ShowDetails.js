@@ -502,6 +502,48 @@ export default class ShowDetails extends Component {
     this.setState({
       similarArtists: similarArtists
     })
+    function myFunction(mystring, variable){
+        values = ['presented by:', 'presents:', 'present:']
+        string_length = mystring.length
+        if (mystring.toLowerCase().includes(values[0])){
+          var presenter = mystring.toLowerCase().split(values[0])
+          presenter[0] = presenter[0].trim() + " " + values[0]
+          var show = presenter[1]
+
+          presenter = mystring.substring(0, presenter[0].length)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else if(mystring.toLowerCase().includes(values[1])){
+          var presenter = mystring.toLowerCase().split(values[1])
+          presenter[0] = presenter[0].trim() + " " + values[1]
+          presenter = mystring.substring(0, presenter[0].length)
+          // console.log(presenter)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          // console.log(show)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else if(mystring.toLowerCase().includes(values[2])){
+          var presenter = mystring.toLowerCase().split(values[2])
+          presenter[0] = presenter[0].trim() + " " + values[2]
+
+          presenter = mystring.substring(0, presenter[0].length)
+          show = mystring.substring(presenter.length+1, mystring.length)
+          if(variable=='presenter'){
+            return presenter
+          }else if(variable=='show'){
+            return show
+          }
+        }else{
+          return false
+        }
+    }
     db.ref('events').once('value')
       .then((dataSnapShot) => {
         saved_shows = []
@@ -514,12 +556,25 @@ export default class ShowDetails extends Component {
         var matches = []
         // console.log(JSON.stringify(items, null, 2))
         for(i=0;i<items.length;i++){
+          // if(myFunction(items[i].title, 'presenter')){
+          //   var title = myFunction(items[i].title, 'show')
+          //   var presenter = myFunction(items[i].title, 'presenter')
+          //   items[i].title = title
+          //   items[i].presenter = presenter
+          // }
           var genres = items[i]['genre']
           genres = Object.values(genres)
+
           var match = this.state.similarArtists.some(r=> genres.includes(r))
           if(match){
-            matches.push(items[i])
+            same_img = (this.props.navigation.state.params.item.img==items[i]['img'])
+            same_date = (this.props.navigation.state.params.item.datetime == items[i]['datetime'])
+            if(!same_img && !same_date){
+              matches.push(items[i])
+            }
           }
+
+
         }
         console.log(JSON.stringify(matches, null, 2))
         this.setState({
@@ -827,34 +882,56 @@ export default class ShowDetails extends Component {
     }
     _renderItem = ({item, index}) => {
         return (
-            <View style={{
-              borderWidth: 2,
-              borderRadius: 5,
-              borderColor: 'green',
-              flex: 1,
-              shadowColor: "#000",
-              shadowOffset: {
-              	width: 0,
-              	height: 10,
-              },
-              shadowOpacity: 0.51,
-              shadowRadius: 13.16,
-              elevation: 20,
-              marginBottom: 50
-            }}>
+          <View
+          style={{
+            borderWidth: 2,
+            borderRadius: 5,
+            borderColor: 'green',
+            flex: 1,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 10,
+            },
+            shadowOpacity: 0.51,
+            shadowRadius: 13.16,
+            elevation: 20,
+            marginBottom: 50
+          }}>
+            <TouchableOpacity
+            >
+              <View>
                 <Image
                 source={{uri: item.img }}
-                style={{width: '100%', height: 250}}>
+                style={{width: '100%', height: 250, borderRadius: 5}}>
                 </Image>
-                <View  style={{
-                  paddingTop:50,
-                  backgroundColor: 'white'
-                }}>
-                  <Text>
-                    Testing
-                  </Text>
+              </View>
+            </TouchableOpacity>
+            <View
+              style={[styles.similarArtistWrapper]}>
+              { item.presenter ?
+                <View style={{paddingTop:10}}>
+                  <Text style={styles.subtitle}>{item.presenter}</Text>
+                  <Text style={styles.eventTitle}>{item.title}</Text>
+                </View> :
+                <View style={{paddingTop:10}}>
+                  <Text style={styles.eventTitle}>{item.title}</Text>
                 </View>
+              }
+              {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : <View></View>}
+              <Text
+                style={styles.date}>
+                  {item.date[2]} \\
+                  <Text style={{fontWeight: 'bold'}}>
+                    {' ' + item.date[0] + ' ' + item.date[1]}
+                  </Text>
+              </Text>
+              <View style={{borderTopWidth: 2, borderTopColor: 'green'}}>
+                <Text>{item.information[2]}</Text>
+                <Text>{item.information[3]}</Text>
+              </View>
             </View>
+          </View>
         );
     }
   render(){
@@ -1180,6 +1257,12 @@ const styles = StyleSheet.create ({
     alignItems: 'center',
     justifyContent: 'center',
     width: '20%'
+  },
+  similarArtistWrapper:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
   },
   starDetail:{
     textAlign: 'center',
