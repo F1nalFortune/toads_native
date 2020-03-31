@@ -440,9 +440,8 @@ export default class Calendar extends Component {
     if (this.state.isLoading) {
       return <LoadingScreen />;
     }
-    const ListShows = ({item}) => (<View>
+    const ListShows = ({item}) => (<View         style={styles.touchable}>
       <TouchableOpacity
-        style={styles.touchable}
         onPress={() => this.props.navigation.navigate('Details', {item})}
       >
         <View style={styles.imgWrapper}>
@@ -696,9 +695,9 @@ const styles = StyleSheet.create ({
  touchable:{
    // justifyContent: 'center',
    // alignItems: 'center',
-   borderTopColor: 'green',
+   borderBottomColor: 'green',
    borderStyle: 'solid',
-   borderTopWidth: 2,
+   borderBottomWidth: 2,
  },
  wrapper: {
    flex: 1,

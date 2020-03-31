@@ -1103,6 +1103,8 @@ export default class ShowDetails extends Component {
 
         return [year, month, day].join('-');
     }
+
+
     var currentDate = formatDate(this.props.navigation.state.params.item['datetime'])
     var title = this.props.navigation.state.params.item['title']
     firebase.analytics().setCurrentScreen(`${title}(${currentDate})`);
@@ -1123,6 +1125,13 @@ export default class ShowDetails extends Component {
       />
     );
     const item = this.props.navigation.state.params.item;
+    console.log("ACTS")
+    console.log(item['acts'])
+    if(item['acts'][0].length>0){
+      console.log("ACts are True")
+    }else{
+      console.log("no acts")
+    }
     if (this.state.isLoading) {
       return <LoadingScreen />;
     }
@@ -1184,8 +1193,7 @@ export default class ShowDetails extends Component {
               fontFamily: "Merriweather-Regular",
               paddingBottom: '2.5%'
             }}>Opening Acts</Text>
-            {item.acts ? item.acts.map(act => <Text key={item.acts.indexOf(act)} style={{textAlign: 'justify'}}>{act}</Text>) : <Text></Text>}
-
+            {(item.acts.length > 0) && item.acts[0].length > 0  ? item.acts.map(act => <Text key={item.acts.indexOf(act)} style={{textAlign: 'justify'}}>{act}</Text>) : <Text>TBA</Text>}
           </View>
         </View>
         <View>
@@ -1267,7 +1275,7 @@ export default class ShowDetails extends Component {
           </View>
         </TouchableOpacity>
         <ColoredLine color="green" width="90%" />
-        <View style={styles.wrapper}>
+        {this.state.similarArtists.length > 0 ? <View style={styles.wrapper}>
           <View style={{
             width: '100%',
             padding: '2.5%'
@@ -1289,7 +1297,8 @@ export default class ShowDetails extends Component {
               itemWidth={Dimensions.get('window').width*.8}
             />
           </View>
-        </View>
+        </View> : <View></View>}
+
       </ScrollView>
     )
   }

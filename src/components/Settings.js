@@ -10,7 +10,9 @@ import {
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import RNCalendarEvents from 'react-native-calendar-events';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../../Firebase';
+
 
 
 export default class Settings extends Component {
@@ -138,14 +140,14 @@ export default class Settings extends Component {
     firebase.analytics().setCurrentScreen('settings');
 
 
-    const ColoredLine = ({ color }) => (
+    const ColoredLine = ({ color, width, pad }) => (
       <View
         style={{
           borderBottomColor: color,
           borderBottomWidth: 1,
-          width: '90%',
-          paddingTop: 10,
-          marginBottom: 10
+          width: width,
+          paddingTop: pad,
+          marginBottom: pad
         }}
       />
     );
@@ -155,9 +157,9 @@ export default class Settings extends Component {
     <ScrollView>
       <View style={styles.container}>
           <Text style={styles.title}>
-            Genres
+            Settings
           </Text>
-          <ColoredLine color="green" />
+          <ColoredLine color="green" width="90%" pad={10}/>
           <Text>Please select your musical preferences to receive live notifications
           when your favorite genre is on our stage!</Text>
           <View style={styles.switchContainer}>
@@ -312,6 +314,65 @@ export default class Settings extends Component {
               trackColor = {{true: '#008000b3'}}/>
             <Text style={styles.genre}>Ska</Text>
           </View>
+        <Text style={styles.title}>
+          About
+        </Text>
+
+        <ColoredLine color="green" width="100%" pad={5}/>
+
+        <TouchableOpacity
+          style={styles.menuTabs}
+          onPress={() => this.props.navigation.push('Tickets')}>
+          <View style={styles.menuTabText}>
+            <Text>
+              Version
+            </Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Text numberOfLines={1}>
+            1.0.0
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        <ColoredLine color="grey" width="100%" pad={5}/>
+
+        <TouchableOpacity
+          style={styles.menuTabs}
+          onPress={() => this.props.navigation.push('Tickets')}>
+          <View style={styles.menuTabText}>
+            <Text>
+              Privacy
+            </Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Icon
+               style={styles.menuTabIcon}
+              name={'chevron-right'}
+              size={20}/>
+          </View>
+        </TouchableOpacity>
+
+        <ColoredLine color="grey" width="100%" pad={5}/>
+
+        <TouchableOpacity
+          style={styles.menuTabs}
+          onPress={() => this.props.navigation.push('Tickets')}>
+          <View style={styles.menuTabText}>
+            <Text>
+              Terms of Service
+            </Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Icon
+               style={styles.menuTabIcon}
+              name={'chevron-right'}
+              size={20}/>
+          </View>
+        </TouchableOpacity>
+
+        <ColoredLine color="grey" width="100%" pad={5}/>
+
         <View style={styles.bottomFooter}>
           <Text style={styles.currentUser}>
             Logged in as: {currentUser && currentUser.email}
@@ -327,7 +388,6 @@ export default class Settings extends Component {
             </TouchableOpacity>
           </View>
         </View>
-
       </View>
     </ScrollView>
     );
@@ -368,5 +428,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginTop: 15
+  },
+  menuTabs:{
+    flexDirection: 'row',
+    padding: 20
+  },
+  menuTabText:{
+    flexDirection: 'row',
+    width: '80%',
+    fontSize: 18
+  },
+  menuTabIcon:{
+    flex: 1,
+    zIndex: 100000,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    width: '20%'
   }
 })
