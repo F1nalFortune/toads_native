@@ -8,10 +8,12 @@ import {
   ImageBackground,
   ScrollView
 } from 'react-native';
+import firebase from 'react-native-firebase'
 
 
 export default class LoadingScreen extends Component {
   render() {
+    firebase.analytics().setCurrentScreen('loading');
     return (
       <View style={styles.container}>
         <Image

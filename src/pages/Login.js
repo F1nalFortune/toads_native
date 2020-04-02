@@ -7,27 +7,22 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Alert // add this here
+  Alert
   } from 'react-native';
-import firebase from 'react-native-firebase'; // import firebase
-
+import firebase from 'react-native-firebase';
 
 import Logo from '../components/Logo'
 import LoginForm from '../components/LoginForm'
 import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
-
 import KeyboardShift from '../components/KeyboardShift';
 
-
 export default class Login extends Component {
-  // Initialize empty state here
    state = {
     email: '',
     password: '',
     errorMsg: ''
   };
 
-// Add this method here, type will be either email or password and the text will be whatever you type
   handleChangeText = (text, type) => {
     this.setState({
       [type]: text

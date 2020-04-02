@@ -14,6 +14,7 @@ import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
 
 export default class IntroSlider extends Component {
   render() {
+    firebase.analytics().setCurrentScreen('welcome');
     console.disableYellowBox = true;
       return (
         <View style={styles.container}>

@@ -34,7 +34,6 @@ import AudioVideo from './FAQs/AudioVideo'
 import Refunds from './FAQs/Refunds'
 import CoatCheck from './FAQs/CoatCheck'
 import Hotels from './FAQs/Hotels'
-import Browser from './Browser'
 import cio from 'cheerio-without-node-native';
 import firebase from 'react-native-firebase';
 
@@ -390,9 +389,6 @@ export default class Application extends Component {
             padding: 10
           }
         }
-      },
-      Browser: {
-        screen: Browser
       }
     });
 
