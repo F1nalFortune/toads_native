@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MGLMapboxAccessToken</key>
@@ -40,9 +40,11 @@
 		</dict>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Allow Toad&apos;s Native calendar access to add events.</string>
+	<string>Allow Toad's Native calendar access to add events.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Toad&apos;s Native location access for navigation purposes.</string>
+	<string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Merriweather-Black.ttf</string>
