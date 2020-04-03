@@ -126,46 +126,46 @@ export default class Calendar extends Component {
         }
         // console.log(JSON.stringify(genrePrefs, null, 2))
         this.setState({genrePrefs: genrePrefs})
-      })
-    db.ref('events').once('value')
-      .then((dataSnapShot) => {
-        saved_shows = []
-        dataSnapShot.forEach(function(childSnapshot) {
-          // childData will be the actual contents of the child
-          var childData = childSnapshot.val();
-          saved_shows.push(childData)
-        });
-        var items = saved_shows
-        var matches = []
-        for(i=0;i<items.length;i++){
-          var index = items.indexOf(items[i])
-          items[i]['index'] = index
-          if(myFunction(items[i].title, 'presenter')){
-            var title = myFunction(items[i].title, 'show')
-            var presenter = myFunction(items[i].title, 'presenter')
-            items[i].title = title
-            items[i].presenter = presenter
-          }
-          //find events with user genre preference
-          var genres = items[i]['genre']
-          genres = Object.values(genres)
-          var match = this.state.genrePrefs.some(r=> genres.includes(r))
-          if(match){
-            matches.push(items[i])
-          }
-        }
-        console.log("Genre Preferences")
-        console.log(JSON.stringify(this.state.genrePrefs, null, 2))
-        console.log("Matched Shows")
-        console.log(JSON.stringify(matches, null, 2))
-        var features = items[0]['slides']
-        this.setState({
-          items: items,
-          isLoading: false,
-          features: features,
-          recommended: matches,
-          tab: 'all'
-        })
+        db.ref('events').once('value')
+          .then((dataSnapShotTwo) => {
+            saved_shows = []
+            dataSnapShotTwo.forEach(function(childSnapshot) {
+              // childData will be the actual contents of the child
+              var childData = childSnapshot.val();
+              saved_shows.push(childData)
+            });
+            var items = saved_shows
+            var matches = []
+            for(i=0;i<items.length;i++){
+              var index = items.indexOf(items[i])
+              items[i]['index'] = index
+              if(myFunction(items[i].title, 'presenter')){
+                var title = myFunction(items[i].title, 'show')
+                var presenter = myFunction(items[i].title, 'presenter')
+                items[i].title = title
+                items[i].presenter = presenter
+              }
+              //find events with user genre preference
+              var genres = items[i]['genre']
+              genres = Object.values(genres)
+              var match = this.state.genrePrefs.some(r=> genres.includes(r))
+              if(match){
+                matches.push(items[i])
+              }
+            }
+            console.log("Genre Preferences")
+            console.log(JSON.stringify(this.state.genrePrefs, null, 2))
+            console.log("Matched Shows")
+            console.log(JSON.stringify(matches, null, 2))
+            var features = items[0]['slides']
+            this.setState({
+              items: items,
+              isLoading: false,
+              features: features,
+              recommended: matches,
+              tab: 'all'
+            })
+          })
       })
     }
 
@@ -630,59 +630,61 @@ export default class Calendar extends Component {
         }
         // console.log(JSON.stringify(genrePrefs, null, 2))
         this.setState({genrePrefs: genrePrefs})
+        db.ref('events').once('value')
+          .then((dataSnapShotTwo) => {
+            saved_shows = []
+            dataSnapShotTwo.forEach(function(childSnapshot) {
+              // childData will be the actual contents of the child
+              var childData = childSnapshot.val();
+              saved_shows.push(childData)
+            });
+            var items = saved_shows
+            var matches = []
+            for(i=0;i<items.length;i++){
+              var index = items.indexOf(items[i])
+              items[i]['index'] = index
+              if(myFunction(items[i].title, 'presenter')){
+                var title = myFunction(items[i].title, 'show')
+                var presenter = myFunction(items[i].title, 'presenter')
+                items[i].title = title
+                items[i].presenter = presenter
+              }
+              //find events with user genre preference
+              var genres = items[i]['genre']
+              genres = Object.values(genres)
+              var match = this.state.genrePrefs.some(r=> genres.includes(r))
+              if(match){
+                matches.push(items[i])
+              }
+            }
+            // console.log("Genre Preferences")
+            // console.log(JSON.stringify(this.state.genrePrefs, null, 2))
+            // console.log("Matched Shows")
+            // console.log(JSON.stringify(matches, null, 2))
+            var features = items[0]['slides']
+            this.setState({
+              items: items,
+              isLoading: false,
+              refreshing:false,
+              features: features,
+              recommended: matches,
+              tab: 'all'
+            })
+          })
+          .catch((err) =>{
+            var title = 'Error'
+            var body = 'Please check internet connection and try again.'
+            Alert.alert(
+              title, body,
+              [
+                  { text: 'OK'},
+              ],
+              { cancelable: false },
+            );
+          })
+
       })
-    db.ref('events').once('value')
-      .then((dataSnapShot) => {
-        saved_shows = []
-        dataSnapShot.forEach(function(childSnapshot) {
-          // childData will be the actual contents of the child
-          var childData = childSnapshot.val();
-          saved_shows.push(childData)
-        });
-        var items = saved_shows
-        var matches = []
-        for(i=0;i<items.length;i++){
-          var index = items.indexOf(items[i])
-          items[i]['index'] = index
-          if(myFunction(items[i].title, 'presenter')){
-            var title = myFunction(items[i].title, 'show')
-            var presenter = myFunction(items[i].title, 'presenter')
-            items[i].title = title
-            items[i].presenter = presenter
-          }
-          //find events with user genre preference
-          var genres = items[i]['genre']
-          genres = Object.values(genres)
-          var match = this.state.genrePrefs.some(r=> genres.includes(r))
-          if(match){
-            matches.push(items[i])
-          }
-        }
-        console.log("Genre Preferences")
-        console.log(JSON.stringify(this.state.genrePrefs, null, 2))
-        console.log("Matched Shows")
-        console.log(JSON.stringify(matches, null, 2))
-        var features = items[0]['slides']
-        this.setState({
-          items: items,
-          isLoading: false,
-          refreshing:false,
-          features: features,
-          recommended: matches,
-          tab: 'all'
-        })
-      })
-      .catch((err) =>{
-        var title = 'Error'
-        var body = 'Please check internet connection and try again.'
-        Alert.alert(
-          title, body,
-          [
-              { text: 'OK'},
-          ],
-          { cancelable: false },
-        );
-      })
+
 
   }
 
