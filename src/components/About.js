@@ -319,22 +319,24 @@ export default class About extends Component {
   }
 
   componentDidMount = () => {
-    Geolocation.getCurrentPosition(
-      //Will give you the current location
-       (position) => {
-          const currentLongitude = position.coords.longitude;
-          // console.log("Longitude: " + JSON.stringify(position.coords.longitude))
-          //getting the Longitude from the location json
-          const currentLatitude = position.coords.latitude;
-          // console.log("Latitude: " + JSON.stringify(position.coords.latitude));
-          //getting the Latitude from the location json
-          this.setState({ longitude:currentLongitude });
-          //Setting state Longitude to re re-render the Longitude Text
-          this.setState({ latitude:currentLatitude });
-       },
-       (error) => alert(error.message),
-       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    );
+    geolocation.requestAuthorization(function(){
+      Geolocation.getCurrentPosition(
+        //Will give you the current location
+         (position) => {
+            const currentLongitude = position.coords.longitude;
+            // console.log("Longitude: " + JSON.stringify(position.coords.longitude))
+            //getting the Longitude from the location json
+            const currentLatitude = position.coords.latitude;
+            // console.log("Latitude: " + JSON.stringify(position.coords.latitude));
+            //getting the Latitude from the location json
+            this.setState({ longitude:currentLongitude });
+            //Setting state Longitude to re re-render the Longitude Text
+            this.setState({ latitude:currentLatitude });
+         },
+         (error) => alert(error.message),
+         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      );
+    });
   }
 
 

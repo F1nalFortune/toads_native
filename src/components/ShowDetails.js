@@ -18,6 +18,7 @@ import Carousel from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import LoadingScreen from './LoadingScreen';
+import Geolocation from '@react-native-community/geolocation';
 
 import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
@@ -662,6 +663,7 @@ export default class ShowDetails extends Component {
       })
     })
   }
+
   handleAddEvent = (item) => {
     // console.log(JSON.stringify(props,0,2))
     if(this.state.cal_auth == 'authorized'){

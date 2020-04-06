@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import Swiper from "react-native-web-swiper";
 import GeneralStatusBarColor from '../components/GeneralStatusBarColor';
+import firebase from 'react-native-firebase';
+
 
 export default class IntroSlider extends Component {
   render() {
