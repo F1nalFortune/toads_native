@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "371716989690",
+    "firebase_url": "https://concise-emblem-249504.firebaseio.com",
+    "project_id": "concise-emblem-249504",
+    "storage_bucket": "concise-emblem-249504.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371716989690:android:accd3e17e20240abe51f43",
+        "android_client_info": {
+          "package_name": "com.navdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371716989690-8bgtrv56ielfr64fesb784pbkec8602i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.navdemo",
+            "certificate_hash": "81d82bb4c16cd7509960e9f5ec43c4e4a5ba903e"
+          }
+        },
+        {
+          "client_id": "371716989690-qv5d6v1jmi5b4j35suoa0hafp9qhr106.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjkD4WZextu9osVpggB_jzu05FDvPnEiA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371716989690-qv5d6v1jmi5b4j35suoa0hafp9qhr106.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
