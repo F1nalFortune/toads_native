@@ -13,7 +13,7 @@ import firebase from 'react-native-firebase'
 
 export default class LoadingScreen extends Component {
   render() {
-    firebase.analytics().setCurrentScreen('loading');
+    firebase.analytics().setCurrentScreen('loading-two');
     return (
       <View style={styles.container}>
         <Image

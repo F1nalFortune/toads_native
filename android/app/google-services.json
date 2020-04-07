@@ -1,43 +1,50 @@
 {
   "project_info": {
-    "project_number": "371716989690",
-    "firebase_url": "https://concise-emblem-249504.firebaseio.com",
-    "project_id": "concise-emblem-249504",
-    "storage_bucket": "concise-emblem-249504.appspot.com"
+    "project_number": "419843575607",
+    "firebase_url": "https://toads-react.firebaseio.com",
+    "project_id": "toads-react",
+    "storage_bucket": "toads-react.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:371716989690:android:accd3e17e20240abe51f43",
+        "mobilesdk_app_id": "1:419843575607:android:d1f46a17a75d30754354b2",
         "android_client_info": {
           "package_name": "com.navdemo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "371716989690-8bgtrv56ielfr64fesb784pbkec8602i.apps.googleusercontent.com",
+          "client_id": "419843575607-i6h3iiu7gf9bbt1pnv2su8i7lmmpsja2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.navdemo",
-            "certificate_hash": "81d82bb4c16cd7509960e9f5ec43c4e4a5ba903e"
+            "certificate_hash": "e826830ef8a53ec72722b59ff159d0c2c08c6516"
           }
         },
         {
-          "client_id": "371716989690-qv5d6v1jmi5b4j35suoa0hafp9qhr106.apps.googleusercontent.com",
+          "client_id": "419843575607-v5qfmosoic98fbrhog8fjfnv4vfif3na.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDjkD4WZextu9osVpggB_jzu05FDvPnEiA"
+          "current_key": "AIzaSyD2e0B3WSq20lls0oRgBNtgzZPFwbpnGNA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "371716989690-qv5d6v1jmi5b4j35suoa0hafp9qhr106.apps.googleusercontent.com",
+              "client_id": "419843575607-v5qfmosoic98fbrhog8fjfnv4vfif3na.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "419843575607-468vnig0p0jckh504e7i2d6gaijqfcm3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.toads-native"
+              }
             }
           ]
         }

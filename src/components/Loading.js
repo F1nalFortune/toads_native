@@ -9,7 +9,7 @@ export default class Loading extends Component {
     })
   }
   render() {
-    firebase.analytics().setCurrentScreen('loading');
+    firebase.analytics().setCurrentScreen('loading-one');
     return (
       <View style={styles.container}>
         <Text>Loading</Text>
