@@ -252,8 +252,8 @@ PODS:
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Firebase/Analytics
-  - Firebase/Auth (~> 6.3.0)
-  - Firebase/Core (~> 6.3.0)
+  - Firebase/Auth
+  - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
   - Firebase/Performance
@@ -438,6 +438,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: 96a030435f83999af76a6245772c95f9d63b84a5
+PODFILE CHECKSUM: 381a17a0d501d2814efd7cc84b437624b6352edf
 
 COCOAPODS: 1.9.1
