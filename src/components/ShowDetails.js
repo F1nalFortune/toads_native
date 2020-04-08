@@ -281,7 +281,8 @@ export default class ShowDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: true,
+      buttonText: 'Add Event to Calendar'
     }
   }
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -471,7 +472,7 @@ export default class ShowDetails extends Component {
     };
   };
 
-  componentWillMount(){
+  componentDidMount(){
     // iOS
     RNCalendarEvents.authorizationStatus()
      .then(status => {
@@ -1110,14 +1111,14 @@ export default class ShowDetails extends Component {
     var currentDate = formatDate(this.props.navigation.state.params.item['datetime'])
     var title = this.props.navigation.state.params.item['title']
     firebase.analytics().setCurrentScreen(`${title}(${currentDate})`);
-    const ColoredLine = ({ color, width }) => (
+    const ColoredLine = ({ color, width, padding }) => (
       <View
         style={{
           borderBottomColor: color,
           borderBottomWidth: 1,
           width: width,
-          paddingTop: 10,
-          marginBottom: 10,
+          paddingTop: padding,
+          marginBottom: padding,
           marginLeft: 'auto',
           marginRight: 'auto',
           justifyContent: 'center',
@@ -1129,11 +1130,7 @@ export default class ShowDetails extends Component {
     const item = this.props.navigation.state.params.item;
     // console.log("ACTS")
     // console.log(item['acts'])
-    // if(item['acts'][0].length>0){
-    //   console.log("ACts are True")
-    // }else{
-    //   console.log("no acts")
-    // }
+
     if (this.state.isLoading) {
       return <LoadingScreen />;
     }
@@ -1182,7 +1179,7 @@ export default class ShowDetails extends Component {
         >
           <Text style={{color: 'white', fontWeight: 'bold'}}>GET TIX</Text>
         </TouchableOpacity>
-        <ColoredLine color="green" width="90%" />
+        <ColoredLine color="green" width="90%" padding={10}/>
 
         <View style={styles.wrapper}>
           <View style={{
@@ -1215,7 +1212,7 @@ export default class ShowDetails extends Component {
               {infoLink.text}**
             </Text>) : <Text></Text>}
         </View>
-        <ColoredLine color="green" width="90%" />
+        <ColoredLine color="green" width="100%" padding={10}/>
         <TouchableOpacity
           style={styles.menuTabs}
           onPress={() => this.handleAddEvent(this.state.item)}>
@@ -1235,6 +1232,7 @@ export default class ShowDetails extends Component {
               }}/>
           </View>
         </TouchableOpacity>
+        <ColoredLine color="green" width="100%" padding={1}/>
         <TouchableOpacity
           style={styles.menuTabs}
           onPress={() => {
@@ -1278,7 +1276,7 @@ export default class ShowDetails extends Component {
             </MapView.Marker>
           </MapView>
         </TouchableOpacity>
-        <ColoredLine color="green" width="90%" />
+        <ColoredLine color="green" width="90%" padding={10}/>
         {this.state.similarArtists.length > 0 ? <View style={styles.wrapper}>
           <View style={{
             width: '100%',

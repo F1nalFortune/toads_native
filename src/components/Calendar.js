@@ -112,7 +112,7 @@ export default class Calendar extends Component {
       uid: uid
     })
     console.disableYellowBox = true;
-    db.ref(`users/${uid}/genrePref`).once('value')
+    await db.ref(`users/${uid}/genrePref`).once('value')
       .then((dataSnapShot) => {
         var string = JSON.stringify(dataSnapShot, null, 2)
         try{
@@ -480,9 +480,6 @@ export default class Calendar extends Component {
         }}
       />
     );
-    if (this.state.isLoading) {
-      return <LoadingScreen />;
-    }
     const ListShows = ({item}) => (<View         style={styles.touchable}>
       <TouchableOpacity
         onPress={() => this.props.navigation.navigate('Details', {item})}
@@ -534,41 +531,45 @@ export default class Calendar extends Component {
         </TouchableOpacity>
       </View>
     </View>);
-    return(
-      <ScrollView
-        style={{backgroundColor: '#c0dfc066'}}
-        refreshControl={this._refreshControl()}>
-        <View>
-          <SliderBox
-            images={this.state.features}
-            ImageComponentStyle={{
-              borderRadius: 15,
-              resizeMode: 'contain',
-            flex: 1}}
-            dotColor='#008000'
-            autoplay
-            circleLoop />
+    if (this.state.isLoading) {
+      return <LoadingScreen />;
+    } else{
+      return(
+        <ScrollView
+          style={{backgroundColor: '#c0dfc066'}}
+          refreshControl={this._refreshControl()}>
+          <View>
+            <SliderBox
+              images={this.state.features}
+              ImageComponentStyle={{
+                borderRadius: 15,
+                resizeMode: 'contain',
+              flex: 1}}
+              dotColor='#008000'
+              autoplay
+              circleLoop />
 
-        </View>
-        <View>
-          {this.state.recommended.length > 0 ? (
-            <View style={styles.tabbar}>
-              <TouchableOpacity
-                onPress={() => this.setState({tab: 'all'})}
-                style={this.state.tab=='all' ? styles.tabBtnActive : styles.tabBtnInactive}>
-                  <Text style={styles.tabBtn}>All Shows</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.setState({tab: 'recommended'})}
-                style={this.state.tab=='recommended' ? styles.tabBtnActive : styles.tabBtnInactive}>
-                  <Text style={styles.tabBtn}>Recommended</Text>
-              </TouchableOpacity>
-            </View>
-        ) : <View></View>}
-        </View>
-        {this.state.tab=='all' ? this.state.items.map(item => <ListShows item={item} key={this.state.items.indexOf(item)}/>) :this.state.recommended.map(item => <ListShows item={item} key={this.state.recommended.indexOf(item)}/>)}
-      </ScrollView>
-    )
+          </View>
+          <View>
+            {this.state.recommended.length > 0 ? (
+              <View style={styles.tabbar}>
+                <TouchableOpacity
+                  onPress={() => this.setState({tab: 'all'})}
+                  style={this.state.tab=='all' ? styles.tabBtnActive : styles.tabBtnInactive}>
+                    <Text style={styles.tabBtn}>All Shows</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.setState({tab: 'recommended'})}
+                  style={this.state.tab=='recommended' ? styles.tabBtnActive : styles.tabBtnInactive}>
+                    <Text style={styles.tabBtn}>Recommended</Text>
+                </TouchableOpacity>
+              </View>
+          ) : <View></View>}
+          </View>
+          {this.state.tab=='all' ? this.state.items.map(item => <ListShows item={item} key={this.state.items.indexOf(item)}/>) :this.state.recommended.map(item => <ListShows item={item} key={this.state.recommended.indexOf(item)}/>)}
+        </ScrollView>
+      )
+    }
   }
 
   _refreshControl(){

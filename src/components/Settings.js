@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Switch,
-  ScrollView
+  ScrollView,
+  Linking
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import RNCalendarEvents from 'react-native-calendar-events';
@@ -130,7 +131,7 @@ export default class Settings extends Component {
   signOutUser = async () => {
     try {
         await firebase.auth().signOut();
-        navigate('Login')
+        this.props.navigation.navigate('Login')
 
     } catch (e) {
         console.log(e);
@@ -339,7 +340,7 @@ export default class Settings extends Component {
 
         <TouchableOpacity
           style={styles.menuTabs}
-          onPress={() => this.props.navigation.push('Tickets')}>
+          onPress={() => Linking.openURL("https://toadsdanceparty.com/privacypolicy")}>
           <View style={styles.menuTabText}>
             <Text>
               Privacy
@@ -357,7 +358,7 @@ export default class Settings extends Component {
 
         <TouchableOpacity
           style={styles.menuTabs}
-          onPress={() => this.props.navigation.push('Tickets')}>
+          onPress={() => Linking.openURL("https://toadsdanceparty.com/terms")}>
           <View style={styles.menuTabText}>
             <Text>
               Terms of Service
