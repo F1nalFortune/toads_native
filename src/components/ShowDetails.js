@@ -435,13 +435,13 @@ export default class ShowDetails extends Component {
                 // shared with activity type of result.activityType
                 result['createdOn'] = new Date();
                 result['show'] = current_itemzor
-                console.log(JSON.stringify(result, null, 2))
+                // console.log(JSON.stringify(result, null, 2))
                 writeNewPost(uid, result, current_itemzor)
               } else {
                 // shared
                 result['createdOn'] = new Date();
                 result['show'] = current_itemzor
-                console.log(JSON.stringify(result, null, 2))
+                // console.log(JSON.stringify(result, null, 2))
                 writeNewPost(uid, result, current_itemzor)
               }
             } else if (result.action === Share.dismissedAction) {
@@ -558,7 +558,7 @@ export default class ShowDetails extends Component {
         // console.log(JSON.stringify(items, null, 2))
         for(i=0;i<items.length;i++){
           if(myFunction(items[i].title, 'presenter')){
-            console.log("HERE")
+            // console.log("HERE")
             var title = myFunction(items[i].title, 'show')
             var presenter = myFunction(items[i].title, 'presenter')
             items[i].title = title.show
@@ -578,7 +578,7 @@ export default class ShowDetails extends Component {
 
 
         }
-        console.log(JSON.stringify(matches, null, 2))
+        // console.log(JSON.stringify(matches, null, 2))
         this.setState({
           similarArtists: matches,
           isLoading: false
@@ -610,9 +610,9 @@ export default class ShowDetails extends Component {
           var presenter = mystring.toLowerCase().split(values[1])
           presenter[0] = presenter[0].trim() + " " + values[1]
           presenter = mystring.substring(0, presenter[0].length)
-          console.log(presenter)
+          // console.log(presenter)
           show = mystring.substring(presenter.length+1, mystring.length)
-          console.log(show)
+          // console.log(show)
           return {
             presenter: presenter,
             show: show
@@ -702,10 +702,10 @@ export default class ShowDetails extends Component {
                             var data = JSON.stringify(dataSnapShot, null, 2)
                             var data = JSON.parse(data)
                             var keys = Object.keys(data)
-                            console.log("Keys: ", keys)
-                            console.log(JSON.stringify(data, null, 2))
+                            // console.log("Keys: ", keys)
+                            // console.log(JSON.stringify(data, null, 2))
                             // console.log("State Item: ", this.state.item)
-                            console.log("Item: ", item)
+                            // console.log("Item: ", item)
                             // console.log("Props: ", this.props.navigation.state.params.item)
                             for(i=0;i<keys.length;i++){
                               var current_event = data[keys[i]]
@@ -715,7 +715,7 @@ export default class ShowDetails extends Component {
                             }
 
                           })
-                        console.log('OK Pressed')
+                        // console.log('OK Pressed')
                       }},
                     ],
                     {cancelable: false},
@@ -754,7 +754,7 @@ export default class ShowDetails extends Component {
               // console.log(JSON.stringify(this.state.item, null, 2))
               RNCalendarEvents.fetchAllEvents(startDate.toISOString(), endDate.toISOString())
               .then((promise) => {
-                console.log("Promise: ", promise)
+                // console.log("Promise: ", promise)
 
                 for(i=0;i<promise.length;i++){
                   if(promise[i].title == this.state.item.title){
@@ -762,7 +762,7 @@ export default class ShowDetails extends Component {
                       'Woops!',
                       'Event already saved in calendar.',
                       [
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        {text: 'OK'},
                       ],
                       {cancelable: false},
                     );
@@ -796,7 +796,7 @@ export default class ShowDetails extends Component {
                     'Event successfully added to calendar!',
                     [
                       {text: 'OK', onPress: () => {
-                        console.log('OK Pressed')
+                        // console.log('OK Pressed')
                         uid = firebase.auth().currentUser.uid;
                         function addEvent(uid, current_itemzor) {
                           // A post entry.
@@ -1071,13 +1071,13 @@ export default class ShowDetails extends Component {
                         // shared with activity type of result.activityType
                         result['createdOn'] = new Date();
                         result['show'] = current_itemzor
-                        console.log(JSON.stringify(result, null, 2))
+                        // console.log(JSON.stringify(result, null, 2))
                         writeNewPost(uid, result, current_itemzor)
                       } else {
                         // shared
                         result['createdOn'] = new Date();
                         result['show'] = current_itemzor
-                        console.log(JSON.stringify(result, null, 2))
+                        // console.log(JSON.stringify(result, null, 2))
                         writeNewPost(uid, result, current_itemzor)
                       }
                     } else if (result.action === Share.dismissedAction) {
@@ -1127,13 +1127,13 @@ export default class ShowDetails extends Component {
       />
     );
     const item = this.props.navigation.state.params.item;
-    console.log("ACTS")
-    console.log(item['acts'])
-    if(item['acts'][0].length>0){
-      console.log("ACts are True")
-    }else{
-      console.log("no acts")
-    }
+    // console.log("ACTS")
+    // console.log(item['acts'])
+    // if(item['acts'][0].length>0){
+    //   console.log("ACts are True")
+    // }else{
+    //   console.log("no acts")
+    // }
     if (this.state.isLoading) {
       return <LoadingScreen />;
     }
@@ -1216,10 +1216,45 @@ export default class ShowDetails extends Component {
             </Text>) : <Text></Text>}
         </View>
         <ColoredLine color="green" width="90%" />
-        <View>
-          <Text style={styles.addressTitle}>Location</Text>
-          <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
-        </View>
+        <TouchableOpacity
+          style={styles.menuTabs}
+          onPress={() => this.handleAddEvent(this.state.item)}>
+          <View style={styles.menuTabText}>
+            <Text>
+              {this.state.buttonText}
+            </Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Icon
+               style={styles.menuTabIcon}
+              name={'chevron-right'}
+              size={20}
+              style={{
+                width:20,
+                height:20
+              }}/>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.menuTabs}
+          onPress={() => {
+            this.props.navigation.navigate('About', {info: 'tab'})
+          }}>
+          <View style={styles.menuTabText}>
+            <Text style={styles.addressTitle}>Venue Information</Text>
+            <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Icon
+               style={styles.menuTabIcon}
+              name={'chevron-right'}
+              size={20}
+              style={{
+                width:20,
+                height:20
+              }}/>
+          </View>
+        </TouchableOpacity>
         <TouchableOpacity>
           <MapView
             style={{height: 250, width: '100%'}}
@@ -1242,39 +1277,6 @@ export default class ShowDetails extends Component {
               <Image source={require('../../assets/images/custom_marker.png')}/>
             </MapView.Marker>
           </MapView>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.menuTabs}
-          onPress={() => {
-            this.props.navigation.navigate('About', {info: 'tab'})
-          }}>
-          <View style={styles.menuTabText}>
-            <Text>
-              Venue Information
-            </Text>
-          </View>
-          <View style={styles.menuTabIcon}>
-            <Icon
-               style={styles.menuTabIcon}
-              name={'chevron-right'}
-              size={20}/>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.menuTabs}
-          onPress={() => this.handleAddEvent(this.state.item)}>
-          <View style={styles.menuTabText}>
-            <Text>
-              {this.state.buttonText}
-            </Text>
-          </View>
-          <View style={styles.menuTabIcon}>
-            <Icon
-               style={styles.menuTabIcon}
-              name={'chevron-right'}
-              size={20}/>
-          </View>
         </TouchableOpacity>
         <ColoredLine color="green" width="90%" />
         {this.state.similarArtists.length > 0 ? <View style={styles.wrapper}>
@@ -1313,13 +1315,9 @@ const styles = StyleSheet.create ({
     marginRight: '2.5%'
   },
   address:{
-    paddingTop: 0,
-    paddingLeft: 20,
-    paddingBottom: 20
+    paddingTop: 0
   },
   addressTitle:{
-    paddingLeft:20,
-    paddingTop:10,
     fontWeight: 'bold',
     fontSize: 18
   },
@@ -1414,11 +1412,13 @@ const styles = StyleSheet.create ({
     zIndex: 100
   },
   menuTabs:{
+    flex: 1,
     flexDirection: 'row',
-    padding: 20
+    padding: 20,
+    alignContent: 'center',
+    justifyContent: 'center'
   },
   menuTabText:{
-    flexDirection: 'row',
     width: '80%'
   },
   menuTabIcon:{
@@ -1426,7 +1426,8 @@ const styles = StyleSheet.create ({
     zIndex: 100000,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '20%'
+    width: '20%',
+    textAlign: 'center'
   },
   similarArtistWrapper:{
     flex: 1,

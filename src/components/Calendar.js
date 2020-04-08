@@ -115,17 +115,22 @@ export default class Calendar extends Component {
     db.ref(`users/${uid}/genrePref`).once('value')
       .then((dataSnapShot) => {
         var string = JSON.stringify(dataSnapShot, null, 2)
-        var object = JSON.parse(string)
-        var genres = Object.keys(object)
-        var preferences = Object.values(object)
-        genrePrefs = []
-        for (i=0;i<preferences.length;i++){
-          if(preferences[i]){
-            genrePrefs.push(genres[i])
+        try{
+          var object = JSON.parse(string)
+          var genres = Object.keys(object)
+          var preferences = Object.values(object)
+          genrePrefs = []
+          for (i=0;i<preferences.length;i++){
+            if(preferences[i]){
+              genrePrefs.push(genres[i])
+            }
           }
+          // console.log(JSON.stringify(genrePrefs, null, 2))
+          this.setState({genrePrefs: genrePrefs})
+        }catch(e){
+          console.log("Error: ", e)
+          this.setState({genrePrefs: false})
         }
-        // console.log(JSON.stringify(genrePrefs, null, 2))
-        this.setState({genrePrefs: genrePrefs})
         db.ref('events').once('value')
           .then((dataSnapShotTwo) => {
             saved_shows = []
@@ -148,23 +153,35 @@ export default class Calendar extends Component {
               //find events with user genre preference
               var genres = items[i]['genre']
               genres = Object.values(genres)
-              var match = this.state.genrePrefs.some(r=> genres.includes(r))
-              if(match){
-                matches.push(items[i])
+              try{
+                var match = this.state.genrePrefs.some(r=> genres.includes(r))
+                if(match){
+                  matches.push(items[i])
+                }
+                var features = items[0]['slides']
+                this.setState({
+                  items: items,
+                  isLoading: false,
+                  features: features,
+                  recommended: matches,
+                  tab: 'all'
+                })
+              }catch(e){
+                console.log("Error: ", e)
+                var features = items[0]['slides']
+                this.setState({
+                  items: items,
+                  isLoading: false,
+                  features: features,
+                  recommended: false,
+                  tab: 'all'
+                })
               }
             }
             // console.log("Genre Preferences")
             // console.log(JSON.stringify(this.state.genrePrefs, null, 2))
             // console.log("Matched Shows")
             // console.log(JSON.stringify(matches, null, 2))
-            var features = items[0]['slides']
-            this.setState({
-              items: items,
-              isLoading: false,
-              features: features,
-              recommended: matches,
-              tab: 'all'
-            })
           })
       })
     }
@@ -230,7 +247,6 @@ export default class Calendar extends Component {
           opened: false
         }
         var result = this.writeNotifications(uid, appData)
-        // console.log(JSON.stringify(item, null, 2))
         this.showAlert(
           title,
           body,
@@ -239,7 +255,6 @@ export default class Calendar extends Component {
           result.newPostKey,
           result.uid
         );
-
     });
 
     /*
@@ -279,6 +294,33 @@ export default class Calendar extends Component {
     * */
     this.messageListener = firebase.messaging().onMessage((message) => {
       console.log("Data only payload. Notification clicked, app in background")
+      // console.log("Message: ", JSON.stringify(message, null, 2))
+      var app_location = 'foreground'
+      const {item} = message._data;
+
+      // console.log("Item: ", JSON.stringify(item, null, 2))
+      var parsed_item = JSON.parse(item);
+      const title = parsed_item.title;
+      const body = message._data.message;
+      var show = parsed_item['title']
+      var date = parsed_item['datetime']
+
+      var appData = {
+        show: show,
+        date: date,
+        location: app_location,
+        opened: false
+      }
+      var result = this.writeNotifications(uid, appData)
+      // console.log(JSON.stringify(item, null, 2))
+      this.showAlert(
+        title,
+        body,
+        item,
+        app_location,
+        result.newPostKey,
+        result.uid
+      );
     });
   }
 
@@ -288,6 +330,7 @@ export default class Calendar extends Component {
       item = JSON.parse(item)
       this.props.navigation.navigate('Details', {item})
     }
+    // console.log(JSON.stringify(item, null, 2))
     Alert.alert(
       title, body,
       [

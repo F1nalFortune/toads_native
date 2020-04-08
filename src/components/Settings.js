@@ -330,7 +330,7 @@ export default class Settings extends Component {
           </View>
           <View style={styles.menuTabIcon}>
             <Text numberOfLines={1}>
-            1.0.0
+            1.2.0
             </Text>
           </View>
         </TouchableOpacity>
