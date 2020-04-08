@@ -10,10 +10,11 @@ import {
   Image,
   Linking,
   NativeModules,
-  SafeAreaView
+  SafeAreaView,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import firebase from 'react-native-firebase';
 const width = '40%';
 const height = '20%';
@@ -317,27 +318,34 @@ export default class About extends Component {
       tab: 'info'
     }
   }
-
-  componentDidMount = () => {
-    geolocation.requestAuthorization(function(){
-      Geolocation.getCurrentPosition(
-        //Will give you the current location
-         (position) => {
-            const currentLongitude = position.coords.longitude;
-            // console.log("Longitude: " + JSON.stringify(position.coords.longitude))
-            //getting the Longitude from the location json
-            const currentLatitude = position.coords.latitude;
-            // console.log("Latitude: " + JSON.stringify(position.coords.latitude));
-            //getting the Latitude from the location json
-            this.setState({ longitude:currentLongitude });
-            //Setting state Longitude to re re-render the Longitude Text
-            this.setState({ latitude:currentLatitude });
-         },
-         (error) => alert(error.message),
-         { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-      );
-    });
+  componentDidMount() {
+    Geolocation.requestAuthorization((position) => {
+      console.log("Status: ", status)
+    })
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+       (position) => {
+         console.log(position);
+          const currentLongitude = position.coords.longitude;
+          console.log("Longitude: " + JSON.stringify(position.coords.longitude))
+          //getting the Longitude from the location json
+          const currentLatitude = position.coords.latitude;
+          console.log("Latitude: " + JSON.stringify(position.coords.latitude));
+          //getting the Latitude from the location json
+          this.setState({ longitude:currentLongitude });
+          //Setting state Longitude to re re-render the Longitude Text
+          this.setState({ latitude:currentLatitude });
+       },
+       (error) => {
+         this.setState({
+           longitude: false,
+           latitude: false
+         })
+       },
+       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
   }
+
 
 
   render() {
@@ -430,20 +438,72 @@ export default class About extends Component {
                   </MapView>
                 </TouchableOpacity>
                 <ColoredLine color="green" width="100%"/>
+
+                <View style={{flexDirection:'row', justifyContent: 'center', flex:1, paddingTop: 10}}>
+                  <View style={{padding: 8}}>
+                    <Icon name={'blind'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                    <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Walking</Text>
+                  </View>
+                  <View style={{padding: 8}}>
+                    <Icon name={'car'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                    <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Driving</Text>
+                  </View>
+                  <View style={{padding: 8}}>
+                    <Icon name={'bicycle'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                    <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Bicycling</Text>
+                  </View>
+                  <View style={{padding: 8}}>
+                    <Icon name={'subway'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                    <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Transit</Text>
+                  </View>
+                </View>
+
                 <TouchableOpacity
                   onPress={() => {
-                    var navDemo = NativeModules.NavDemo;
-                    navDemo.renderNaviDemo(
-                      (originLat = this.state.latitude),
-                      (originLon = this.state.longitude),
-                      (originName = 'Current Location'),
-                      (destinationLat = 41.311587),
-                      (destinationLon = -72.929541),
-                      (destinationName = "Toad's Place"),
+                    Alert.alert(
+                      'Get Directions',
+                      'Choose travel method.',
+                      [
+                        {
+                          text: 'Driving',
+                          onPress: () => {
+                            try {
+                              var navDemo = NativeModules.NavDemo;
+                              navDemo.renderNaviDemo(
+                                (originLat = this.state.latitude),
+                                (originLon = this.state.longitude),
+                                (originName = 'Current Location'),
+                                (destinationLat = 41.311587),
+                                (destinationLon = -72.929541),
+                                (destinationName = "Toad's Place"),
+                              );
+                            } catch (error) {
+                              console.log("Error: ", error)
+                              try{
+                                Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=driving&dir_action=navigate")
+                              }catch(error){
+                                alert("Check internet connection and try again.")
+                              }
+                            }
+
+                          }
+                        },
+                        {text: 'Walking', onPress: () => {
+                          Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=walking")
+                        }},
+                        {text: 'Bicycling', onPress: () => {
+                          Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=bicycling")
+                        }},
+                        {text: 'Transit', onPress: () => {
+                          Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=transit")
+                        }},
+                      ]
                     );
+
                   }}>
                   <Text style={styles.button}>DIRECTIONS</Text>
                 </TouchableOpacity>
+
                 <ColoredLine color="green" width="100%"/>
                 <TouchableOpacity
                   style={styles.menuTabs}

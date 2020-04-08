@@ -41,8 +41,6 @@
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Allow Toad's Native calendar access to add events.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
 	<key>UIAppFonts</key>

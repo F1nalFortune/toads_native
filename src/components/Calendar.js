@@ -153,10 +153,10 @@ export default class Calendar extends Component {
                 matches.push(items[i])
               }
             }
-            console.log("Genre Preferences")
-            console.log(JSON.stringify(this.state.genrePrefs, null, 2))
-            console.log("Matched Shows")
-            console.log(JSON.stringify(matches, null, 2))
+            // console.log("Genre Preferences")
+            // console.log(JSON.stringify(this.state.genrePrefs, null, 2))
+            // console.log("Matched Shows")
+            // console.log(JSON.stringify(matches, null, 2))
             var features = items[0]['slides']
             this.setState({
               items: items,
