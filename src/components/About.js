@@ -429,7 +429,8 @@ export default class About extends Component {
                     customMapStyle={mapStyle}
                   >
                     <MapView.Marker
-                      coordinate={{        latitude: 41.304560,
+                      coordinate={{
+                              latitude: 41.304560,
                               longitude: -72.934500,
                               latitudeDelta: 0.0922,
                               longitudeDelta: 0.0421}}>

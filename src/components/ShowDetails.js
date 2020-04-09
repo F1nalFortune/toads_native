@@ -10,7 +10,8 @@ import {
   Linking,
   Share,
   ImageBackground,
-  Image
+  Image,
+  Animated
 } from 'react-native';
 
 import RNCalendarEvents from 'react-native-calendar-events';
@@ -276,7 +277,7 @@ const mapStyle = [
       }
     ]
   }]
-
+const IMAGE_HEIGHT = 400;
 export default class ShowDetails extends Component {
   constructor(props) {
     super(props);
@@ -471,6 +472,10 @@ export default class ShowDetails extends Component {
       }
     };
   };
+
+
+
+  scrollAnimatedValue = new Animated.Value(0);
 
   componentDidMount(){
     // iOS
@@ -1135,44 +1140,76 @@ export default class ShowDetails extends Component {
       return <LoadingScreen />;
     }
     return(
-      <ScrollView
-        style={{backgroundColor: '#c0dfc066'}}
-        showsVerticalScrollIndicator={false}>
-        <TouchableOpacity
-          onPress={() => this.handleAddEvent(this.state.item)}
+      <View style={styles.container}>
+        <Animated.Image
+          source={{uri: item.img}}
+          style={[styles.catImage, {
+          transform: [
+            {translateY: this.scrollAnimatedValue.interpolate({
+              inputRange: [-IMAGE_HEIGHT, 0, IMAGE_HEIGHT],
+              outputRange: [IMAGE_HEIGHT / 2, 0, -IMAGE_HEIGHT / 2],
+              extrapolateRight: 'clamp',
+            })},
+            {scale: this.scrollAnimatedValue.interpolate({
+              inputRange: [-IMAGE_HEIGHT, 0],
+              outputRange: [2, 1],
+              extrapolateRight: 'clamp',
+            })},
+          ],
+        }]}
+        blurRadius={6}/>
+        <Animated.ScrollView
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.scrollAnimatedValue }} }],
+            { useNativeDriver: true },
+          )}
+          contentContainerStyle={styles.scrollViewContentContainer}
+          scrollEventThrottle={8}
+          showsHorizontalScrollIndicator={false}
         >
-          <View>
-            <Image
-            source={{uri: item.img }}
-            style={{width: '100%', height: 250, borderRadius: 5}}>
-            </Image>
-          </View>
-        </TouchableOpacity>
-        <View
-          style={styles.dateWrapper}>
-          { this.state.item.presenter ?
-            <View style={{paddingTop:10}}>
-              <Text style={styles.subtitle}>{this.state.item.presenter}</Text>
-              <Text style={styles.eventTitle}>{this.state.item.title}</Text>
-            </View> :
-            <View style={{paddingTop:10}}>
-              <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+        <View style={{
+          maxWidth: Dimensions.get('window').width*.75,
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+          flex: 1,
+          marginTop: -175
+        }}>
+          <TouchableOpacity
+            onPress={() => this.handleAddEvent(this.state.item)}
+          >
+            <View>
+              <Image
+              source={{uri: item.img }}
+              style={{width: Dimensions.get('window').width*.75, height: 250, borderRadius: 5}}>
+              </Image>
             </View>
-          }
-          {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : <View></View>}
-          <Text
-            style={styles.date}>
-              {item.date[2]} \\
-              <Text style={{fontWeight: 'bold'}}>
-                {' ' + item.date[0] + ' ' + item.date[1]}
-              </Text>
-          </Text>
-          <View style={{borderTopWidth: 2, borderTopColor: 'green'}}>
-            <Text>{item.information[2]}</Text>
-            <Text>{item.information[3]}</Text>
+          </TouchableOpacity>
+          <View
+            style={styles.dateWrapper}>
+            { this.state.item.presenter ?
+              <View style={{paddingTop:10}}>
+                <Text style={styles.subtitle}>{this.state.item.presenter}</Text>
+                <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+              </View> :
+              <View style={{paddingTop:10}}>
+                <Text style={styles.eventTitle}>{this.state.item.title}</Text>
+              </View>
+            }
+            {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : <View></View>}
+            <Text
+              style={styles.date}>
+                {item.date[2]} \\
+                <Text style={{fontWeight: 'bold'}}>
+                  {' ' + item.date[0] + ' ' + item.date[1]}
+                </Text>
+            </Text>
+            <View style={{borderTopWidth: 2, borderTopColor: 'green'}}>
+              <Text>{item.information[2]}</Text>
+              <Text>{item.information[3]}</Text>
+            </View>
           </View>
         </View>
-
         <TouchableOpacity
           style={styles.button}
           onPress={() => Linking.openURL(item.ticket)}
@@ -1181,133 +1218,129 @@ export default class ShowDetails extends Component {
         </TouchableOpacity>
         <ColoredLine color="green" width="90%" padding={10}/>
 
-        <View style={styles.wrapper}>
-          <View style={{
-            width: '100%',
-            padding: '2.5%'
-          }}>
-            <Text style={{
-              fontSize: 18,
-              textAlign: 'center',
-              fontFamily: "Merriweather-Regular",
-              paddingBottom: '2.5%'
-            }}>Opening Acts</Text>
-            {(item.acts.length > 0) && item.acts[0].length > 0  ? item.acts.map(act => <Text key={item.acts.indexOf(act)} style={{textAlign: 'justify'}}>{act}</Text>) : <Text>TBA</Text>}
-          </View>
-        </View>
-        <View>
-          <Text style={styles.starDetail}>{item.starInfo}</Text>
-        </View>
+                <View style={styles.wrapper}>
+                  <View style={{
+                    width: '100%',
+                    padding: '2.5%'
+                  }}>
+                    <Text style={{
+                      fontSize: 18,
+                      textAlign: 'center',
+                      fontFamily: "Merriweather-Regular",
+                      paddingBottom: '2.5%'
+                    }}>Opening Acts</Text>
+                    {(item.acts.length > 0) && item.acts[0].length > 0  ? item.acts.map(act => <Text key={item.acts.indexOf(act)} style={{textAlign: 'justify'}}>{act}</Text>) : <Text>TBA</Text>}
+                  </View>
+                </View>
+                <View>
+                  <Text style={styles.starDetail}>{item.starInfo}</Text>
+                </View>
 
-        <View style={styles.footer}>
-          <Text>{item.information[4]}</Text>
-        </View>
+                <View style={styles.footer}>
+                  <Text>{item.information[4]}</Text>
+                </View>
 
-        <View style={styles.starDetail}>
-          {item.infoLinks ? item.infoLinks.map(infoLink =>
-            <Text
-              key={item.infoLinks.indexOf(infoLink)}
-              style={styles.infoLink}
-            >
-              {infoLink.text}**
-            </Text>) : <Text></Text>}
-        </View>
-        <ColoredLine color="green" width="100%" padding={10}/>
-        <TouchableOpacity
-          style={styles.menuTabs}
-          onPress={() => this.handleAddEvent(this.state.item)}>
-          <View style={styles.menuTabText}>
-            <Text>
-              {this.state.buttonText}
-            </Text>
-          </View>
-          <View style={styles.menuTabIcon}>
-            <Icon
-               style={styles.menuTabIcon}
-              name={'chevron-right'}
-              size={20}
-              style={{
-                width:20,
-                height:20
-              }}/>
-          </View>
-        </TouchableOpacity>
-        <ColoredLine color="green" width="100%" padding={1}/>
-        <TouchableOpacity
-          style={styles.menuTabs}
-          onPress={() => {
-            this.props.navigation.navigate('About', {info: 'tab'})
-          }}>
-          <View style={styles.menuTabText}>
-            <Text style={styles.addressTitle}>Venue Information</Text>
-            <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
-          </View>
-          <View style={styles.menuTabIcon}>
-            <Icon
-               style={styles.menuTabIcon}
-              name={'chevron-right'}
-              size={20}
-              style={{
-                width:20,
-                height:20
-              }}/>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <MapView
-            style={{height: 250, width: '100%'}}
-            provider={PROVIDER_GOOGLE}
-            region={{
-              latitude: 41.304560,
-              longitude: -72.934500,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421
-            }}
-            customMapStyle={mapStyle}
-          >
-            <MapView.Marker
-              coordinate={{
-                latitude: 41.304560,
-                longitude: -72.934500,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
-              }}>
-              <Image source={require('../../assets/images/custom_marker.png')}/>
-            </MapView.Marker>
-          </MapView>
-        </TouchableOpacity>
-        <ColoredLine color="green" width="90%" padding={10}/>
-        {this.state.similarArtists.length > 0 ? <View style={styles.wrapper}>
-          <View style={{
-            width: '100%',
-            padding: '2.5%'
-          }}>
-            <Text style={{
-              fontSize: 18,
-              fontFamily: "Merriweather-Regular",
-              paddingBottom: '2.5%'
-            }}>Similar Artists</Text>
-          </View>
-          <View style={{
-            width: '100%'
-          }}>
-            <Carousel
-              ref={(c) => { this._carousel = c; }}
-              data={this.state.similarArtists}
-              renderItem={this._renderItem}
-              sliderWidth={Dimensions.get('window').width}
-              itemWidth={Dimensions.get('window').width*.8}
-            />
-          </View>
-        </View> : <View></View>}
+                <View style={styles.starDetail}>
+                  {item.infoLinks ? item.infoLinks.map(infoLink =>
+                    <Text
+                      key={item.infoLinks.indexOf(infoLink)}
+                      style={styles.infoLink}
+                    >
+                      {infoLink.text}**
+                    </Text>) : <Text></Text>}
+                </View>
+                <ColoredLine color="green" width="100%" padding={10}/>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.handleAddEvent(this.state.item)}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      {this.state.buttonText}
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}
+                      style={{
+                        width:20,
+                        height:20
+                      }}/>
+                  </View>
+                </TouchableOpacity>
+                <ColoredLine color="green" width="100%" padding={1}/>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => {
+                    this.props.navigation.navigate('About', {info: 'tab'})
+                  }}>
+                  <View style={styles.menuTabText}>
+                    <Text style={styles.addressTitle}>Venue Information</Text>
+                    <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}
+                      style={{
+                        width:20,
+                        height:20
+                      }}/>
+                  </View>
+                </TouchableOpacity>
+                  <MapView
+                    style={{
+                      height: 250,
+                      width: '100%'
+                    }}
+                    provider={PROVIDER_GOOGLE}
+                    region={{
+                      latitude: 41.304560,
+                      longitude: -72.934500,
+                      latitudeDelta: 0.0922,
+                      longitudeDelta: 0.0421
+                    }}
+                    customMapStyle={mapStyle}
+                  >
+                    <MapView.Marker
+                      coordinate={{
+                        latitude: 41.304560,
+                        longitude: -72.934500,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421
+                      }}>
+                      <Image source={require('../../assets/images/custom_marker.png')}/>
+                    </MapView.Marker>
+                  </MapView>
+                <ColoredLine color="green" width="90%" padding={10}/>
+                {this.state.similarArtists.length > 0 ? <View style={[styles.wrapper,{paddingBottom: 300}]}>
+                  <View style={{
+                    width: '100%',
+                  }}>
+                    <Text style={{
+                      fontSize: 18,
+                      fontFamily: "Merriweather-Regular",
+                      paddingBottom: '2.5%'
+                    }}>Similar Artists</Text>
+                  </View>
+                  <Carousel
+                    ref={(c) => { this._carousel = c; }}
+                    data={this.state.similarArtists}
+                    renderItem={this._renderItem}
+                    sliderWidth={Dimensions.get('window').width}
+                    itemWidth={Dimensions.get('window').width*.8}
+                  />
+                </View> : <View></View>}
+        </Animated.ScrollView>
+      </View>
 
-      </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create ({
-
   act:{
     width: '45%',
     marginRight: '2.5%'
@@ -1337,7 +1370,8 @@ const styles = StyleSheet.create ({
     marginBottom: 10,
     marginTop: 20,
     backgroundColor: 'green',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    width: '75%'
   },
   delButton:{
     borderColor: '#b53838',
@@ -1465,10 +1499,11 @@ const styles = StyleSheet.create ({
   wrapper: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
     flexWrap: 'wrap',
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   facebook:{
     color: '#4968ad',
@@ -1481,5 +1516,22 @@ const styles = StyleSheet.create ({
   twitter:{
     color: '#49a1eb',
     marginHorizontal: 100
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+  },
+  scrollViewContentContainer: {
+    marginTop: IMAGE_HEIGHT-50,
+    backgroundColor: '#d3e6d7',
+    paddingTop: 10,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  catImage: {
+    position: 'absolute', top: 0, left: 0, right: 0,
+    height: IMAGE_HEIGHT,
+    alignSelf: 'center',
   }
 })

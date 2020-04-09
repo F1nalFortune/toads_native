@@ -43,8 +43,8 @@
 	<string>Allow Toad's Native calendar access to add events.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
-  <key>NSLocationAlwaysUsageDescription</key>
-  <string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Merriweather-Black.ttf</string>

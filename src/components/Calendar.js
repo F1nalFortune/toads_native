@@ -536,7 +536,7 @@ export default class Calendar extends Component {
     } else{
       return(
         <ScrollView
-          style={{backgroundColor: '#c0dfc066'}}
+          style={{backgroundColor: '#d3e6d7'}}
           refreshControl={this._refreshControl()}>
           <View>
             <SliderBox

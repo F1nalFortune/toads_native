@@ -22,7 +22,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   // google maps config
-  [GMSServices provideAPIKey:@"AIzaSyAaUz7R2jehVjycfnHyBJXUg8mmsNZQFOs"];
+  [GMSServices provideAPIKey:@"AIzaSyAE64IVmC9y5PNDV1ST1gBKaQ68DFSUaS4"];
 
   // firebase config
   [FIRApp configure];
