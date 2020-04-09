@@ -1165,7 +1165,7 @@ export default class ShowDetails extends Component {
           )}
           contentContainerStyle={styles.scrollViewContentContainer}
           scrollEventThrottle={8}
-          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         >
         <View style={{
           maxWidth: Dimensions.get('window').width*.75,
