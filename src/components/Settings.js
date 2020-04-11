@@ -52,13 +52,6 @@ export default class Settings extends Component {
     return (
     <ScrollView>
       <View style={styles.container}>
-        <Text style={{
-          textAlign: 'center',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}>
-          Logged in as: {currentUser && currentUser.email}
-        </Text>
         <ColoredLine color="grey" width="100%" pad={5}/>
         <TouchableOpacity
           style={styles.menuTabs}

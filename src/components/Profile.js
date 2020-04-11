@@ -8,27 +8,129 @@ import {
   Image,
   ImageBackground,
   Dimensions,
-  Button
+  Button,
+  TextInput,
+  Picker
 } from 'react-native';
 import firebase from 'react-native-firebase';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker from 'react-native-image-picker';
 import Modal from 'react-native-modalbox';
 import BirthdayPicker from './BirthdayPicker'
-
-
-
+import EditName from './EditName'
+import { db } from '../../Firebase';
 
 
 export default class Profile extends Component {
   state={
-    avatarSource: require("../../assets/images/default_user.png"),
+    avatar: require("../../assets/images/default_user.png"),
     isModalVisible:false,
     isOpen: false,
     isDisabled: false,
-    swipeToClose: true
+    swipeToClose: true,
+    name: '',
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+      day: new Date().getDate(),
+    gender: null
+  }
+  componentDidMount() {
+    const { currentUser } = firebase.auth()
+    this.setState({ currentUser })
+    var user_id = firebase.auth().currentUser.uid
+    console.log("Reading Info Preferences...")
+    db.ref(`users/${user_id}/info`).once('value')
+      .then((dataSnapShot) => {
+        var string = JSON.stringify(dataSnapShot, null, 2)
+        var object = JSON.parse(string)
+        console.log(string)
+        this.setState({
+          name: object.name,
+          year: object.birthday.year,
+          month: object.birthday.month,
+          day: object.birthday.day,
+          gender: object.gender,
+          avatar: object.avatar,
+        })
+      })
+    //Pull Notification Settings from Database
+
   }
 
+
+  updateName = (name) => {
+    var user_id = firebase.auth().currentUser.uid
+    db.ref(`users/${user_id}/info/name`).set(name)
+      .then(() => {
+        console.log("Name updated: ", name)
+        this.setState({
+          isOpen: false
+        })
+      })
+      .catch(error => console.log("Error when creating new data.", error));
+    this.refs.name.close()
+  }
+  updateBirthday = (birthday) => {
+    var user_id = firebase.auth().currentUser.uid
+    db.ref(`users/${user_id}/info/birthday/month`).set(birthday.month)
+      .then(() => {
+        console.log("Month updated: ", birthday.month)
+        this.setState({
+          isOpen: false,
+          month: month
+        })
+      })
+      .catch(error => console.log("Error when creating new data.", error));
+    db.ref(`users/${user_id}/info/birthday/year`).set(birthday.year)
+      .then(() => {
+        console.log("Year updated: ", birthday.year)
+        this.setState({
+          isOpen: false,
+          year: year
+        })
+      })
+      .catch(error => console.log("Error when creating new data.", error));
+    db.ref(`users/${user_id}/info/birthday/day`).set(birthday.day)
+      .then(() => {
+        console.log("Day updated: ", birthday.day)
+        this.setState({
+          isOpen: false,
+          day: day
+        })
+      })
+      .catch(error => console.log("Error when creating new data.", error));
+    this.refs.birthday.close()
+  }
+  updateGender = (gender) => {
+     var user_id = firebase.auth().currentUser.uid
+     db.ref(`users/${user_id}/info/gender`).set(gender)
+       .then(() => {
+         console.log("Gender updated: ", gender)
+         this.setState({
+           isOpen: false,
+           gender: gender
+         })
+       })
+       .catch(error => console.log("Error when creating new data.", error));
+     this.refs.gender.close()
+  }
+  updatePhoto = (avatar) => {
+    var user_id = firebase.auth().currentUser.uid
+    db.ref(`users/${user_id}/info/avatar`).set(avatar.uri)
+      .then(() => {
+        console.log("Photo updated: ", avatar)
+        this.setState({
+          isOpen: false,
+          avatar: avatar.uri
+        })
+      })
+      .catch(error => console.log("Error when creating new data.", error));
+  }
+  handleChangeText = (text, type) => {
+    this.setState({
+      [type]: text
+    });
+  }
   _imagePicker = () =>{
     const options = {
       title: 'Select Avatar',
@@ -57,29 +159,11 @@ export default class Profile extends Component {
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-        this.setState({
-          avatarSource: source,
-        });
+        this.updatePhoto(source)
       }
     });
   }
-  openModal = () =>{
-    this.setState({
-      isModalVisible:true
-    })
-  }
 
-  closeModal = () =>{
-    this.setState({
-      isModalVisible:false
-    })
-  }
-
-  toggleModal = () =>{
-    this.setState({
-      isModalVisible:!this.state.isModalVisible
-    })
-  }
   render() {
     const { currentUser } = firebase.auth()
     firebase.analytics().setCurrentScreen('profile');
@@ -106,7 +190,7 @@ export default class Profile extends Component {
               padding: 25
             }}
             onPress={() => this._imagePicker()}>
-              <Image source={this.state.avatarSource} style={styles.uploadAvatar} />
+              <Image source={this.state.avatar} style={styles.uploadAvatar} />
               <Text style={{
                 textAlign: 'center',
                 justifyContent: 'center',
@@ -119,7 +203,7 @@ export default class Profile extends Component {
 
           <TouchableOpacity
             style={styles.menuTabs}
-            onPress={() => this.props.navigation.navigate('Promotions')}>
+            onPress={() => this.refs.name.open()}>
             <View style={styles.menuTabText}>
               <Text>
                 Name
@@ -136,7 +220,7 @@ export default class Profile extends Component {
 
           <TouchableOpacity
             style={styles.menuTabs}
-            onPress={() => this.refs.modal4.open()}
+            onPress={() => this.refs.birthday.open()}
           >
             <View style={styles.menuTabText}>
               <Text>
@@ -150,53 +234,12 @@ export default class Profile extends Component {
                 size={20}/>
             </View>
           </TouchableOpacity>
-
-          <Modal
-            ref={"modal4"}
-            isOpen={this.state.isOpen}
-            onClosed={() => this.setState({isOpen: false})}
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: 300
-            }}
-            position={"bottom"}
-            backdropPressToClose={false}
-          >
-            <BirthdayPicker
-              selectedYear={2020}
-              selectedMonth={0}
-              selectedDay={27}
-              yearsBack={120}
-              onYearValueChange={(year,i) => console.log("Year was changed to: ", year)}
-              onMonthValueChange={(month,i) => console.log("Month was changed to: ", month)}
-              onDayValueChange={(day,i) => console.log("Day was changed to: ", day)}
-            />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                console.log(this.state.isOpen)
-                this.refs.modal4.close()
-                this.setState({
-                  isOpen: false
-                })
-                console.log(this.state.isOpen)
-              }}
-            >
-              <Text>Save</Text>
-            </TouchableOpacity>
-          </Modal>
-
-
           <ColoredLine color="grey" width="100%" pad={5}/>
 
 
           <TouchableOpacity
             style={styles.menuTabs}
-            onPress={() => {
-              var url = "https://toadsdanceparty.com/contact"
-              this.props.navigation.navigate('SettingsBrowser', {url})
-            }}
+            onPress={() => this.refs.gender.open()}
           >
             <View style={styles.menuTabText}>
               <Text>
@@ -210,7 +253,113 @@ export default class Profile extends Component {
                 size={20}/>
             </View>
           </TouchableOpacity>
+          <Modal
+            ref={"birthday"}
+            isOpen={this.state.isOpen}
+            onClosed={() => this.setState({isOpen: false})}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 300
+            }}
+            position={"bottom"}
+            backdropPressToClose={true}
+          >
+            <Text>
+              Birthday{"\n"}
+              Get notified for all age shows.
+            </Text>
+            <BirthdayPicker
+              selectedYear={this.state.year}
+              selectedMonth={this.state.month}
+              selectedDay={this.state.day}
+              yearsBack={120}
+              onYearValueChange={(year,i) => this.setState({year: year})}
+              onMonthValueChange={(month,i) => this.setState({month: month})}
+              onDayValueChange={(day,i) => this.setState({day: day})}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.updateBirthday({
+                  year: this.state.year,
+                  month: this.state.month,
+                  day: this.state.day
+                })
+              }}
+            >
+              <Text>Save</Text>
+            </TouchableOpacity>
+          </Modal>
+          <Modal
+            ref={"name"}
+            isOpen={this.state.isOpen}
+            onClosed={() => this.setState({isOpen: false})}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 300
+            }}
+            position={"bottom"}
+            backdropPressToClose={true}
+          >
+            <Text>
+              Name{"\n"}
+              Let others see your name on your profile.
+            </Text>
+            <EditName
+              changeText={(text, type) => this.handleChangeText(text, type)} // Added new props here & also removed the type props
+              value={this.state.name}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.updateName(this.state.name)
+              }}
+            >
+              <Text>Save</Text>
+            </TouchableOpacity>
+          </Modal>
+          <Modal
+            ref={"gender"}
+            isOpen={this.state.isOpen}
+            onClosed={() => this.setState({isOpen: false})}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 300
+            }}
+            position={"bottom"}
+            backdropPressToClose={true}
+          >
+            <View style={styles.container}>
+              <Text>
+                Gender{"\n"}
+                Indicating your gender lets Toad's know how to refer to you.{"\n"}
+                Learn more
+              </Text>
 
+
+              <Picker
+                selectedValue={this.state.gender}
+                style={{ height: 50, width: 150 }}
+                onValueChange={(gender) => {
+                  this.setState({gender: gender});
+                }}>
+                <Picker.Item label="Male" value="male" />
+                <Picker.Item label="Female" value="female" />
+                <Picker.Item label="Rather Not Say" value="null" />
+              </Picker>
+            </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                this.updateGender(this.state.gender)
+              }}
+            >
+              <Text>Save</Text>
+            </TouchableOpacity>
+          </Modal>
         </View>
     );
   }
