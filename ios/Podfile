@@ -46,6 +46,8 @@ target 'NavDemo' do
   pod 'Google-Maps-iOS-Utils'
 
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'NavDemoTests' do
     inherit! :search_paths
     # Pods for testing

@@ -431,7 +431,8 @@ export default class Calendar extends Component {
                       reggae: false,
                       r_n_b: false,
                       ska: false
-                    }
+                    },
+                    promotions: true
                   })
                 } else {
                   function refreshUserToken(userId, postData) {
@@ -527,7 +528,7 @@ export default class Calendar extends Component {
           style={styles.button}
           onPress={() => this.props.navigation.navigate('Details', {item})}
         >
-          <Text style={styles.buttonTxt}>EVENT DETAILS</Text>
+          <Text style={styles.buttonTxt}>BUY TIX</Text>
         </TouchableOpacity>
       </View>
     </View>);

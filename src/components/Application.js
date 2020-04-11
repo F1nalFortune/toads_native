@@ -34,14 +34,19 @@ import AudioVideo from './FAQs/AudioVideo'
 import Refunds from './FAQs/Refunds'
 import CoatCheck from './FAQs/CoatCheck'
 import Hotels from './FAQs/Hotels'
+import Browser from './Browser'
+import Promotions from './Promotions'
+import Profile from './Profile'
 import cio from 'cheerio-without-node-native';
 import firebase from 'react-native-firebase';
+
 
 import Loading from './Loading'
 import SignUp from '../pages/SignUp'
 import Login from '../pages/Login'
 import ForgotPassword from '../pages/ForgotPassword'
 import IntroSlider from '../pages/IntroSlider'
+
 
 import BottomTabBar from 'react-navigation-selective-tab-bar';
 
@@ -80,6 +85,80 @@ export default class Application extends Component {
           }
         }
       },
+      Promotions: {
+        screen :Promotions,
+        navigationOptions: {
+          title: "Notifications",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      SettingsBrowser: {
+        screen: Browser,
+        navigationOptions: {
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      Profile: {
+        screen: Profile,
+        navigationOptions: {
+          title: "Profile",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      }
     })
 
     const VenueStack = createStackNavigator({
@@ -369,6 +448,30 @@ export default class Application extends Component {
         screen: Tickets,
         navigationOptions: {
           title: "Tickets",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+      Browser: {
+        screen: Browser,
+        navigationOptions: {
           headerStyle: {
             backgroundColor: "#000000cc",
             opacity: .8,

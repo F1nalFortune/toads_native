@@ -40,12 +40,18 @@
 		</dict>
 	</dict>
 	<key>NSCalendarsUsageDescription</key>
-	<string>Allow Toad's Native calendar access to add events.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
+	<string>Allow Toad's Place calendar access to add events.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow Toad's Native location access for in-app navigation to our front doors.</string>
-	<key>UIAppFonts</key>
+	<string>Allow Toad's Place location access for in-app navigation to our front doors.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow Toad's Place location access for in-app navigation to our front doors.</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Toad's Place would like access to your photo gallery to change your profile picture.</string>
+  <key>NSCameraUsageDescription</key>
+  <string>Toad's Place would like to use your camera to take a profile picture.</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Toad's Place would like to save photos to your photo gallery.</string>
+  <key>UIAppFonts</key>
 	<array>
 		<string>Merriweather-Black.ttf</string>
 		<string>Merriweather-BlackItalic.ttf</string>

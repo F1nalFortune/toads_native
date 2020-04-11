@@ -13,13 +13,13 @@ import {
   Image,
   Animated
 } from 'react-native';
-
 import RNCalendarEvents from 'react-native-calendar-events';
 import Carousel from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import LoadingScreen from './LoadingScreen';
 import Geolocation from '@react-native-community/geolocation';
+import { WebView } from 'react-native-webview';
 
 import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
@@ -1132,7 +1132,10 @@ export default class ShowDetails extends Component {
         }}
       />
     );
+
     const item = this.props.navigation.state.params.item;
+    const url = item.ticket
+    console.log("Ticket: ", url)
     // console.log("ACTS")
     // console.log(item['acts'])
 
@@ -1212,7 +1215,7 @@ export default class ShowDetails extends Component {
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => Linking.openURL(item.ticket)}
+          onPress={() => this.props.navigation.navigate('Browser', {url})}
         >
           <Text style={{color: 'white', fontWeight: 'bold'}}>GET TIX</Text>
         </TouchableOpacity>

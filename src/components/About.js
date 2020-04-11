@@ -463,7 +463,7 @@ export default class About extends Component {
                   onPress={() => {
                     Alert.alert(
                       'Get Directions',
-                      'Choose travel method.',
+                      'Choose your travel method.',
                       [
                         {
                           text: 'Driving',
@@ -498,6 +498,7 @@ export default class About extends Component {
                         {text: 'Transit', onPress: () => {
                           Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=transit")
                         }},
+                        {text: 'Cancel'}
                       ]
                     );
 
