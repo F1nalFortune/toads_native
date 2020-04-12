@@ -18,21 +18,25 @@ import ImagePicker from 'react-native-image-picker';
 import Modal from 'react-native-modalbox';
 import BirthdayPicker from './BirthdayPicker'
 import EditName from './EditName'
+import uuid from 'uuid/v4'; // Import UUID to generate UUID
 import { db } from '../../Firebase';
 
+const { storage } = firebase.storage();
 
 export default class Profile extends Component {
   state={
-    avatar: require("../../assets/images/default_user.png"),
+    defaultAvatar: require("../../assets/images/default_user.png"),
     isModalVisible:false,
     isOpen: false,
     isDisabled: false,
     swipeToClose: true,
     name: '',
-      year: new Date().getFullYear(),
-      month: new Date().getMonth(),
-      day: new Date().getDate(),
-    gender: null
+    year: new Date().getFullYear(),
+    month: new Date().getMonth(),
+    day: new Date().getDate(),
+    gender: null,
+    uploading: false,
+    progress: 0
   }
   componentDidMount() {
     const { currentUser } = firebase.auth()
@@ -44,14 +48,30 @@ export default class Profile extends Component {
         var string = JSON.stringify(dataSnapShot, null, 2)
         var object = JSON.parse(string)
         console.log(string)
-        this.setState({
-          name: object.name,
-          year: object.birthday.year,
-          month: object.birthday.month,
-          day: object.birthday.day,
-          gender: object.gender,
-          avatar: object.avatar,
-        })
+        var keys = Object.keys(object)
+        if(keys.includes("birthday")){
+          this.setState({
+            year: object.birthday.year,
+            month: object.birthday.month,
+            day: object.birthday.day,
+          })
+        }
+        if(keys.includes("name")){
+          this.setState({
+            name: object.name
+          })
+        }
+        if(keys.includes("gender")){
+          this.setState({
+            gender: object.gender,
+          })
+        }
+        if(keys.includes("avatar")){
+          this.setState({
+            avatar: object.avatar,
+            defaultAvatar: false
+          })
+        }
       })
     //Pull Notification Settings from Database
 
@@ -114,17 +134,51 @@ export default class Profile extends Component {
        .catch(error => console.log("Error when creating new data.", error));
      this.refs.gender.close()
   }
-  updatePhoto = (avatar) => {
-    var user_id = firebase.auth().currentUser.uid
-    db.ref(`users/${user_id}/info/avatar`).set(avatar.uri)
-      .then(() => {
-        console.log("Photo updated: ", avatar)
-        this.setState({
-          isOpen: false,
-          avatar: avatar.uri
-        })
-      })
-      .catch(error => console.log("Error when creating new data.", error));
+  updatePhoto = () =>{
+    const ext = this.state.imageUri.split('.').pop(); // Extract image extension
+    const filename = `${uuid()}.${ext}`; // Generate unique name
+    this.setState({uploading: true});
+    firebase
+      .storage()
+      .ref(`avatars/${filename}`)
+      .putFile(this.state.imageUri)
+      .on(
+        firebase.storage.TaskEvent.STATE_CHANGED,
+        snapshot => {
+          let state = {};
+          state = {
+            ...state,
+            progress: (snapshot.bytesTransferred / snapshot.totalBytes) * 100 // Calculate progress percentage
+          };
+          if (snapshot.state === firebase.storage.TaskState.SUCCESS) {
+            state = {
+              ...state,
+              uploading: false,
+              imgSource: '',
+              imageUri: '',
+              progress: 0,
+              downloadURL: snapshot.downloadURL,
+              avatar: snapshot.downloadURL
+
+            };
+          }
+          this.setState(state);
+          var user_id = firebase.auth().currentUser.uid
+          db.ref(`users/${user_id}/info/avatar`).set(snapshot.downloadURL)
+            .then(() => {
+              console.log("Photo updated: ", this.state.downloadURL)
+              this.setState({
+                isOpen: false,
+                avatar: snapshot.downloadURL
+              })
+            })
+            .catch(error => console.log("Error when creating new data.", error));
+        },
+        error => {
+          unsubscribe();
+          alert('Sorry, Try again.');
+        }
+      )
   }
   handleChangeText = (text, type) => {
     this.setState({
@@ -158,13 +212,17 @@ export default class Profile extends Component {
 
         // You can also display the image using data:
         // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-        this.updatePhoto(source)
+        this.setState({
+          imgSource: source,
+          imageUri: response.uri
+        });
+        this.updatePhoto()
       }
     });
   }
 
   render() {
+    const { uploading, progress, defaultAvatar } = this.state;
     const { currentUser } = firebase.auth()
     firebase.analytics().setCurrentScreen('profile');
     const ColoredLine = ({ color }) => (
@@ -185,12 +243,32 @@ export default class Profile extends Component {
           }}>
           <TouchableOpacity
             style={{
-              justifyContent: 'center',
-              alignItems: 'center',
               padding: 25
             }}
             onPress={() => this._imagePicker()}>
-              <Image source={this.state.avatar} style={styles.uploadAvatar} />
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+              {
+                defaultAvatar
+                ?
+                <Image source={defaultAvatar} style={styles.uploadAvatar} />
+                :
+                <Image source={{uri: this.state.avatar}} style={styles.uploadAvatar} />
+              }
+            </View>
+              {uploading && (
+                <View
+                  style={[styles.progressBar, { width: `${progress}%` }]}
+                />
+              )}
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => this._imagePicker()}>
+                <Text>{uploading ? 'Uploading...' : 'Choose Avatar'}</Text>
+              </TouchableOpacity>
               <Text style={{
                 textAlign: 'center',
                 justifyContent: 'center',
@@ -376,7 +454,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10
+    margin: 25
   },
   bottomFooter:{
     marginTop: 25
@@ -417,6 +495,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     width: '20%'
+  },
+  progressBar: {
+    backgroundColor: 'rgb(3, 154, 229)',
+    height: 3,
+    shadowColor: '#000',
   },
   uploadAvatar:{
     borderRadius: 50,

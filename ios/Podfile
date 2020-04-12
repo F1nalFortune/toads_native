@@ -33,6 +33,7 @@ target 'NavDemo' do
   pod 'Firebase/Auth'
   pod 'Firebase/Messaging'
   pod 'Firebase/Database'
+  pod 'Firebase/Storage'
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
   pod 'RNShare', :path => '../node_modules/react-native-share'
 

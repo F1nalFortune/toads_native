@@ -499,14 +499,6 @@ export default class ShowDetails extends Component {
     .catch(error => console.warn('Auth Error: ', error));
     // grab user genre preferences
     var user_id = firebase.auth().currentUser.uid
-    // db.ref(`users/${user_id}/genrePref`).once('value')
-    //   .then((dataSnapShot) => {
-    //     var string = JSON.stringify(dataSnapShot, null, 2)
-    //     var object = JSON.parse(string)
-    //     var genrePrefs = Object.keys(object)
-    //     // console.log(JSON.stringify(genrePrefs, null, 2))
-    //     this.setState({genrePrefs: genrePrefs})
-    //   })
     var similarArtists = Object.values(this.props.navigation.state.params.item.genre)
     this.setState({
       similarArtists: similarArtists
@@ -1121,22 +1113,8 @@ export default class ShowDetails extends Component {
           console.log("keys: ", keys)
           for(i=0;i<keys.length;i++){
             var user = data[keys[i]].user
-            console.log(user_email)
-            console.log(user)
-            console.log(title )
-            console.log(data[keys[i]].title)
-            console.log(img)
-            console.log(data[keys[i]].img)
-            console.log(new Date(datetime).valueOf())
-            console.log(new Date(data[keys[i]].date).valueOf())
             if(user_email==user && title == data[keys[i]].title && img==data[keys[i]].img && new Date(datetime).getTime()===new Date(data[keys[i]].date).getTime()){
               var delete_key = Object.keys(data)[Object.values(data).indexOf(data[keys[i]])];
-              console.log("DELETE KEY: ", delete_key)
-            } else{
-              console.log(user_email==user)
-              console.log(title == data[keys[i]].title)
-              console.log(img==data[keys[i]].img)
-              console.log(new Date(datetime).valueOf()==new Date(data[keys[i]].date).valueOf())
             }
           }
           db.ref(`attendance/${delete_key}`).remove()
@@ -1145,6 +1123,27 @@ export default class ShowDetails extends Component {
           console.log("Failed to delete: ", error)
         })
     }else{
+      // grab user's avatar + gender
+      db.ref(`users/${user_id}`).once('value')
+        .then((dataSnapShot) => {
+          saved_events = []
+          var data = JSON.stringify(dataSnapShot, null, 2)
+          console.log("Data: ")
+          console.log(data)
+          var data = JSON.parse(data)
+          var keys = Object.keys(data)
+          console.log("keys: ", keys)
+          for(i=0;i<keys.length;i++){
+            var user = data[keys[i]].user
+            if(user_email==user && title == data[keys[i]].title && img==data[keys[i]].img && new Date(datetime).getTime()===new Date(data[keys[i]].date).getTime()){
+              var delete_key = Object.keys(data)[Object.values(data).indexOf(data[keys[i]])];
+            }
+          }
+          db.ref(`attendance/${delete_key}`).remove()
+        })
+        .catch((error) =>{
+          console.log("Failed to delete: ", error)
+        })
       var postData = {
         title: title,
         date: this.props.navigation.state.params.item['datetime'],
@@ -1400,7 +1399,7 @@ export default class ShowDetails extends Component {
                 <TouchableOpacity
                   style={styles.menuTabs}
                   onPress={() => {
-                    this.props.navigation.navigate('Concertgoers')
+                    this.props.navigation.navigate('Concertgoers', {item})
                   }}
                 >
                   <View style={styles.menuTabText}>
