@@ -11,7 +11,8 @@ import {
   Share,
   ImageBackground,
   Image,
-  Animated
+  Animated,
+  Switch
 } from 'react-native';
 import RNCalendarEvents from 'react-native-calendar-events';
 import Carousel from 'react-native-snap-carousel';
@@ -283,7 +284,8 @@ export default class ShowDetails extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      buttonText: 'Add Event to Calendar'
+      buttonText: 'Add Event to Calendar',
+      attendance: false
     }
   }
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -889,214 +891,272 @@ export default class ShowDetails extends Component {
     }
 
     }
-    _renderItem = ({item, index}) => {
-      const fullDay = function(day) {
-        switch (day) {
-          case 'Fri': return "Friday";
-          case 'Sat': return "Saturday";
-          case 'Sun': return "Sunday";
-          case 'Mon': return "Monday";
-          case 'Tue': return "Tuesday";
-          case 'Wed': return "Wednesday";
-          case 'Thu': return "Thursday"
-        }
+  _renderItem = ({item, index}) => {
+    const fullDay = function(day) {
+      switch (day) {
+        case 'Fri': return "Friday";
+        case 'Sat': return "Saturday";
+        case 'Sun': return "Sunday";
+        case 'Mon': return "Monday";
+        case 'Tue': return "Tuesday";
+        case 'Wed': return "Wednesday";
+        case 'Thu': return "Thursday"
       }
-      const fullMonth = function(month){
-        switch(month) {
-          case 'Jan': return "January";
-          case 'Feb': return "February";
-          case 'Mar': return "March";
-          case 'Apr': return "April";
-          case 'May': return "May";
-          case 'Jun': return "June";
-          case 'Jul': return "July";
-          case 'Aug': return "August";
-          case 'Sep': return "September";
-          case 'Oct': return "October";
-          case 'Nov': return "November";
-          case 'Dec': return "December"
-        }
-      }
-      function ordinal_suffix(i) {
-        var j = i % 10,
-        k = i % 100;
-        if (j == 1 && k != 11) {
-          return i + "st";
-        }
-        if (j == 2 && k != 12) {
-          return i + "nd";
-        }
-        if (j == 3 && k != 13) {
-          return i + "rd";
-        }
-        return i + "th";
-      }
-      function cleanGenreName(genre){
-        var genres = {
-          acoustic: 'acoustic',
-          alternative: 'alternative',
-          alternative_rock: 'alternative rock',
-          classic_rock: 'classic rock',
-          american_rock: 'American rock',
-          comedy: 'comedy',
-          dance: 'dance',
-          dubstep: 'dubstep',
-          emo: 'emo',
-          hip_hop: 'hip-hop',
-          funk: 'funk',
-          indie: 'indie',
-          metal: 'metal',
-          musical_theatre: 'musical theatre',
-          pop: 'pop',
-          rap: 'rap',
-          reggae: 'reggae',
-          r_n_b: 'R&B',
-          ska: 'ska'
-        }
-        return genres[genre]
-      }
-      var current_itemzor = item
-
-        return (
-          <TouchableOpacity
-          style={{
-            borderWidth: 2,
-            borderRadius: 5,
-            borderColor: 'green',
-            flex: 1,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 10,
-            },
-            shadowOpacity: 0.51,
-            shadowRadius: 13.16,
-            elevation: 20,
-            marginBottom: 50
-          }}
-          onPress={() => this.props.navigation.push('Details', {item})}>
-            <View>
-              <Image
-              source={{uri: item.img }}
-              style={{width: '100%', height: 250, borderRadius: 5}}>
-              </Image>
-            </View>
-
-            <View
-              style={[styles.similarArtistWrapper]}>
-              { item.presenter ?
-                <View style={{paddingTop:10}}>
-                  <Text style={styles.subtitle}>{item.presenter}</Text>
-                  <Text style={styles.eventTitle}>{item.title}</Text>
-                </View> :
-                <View style={{paddingTop:10}}>
-                  <Text style={styles.eventTitle}>{item.title}</Text>
-                </View>
-              }
-              {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : <View></View>}
-              <Text
-                style={styles.date}>
-                  {item.date[2]} \\
-                  <Text style={{fontWeight: 'bold'}}>
-                    {' ' + item.date[0] + ' ' + item.date[1]}
-                  </Text>
-              </Text>
-              <View style={{borderTopWidth: 2, borderTopColor: 'green'}}>
-                <Text>{item.information[2]}</Text>
-                <Text>{item.information[3]}</Text>
-              </View>
-              <Icon
-                style={{
-                  color:'black',
-                  padding: 10
-                 }}
-                name={'upload'}
-                size={20}
-                onPress={async () => {
-                  uid = firebase.auth().currentUser.uid;
-
-                  var fixed_genres = []
-                  var doors_time =current_itemzor['information'][2].substr(current_itemzor['information'][2].length-5).trim() + ' PM'
-                  var show_time = current_itemzor['information'][3].substr(current_itemzor['information'][2].length-5).trim() + ' PM'
-                  var age_limit = current_itemzor['information'][4]
-                  var title = current_itemzor['title']
-                  var month = current_itemzor['date'][0]
-                  var date = current_itemzor['date'][1]
-                  var day = current_itemzor['date'][2]
-                  for(a=0;a<current_itemzor['genre'].length;a++){
-                    var genre = current_itemzor['genre'][a]
-                    genre = cleanGenreName(genre)
-                    fixed_genres.push(genre)
-                  }
-                  var message = `${title} - live at Toad's Place!\n\n`
-
-                  if(fixed_genres.length<2){
-
-                    var s = fixed_genres[0]
-                    var message = message + `Come down for some ${s} music.`
-                    message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
-                    message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
-
-                  }else if(fixed_genres.length > 1 && fixed_genres.length < 3){
-
-                    var s = fixed_genres[0] + " and " + fixed_genres[1]
-                    var message = message + `Come check out the show tonight for a blend of ${s} music.`
-                    message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
-                    message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
-
-                  }else if(fixed_genres.length > 2){
-
-                    var s = fixed_genres.slice(0, fixed_genres.length - 1).join(', ') + ", and " + fixed_genres.slice(-1);
-                    var message = message + `Come check out the show tonight a blend of ${s} music.`
-                    message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
-                    message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
-
-                  }
-                  function writeNewPost(uid, result, current_itemzor) {
-                    // A post entry.
-                    var postData = {
-                      result: result
-                    };
-                    // Get a key for a new Post.
-                    var newPostKey = db.ref('users/' + uid).child('posts').push().key;
-
-                    // Write the new post's data simultaneously in the posts list and the user's post list.
-                    var updates = {};
-                    updates['/posts/' + newPostKey] = postData;
-
-                    return db.ref('users/' + uid).update(updates);
-                  }
-                  try {
-                    const result = await Share.share({
-                      title: current_itemzor.title,
-                      message: message,
-                      url: 'http://www.toadsplace.com'
-                    });
-                    if (result.action === Share.sharedAction) {
-                      if (result.activityType) {
-                        // shared with activity type of result.activityType
-                        result['createdOn'] = new Date();
-                        result['show'] = current_itemzor
-                        // console.log(JSON.stringify(result, null, 2))
-                        writeNewPost(uid, result, current_itemzor)
-                      } else {
-                        // shared
-                        result['createdOn'] = new Date();
-                        result['show'] = current_itemzor
-                        // console.log(JSON.stringify(result, null, 2))
-                        writeNewPost(uid, result, current_itemzor)
-                      }
-                    } else if (result.action === Share.dismissedAction) {
-                      console.log("Dismissed Action")
-                    }
-                  } catch (error) {
-                    alert(error.message);
-                  }
-                }}/>
-            </View>
-          </TouchableOpacity>
-        );
     }
+    const fullMonth = function(month){
+      switch(month) {
+        case 'Jan': return "January";
+        case 'Feb': return "February";
+        case 'Mar': return "March";
+        case 'Apr': return "April";
+        case 'May': return "May";
+        case 'Jun': return "June";
+        case 'Jul': return "July";
+        case 'Aug': return "August";
+        case 'Sep': return "September";
+        case 'Oct': return "October";
+        case 'Nov': return "November";
+        case 'Dec': return "December"
+      }
+    }
+    function ordinal_suffix(i) {
+      var j = i % 10,
+      k = i % 100;
+      if (j == 1 && k != 11) {
+        return i + "st";
+      }
+      if (j == 2 && k != 12) {
+        return i + "nd";
+      }
+      if (j == 3 && k != 13) {
+        return i + "rd";
+      }
+      return i + "th";
+    }
+    function cleanGenreName(genre){
+      var genres = {
+        acoustic: 'acoustic',
+        alternative: 'alternative',
+        alternative_rock: 'alternative rock',
+        classic_rock: 'classic rock',
+        american_rock: 'American rock',
+        comedy: 'comedy',
+        dance: 'dance',
+        dubstep: 'dubstep',
+        emo: 'emo',
+        hip_hop: 'hip-hop',
+        funk: 'funk',
+        indie: 'indie',
+        metal: 'metal',
+        musical_theatre: 'musical theatre',
+        pop: 'pop',
+        rap: 'rap',
+        reggae: 'reggae',
+        r_n_b: 'R&B',
+        ska: 'ska'
+      }
+      return genres[genre]
+    }
+    var current_itemzor = item
+
+      return (
+        <TouchableOpacity
+        style={{
+          borderWidth: 2,
+          borderRadius: 5,
+          borderColor: 'green',
+          flex: 1,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 10,
+          },
+          shadowOpacity: 0.51,
+          shadowRadius: 13.16,
+          elevation: 20,
+          marginBottom: 50
+        }}
+        onPress={() => this.props.navigation.push('Details', {item})}>
+          <View>
+            <Image
+            source={{uri: item.img }}
+            style={{width: '100%', height: 250, borderRadius: 5}}>
+            </Image>
+          </View>
+
+          <View
+            style={[styles.similarArtistWrapper]}>
+            { item.presenter ?
+              <View style={{paddingTop:10}}>
+                <Text style={styles.subtitle}>{item.presenter}</Text>
+                <Text style={styles.eventTitle}>{item.title}</Text>
+              </View> :
+              <View style={{paddingTop:10}}>
+                <Text style={styles.eventTitle}>{item.title}</Text>
+              </View>
+            }
+            {item.subtitle ? <Text style={styles.subtitle}>{item.subtitle}</Text> : <View></View>}
+            <Text
+              style={styles.date}>
+                {item.date[2]} \\
+                <Text style={{fontWeight: 'bold'}}>
+                  {' ' + item.date[0] + ' ' + item.date[1]}
+                </Text>
+            </Text>
+            <View style={{borderTopWidth: 2, borderTopColor: 'green'}}>
+              <Text>{item.information[2]}</Text>
+              <Text>{item.information[3]}</Text>
+            </View>
+            <Icon
+              style={{
+                color:'black',
+                padding: 10
+               }}
+              name={'upload'}
+              size={20}
+              onPress={async () => {
+                uid = firebase.auth().currentUser.uid;
+
+                var fixed_genres = []
+                var doors_time =current_itemzor['information'][2].substr(current_itemzor['information'][2].length-5).trim() + ' PM'
+                var show_time = current_itemzor['information'][3].substr(current_itemzor['information'][2].length-5).trim() + ' PM'
+                var age_limit = current_itemzor['information'][4]
+                var title = current_itemzor['title']
+                var month = current_itemzor['date'][0]
+                var date = current_itemzor['date'][1]
+                var day = current_itemzor['date'][2]
+                for(a=0;a<current_itemzor['genre'].length;a++){
+                  var genre = current_itemzor['genre'][a]
+                  genre = cleanGenreName(genre)
+                  fixed_genres.push(genre)
+                }
+                var message = `${title} - live at Toad's Place!\n\n`
+
+                if(fixed_genres.length<2){
+
+                  var s = fixed_genres[0]
+                  var message = message + `Come down for some ${s} music.`
+                  message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+                  message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+                }else if(fixed_genres.length > 1 && fixed_genres.length < 3){
+
+                  var s = fixed_genres[0] + " and " + fixed_genres[1]
+                  var message = message + `Come check out the show tonight for a blend of ${s} music.`
+                  message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+                  message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+                }else if(fixed_genres.length > 2){
+
+                  var s = fixed_genres.slice(0, fixed_genres.length - 1).join(', ') + ", and " + fixed_genres.slice(-1);
+                  var message = message + `Come check out the show tonight a blend of ${s} music.`
+                  message = `${message} \n\n ${day}, ${fullMonth(month)} ${ordinal_suffix(parseInt(date))}.`
+                  message = `${message} \n\n Doors open at ${doors_time}, and the show starts at ${show_time}.\n\n ${age_limit}`
+
+                }
+                function writeNewPost(uid, result, current_itemzor) {
+                  // A post entry.
+                  var postData = {
+                    result: result
+                  };
+                  // Get a key for a new Post.
+                  var newPostKey = db.ref('users/' + uid).child('posts').push().key;
+
+                  // Write the new post's data simultaneously in the posts list and the user's post list.
+                  var updates = {};
+                  updates['/posts/' + newPostKey] = postData;
+
+                  return db.ref('users/' + uid).update(updates);
+                }
+                try {
+                  const result = await Share.share({
+                    title: current_itemzor.title,
+                    message: message,
+                    url: 'http://www.toadsplace.com'
+                  });
+                  if (result.action === Share.sharedAction) {
+                    if (result.activityType) {
+                      // shared with activity type of result.activityType
+                      result['createdOn'] = new Date();
+                      result['show'] = current_itemzor
+                      // console.log(JSON.stringify(result, null, 2))
+                      writeNewPost(uid, result, current_itemzor)
+                    } else {
+                      // shared
+                      result['createdOn'] = new Date();
+                      result['show'] = current_itemzor
+                      // console.log(JSON.stringify(result, null, 2))
+                      writeNewPost(uid, result, current_itemzor)
+                    }
+                  } else if (result.action === Share.dismissedAction) {
+                    console.log("Dismissed Action")
+                  }
+                } catch (error) {
+                  alert(error.message);
+                }
+              }}/>
+          </View>
+        </TouchableOpacity>
+      );
+  }
+
+  updateAttendance = () => {
+    // ATTENDANCE STATE HAS JUST BEEN TOGGLED
+    var attendance = this.state.attendance;
+    var user_id = firebase.auth().currentUser.uid
+    var user_email = firebase.auth().currentUser.email
+    var title = this.props.navigation.state.params.item['title']
+    var img = this.props.navigation.state.params.item['img']
+    var datetime = this.props.navigation.state.params.item['datetime']
+    // A post entry.
+    if(this.state.attendance==false){
+      db.ref(`attendance`).once('value')
+        .then((dataSnapShot) => {
+          saved_events = []
+          var data = JSON.stringify(dataSnapShot, null, 2)
+          console.log("Data: ")
+          console.log(data)
+          var data = JSON.parse(data)
+          var keys = Object.keys(data)
+          console.log("keys: ", keys)
+          for(i=0;i<keys.length;i++){
+            var user = data[keys[i]].user
+            console.log(user_email)
+            console.log(user)
+            console.log(title )
+            console.log(data[keys[i]].title)
+            console.log(img)
+            console.log(data[keys[i]].img)
+            console.log(new Date(datetime).valueOf())
+            console.log(new Date(data[keys[i]].date).valueOf())
+            if(user_email==user && title == data[keys[i]].title && img==data[keys[i]].img && new Date(datetime).getTime()===new Date(data[keys[i]].date).getTime()){
+              var delete_key = Object.keys(data)[Object.values(data).indexOf(data[keys[i]])];
+              console.log("DELETE KEY: ", delete_key)
+            } else{
+              console.log(user_email==user)
+              console.log(title == data[keys[i]].title)
+              console.log(img==data[keys[i]].img)
+              console.log(new Date(datetime).valueOf()==new Date(data[keys[i]].date).valueOf())
+            }
+          }
+          db.ref(`attendance/${delete_key}`).remove()
+        })
+        .catch((error) =>{
+          console.log("Failed to delete: ", error)
+        })
+    }else{
+      var postData = {
+        title: title,
+        date: this.props.navigation.state.params.item['datetime'],
+        img: this.props.navigation.state.params.item['img'],
+        user: user_email
+      };
+      var newPostKey = db.ref(`attendance`).push().key;
+      return db.ref(`attendance/${newPostKey}`).update(postData);
+    }
+  }
+  toggle_attendance = (value)=>{this.setState({attendance: value}, ()=>{this.updateAttendance()})}
+
   render(){
     function formatDate(date) {
         var d = new Date(date),
@@ -1111,8 +1171,6 @@ export default class ShowDetails extends Component {
 
         return [year, month, day].join('-');
     }
-
-
     var currentDate = formatDate(this.props.navigation.state.params.item['datetime'])
     var title = this.props.navigation.state.params.item['title']
     firebase.analytics().setCurrentScreen(`${title}(${currentDate})`);
@@ -1255,26 +1313,6 @@ export default class ShowDetails extends Component {
                 <ColoredLine color="green" width="100%" padding={10}/>
                 <TouchableOpacity
                   style={styles.menuTabs}
-                  onPress={() => this.handleAddEvent(this.state.item)}>
-                  <View style={styles.menuTabText}>
-                    <Text>
-                      {this.state.buttonText}
-                    </Text>
-                  </View>
-                  <View style={styles.menuTabIcon}>
-                    <Icon
-                       style={styles.menuTabIcon}
-                      name={'chevron-right'}
-                      size={20}
-                      style={{
-                        width:20,
-                        height:20
-                      }}/>
-                  </View>
-                </TouchableOpacity>
-                <ColoredLine color="green" width="100%" padding={1}/>
-                <TouchableOpacity
-                  style={styles.menuTabs}
                   onPress={() => {
                     this.props.navigation.navigate('About', {info: 'tab'})
                   }}>
@@ -1293,6 +1331,7 @@ export default class ShowDetails extends Component {
                       }}/>
                   </View>
                 </TouchableOpacity>
+
                   <MapView
                     style={{
                       height: 250,
@@ -1317,6 +1356,70 @@ export default class ShowDetails extends Component {
                       <Image source={require('../../assets/images/custom_marker.png')}/>
                     </MapView.Marker>
                   </MapView>
+
+                <TouchableOpacity
+                  style={[styles.menuTabs, {
+                    flexDirection: 'row',
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }]}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Attending Event
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Switch
+                      onValueChange= {this.toggle_attendance}
+                      value = {this.state.attendance}
+                      trackColor = {{true: '#008000b3'}}/>
+                  </View>
+                </TouchableOpacity>
+                <ColoredLine color="green" width="100%" padding={10}/>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.handleAddEvent(this.state.item)}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      {this.state.buttonText}
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}
+                      style={{
+                        width:20,
+                        height:20
+                      }}/>
+                  </View>
+                </TouchableOpacity>
+                <ColoredLine color="green" width="100%" padding={1}/>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => {
+                    this.props.navigation.navigate('Concertgoers')
+                  }}
+                >
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      Concertgoers
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}
+                      style={{
+                        width:20,
+                        height:20
+                      }}/>
+                  </View>
+                </TouchableOpacity>
+                <ColoredLine color="green" width="100%" padding={1}/>
                 <ColoredLine color="green" width="90%" padding={10}/>
                 {this.state.similarArtists.length > 0 ? <View style={[styles.wrapper,{paddingBottom: 300}]}>
                   <View style={{

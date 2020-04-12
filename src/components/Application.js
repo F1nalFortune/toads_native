@@ -37,6 +37,7 @@ import Hotels from './FAQs/Hotels'
 import Browser from './Browser'
 import Promotions from './Promotions'
 import Profile from './Profile'
+import Concertgoers from './Concertgoers'
 import cio from 'cheerio-without-node-native';
 import firebase from 'react-native-firebase';
 
@@ -458,31 +459,6 @@ export default class Application extends Component {
       Details: {
         screen: ShowDetails
       },
-      Tickets: {
-        screen: Tickets,
-        navigationOptions: {
-          title: "Tickets",
-          headerStyle: {
-            backgroundColor: "#000000cc",
-            opacity: .8,
-            borderBottomColor: 'green',
-            borderBottomWidth: 1
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: "#fff",
-            textShadowColor: "#66ff66",
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            shadowOpacity: .58,
-            textAlign: 'center',
-            fontFamily: "Merriweather-Bold",
-            textTransform: 'uppercase',
-            fontSize: 24,
-            padding: 10
-          }
-        }
-      },
       Browser: {
         screen: Browser,
         navigationOptions: {
@@ -506,7 +482,33 @@ export default class Application extends Component {
             padding: 10
           }
         }
-      }
+      },
+      Concertgoers:{
+        screen: Concertgoers,
+        navigationOptions: {
+          title: "Concertgoers",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          }
+        }
+      },
+
     });
 
     // This code let you hide the bottom app bar while "Details" is rendered
