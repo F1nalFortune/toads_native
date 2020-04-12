@@ -55,6 +55,22 @@ export default class Settings extends Component {
         <ColoredLine color="grey" width="100%" pad={5}/>
         <TouchableOpacity
           style={styles.menuTabs}
+          onPress={() => this.props.navigation.navigate('Inbox')}>
+          <View style={styles.menuTabText}>
+            <Text>
+              Inbox
+            </Text>
+          </View>
+          <View style={styles.menuTabIcon}>
+            <Icon
+               style={styles.menuTabIcon}
+              name={'chevron-right'}
+              size={20}/>
+          </View>
+        </TouchableOpacity>
+        <ColoredLine color="grey" width="100%" pad={5}/>
+        <TouchableOpacity
+          style={styles.menuTabs}
           onPress={() => this.props.navigation.navigate('Profile')}>
           <View style={styles.menuTabText}>
             <Text>

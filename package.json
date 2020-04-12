@@ -26,6 +26,7 @@
     "react-native-gallery-swiper": "^1.22.2",
     "react-native-geolocation-service": "^4.0.0",
     "react-native-gesture-handler": "^1.4.1",
+    "react-native-gifted-chat": "^0.13.0",
     "react-native-image-picker": "^2.3.1",
     "react-native-image-slider-box": "^1.0.12",
     "react-native-launch-navigator": "^1.0.6",

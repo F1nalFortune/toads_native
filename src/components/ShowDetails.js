@@ -603,19 +603,10 @@ export default class ShowDetails extends Component {
         var attending = false
         for(i=0;i<keys.length;i++){
           var user = data[keys[i]].user
-          console.log(user_email)
-          console.log(user)
-          console.log(title)
-          console.log(data[keys[i]].title)
-          console.log(img)
-          console.log(data[keys[i]].img)
-          console.log(new Date(datetime).getTime())
-          console.log(new Date(data[keys[i]].date).getTime())
           if(user_email==user && title == data[keys[i]].title && img==data[keys[i]].img && new Date(datetime).getTime()===new Date(data[keys[i]].date).getTime()){
             var attending = true
           }
         }
-        console.log("Attendance: ", attending)
         this.setState({attendance: attending})
       })
       .catch((error) =>{
@@ -1163,18 +1154,18 @@ export default class ShowDetails extends Component {
           console.log("Data: ")
           console.log(data)
           var data = JSON.parse(data)
-          if(data.name){
-            var username = data.name
+          if(data.info.name){
+            var username = data.info.name
           } else {
             var username = false
           }
-          if(data.avatar){
-            var avatar = data.avatar
+          if(data.info.avatar){
+            var avatar = data.info.avatar
           } else {
             var avatar = false
           }
-          if(data.gender){
-            var gender = data.gender
+          if(data.info.gender){
+            var gender = data.info.gender
           } else {
             var gender = false
           }

@@ -36,14 +36,16 @@ export default class Concertgoers extends Component {
           var avatar = data[keys[i]].avatar;
           var gender = data[keys[i]].gender;
           var name = data[keys[i]].username;
-          if(event_title==this_event.title&&event_date==this_event.date&&img==this_event.img){
+
+          console.log("Avatar: ", avatar)
+          if(event_title==this_event.title&&event_date==this_event.datetime&&img==this_event.img){
             var concertgoer={
               email: email,
               avatar: avatar,
               gender: gender,
               name: name
             }
-            concertgoers.append(concertgoer)
+            concertgoers.push(concertgoer)
           }
         }
         this.setState({
@@ -70,15 +72,25 @@ export default class Concertgoers extends Component {
       />
     );
     const ListPeople = ({item}) => (
-      <TouchableOpacity>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row'
+        }}>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.push('PrivateMessage')}>
+        {
+          item.avatar
+          ?
+          <Image
+            source={{uri: item.avatar}}
+            style={styles.avatar}/>
+          :
+          <Image
+            source={require("../../assets/images/default_user.png")}
+            style={styles.avatar}/>
+        }
         <View>
-          {
-            item.avatar
-            ?
-            <Image source={{uri: item.avatar}}/>
-            :
-            <Image source={require("../../assets/images/default_user.png")}/>
-          }
           {
             item.name
             ?
@@ -87,18 +99,11 @@ export default class Concertgoers extends Component {
             <Text>{item.email}</Text>
           }
         </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     );
     return (
-    <ImageBackground
-      source={require('../../assets/images/toad_logo.jpg')}
-      style={{flex: 1,
-        width: null,
-        height: null,
-        resizeMode: 'cover'
-      }}
-      imageStyle= {{opacity:0.05}}
-      >
+    <ScrollView>
       {
         this.state.items.length>0
         ?
@@ -106,13 +111,18 @@ export default class Concertgoers extends Component {
         :
         <View></View>
       }
-    </ImageBackground>
+    </ScrollView>
     );
   }
 }
 
 
 const styles = StyleSheet.create({
+  avatar:{
+    borderRadius: 50,
+    width: 100,
+    height: 100
+  },
   header:{
     fontSize: 24,
     textAlign: 'center',
