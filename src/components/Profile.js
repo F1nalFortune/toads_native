@@ -284,7 +284,7 @@ export default class Profile extends Component {
             onPress={() => this.refs.name.open()}>
             <View style={styles.menuTabText}>
               <Text>
-                Name
+                Name{"\t\t" + this.state.name}
               </Text>
             </View>
             <View style={styles.menuTabIcon}>
@@ -302,7 +302,7 @@ export default class Profile extends Component {
           >
             <View style={styles.menuTabText}>
               <Text>
-                Birthday
+                Birthday{"\t\t" + this.state.month + "-" + this.state.day + "-" + this.state.year}
               </Text>
             </View>
             <View style={styles.menuTabIcon}>
@@ -321,7 +321,7 @@ export default class Profile extends Component {
           >
             <View style={styles.menuTabText}>
               <Text>
-                Gender
+                Gender{this.state.gender ? `\t\t ${this.state.gender.charAt(0).toUpperCase()}${this.state.gender.slice(1)}` : ''}
               </Text>
             </View>
             <View style={styles.menuTabIcon}>

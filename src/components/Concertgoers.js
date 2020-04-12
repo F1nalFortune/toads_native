@@ -14,7 +14,7 @@ import { db } from '../../Firebase';
 
 export default class Concertgoers extends Component {
   state={
-
+    items: []
   }
   componentDidMount(){
     const this_event = this.props.navigation.state.params.item
@@ -32,18 +32,26 @@ export default class Concertgoers extends Component {
           var event_title = data[keys[i]].title;
           var event_date = data[keys[i]].date;
           var img = data[keys[i]].img;
-          var user = data[keys[i]].user;
+          var email = data[keys[i]].user;
+          var avatar = data[keys[i]].avatar;
+          var gender = data[keys[i]].gender;
+          var name = data[keys[i]].username;
           if(event_title==this_event.title&&event_date==this_event.date&&img==this_event.img){
-            concertgoers.append()
-          }
-          if(user_email==user && title == data[keys[i]].title && img==data[keys[i]].img && new Date(datetime).getTime()===new Date(data[keys[i]].date).getTime()){
-            var delete_key = Object.keys(data)[Object.values(data).indexOf(data[keys[i]])];
+            var concertgoer={
+              email: email,
+              avatar: avatar,
+              gender: gender,
+              name: name
+            }
+            concertgoers.append(concertgoer)
           }
         }
-        db.ref(`attendance/${delete_key}`).remove()
+        this.setState({
+          items: concertgoers
+        })
       })
       .catch((error) =>{
-        console.log("Failed to delete: ", error)
+        console.log("Failed to fetch concertgoers: ", error)
       })
   }
 
@@ -61,6 +69,26 @@ export default class Concertgoers extends Component {
         }}
       />
     );
+    const ListPeople = ({item}) => (
+      <TouchableOpacity>
+        <View>
+          {
+            item.avatar
+            ?
+            <Image source={{uri: item.avatar}}/>
+            :
+            <Image source={require("../../assets/images/default_user.png")}/>
+          }
+          {
+            item.name
+            ?
+            <Text>{item.name}{"\n"}{item.email}</Text>
+            :
+            <Text>{item.email}</Text>
+          }
+        </View>
+      </TouchableOpacity>
+    );
     return (
     <ImageBackground
       source={require('../../assets/images/toad_logo.jpg')}
@@ -71,7 +99,13 @@ export default class Concertgoers extends Component {
       }}
       imageStyle= {{opacity:0.05}}
       >
-
+      {
+        this.state.items.length>0
+        ?
+        this.state.items.map(item => <ListPeople item={item} key={this.state.items.indexOf(item)}/>)
+        :
+        <View></View>
+      }
     </ImageBackground>
     );
   }

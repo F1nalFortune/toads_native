@@ -588,10 +588,43 @@ export default class ShowDetails extends Component {
       item: this.props.navigation.state.params.item
     })
 
+    var user_id = firebase.auth().currentUser.uid
+    var user_email = firebase.auth().currentUser.email
+    var title = this.props.navigation.state.params.item['title']
+    var img = this.props.navigation.state.params.item['img']
+    var datetime = this.props.navigation.state.params.item['datetime']
+    // SET ATTENDANCE SWITCH
+    db.ref(`attendance`).once('value')
+      .then((dataSnapShot) => {
+        saved_events = []
+        var data = JSON.stringify(dataSnapShot, null, 2)
+        var data = JSON.parse(data)
+        var keys = Object.keys(data)
+        var attending = false
+        for(i=0;i<keys.length;i++){
+          var user = data[keys[i]].user
+          console.log(user_email)
+          console.log(user)
+          console.log(title)
+          console.log(data[keys[i]].title)
+          console.log(img)
+          console.log(data[keys[i]].img)
+          console.log(new Date(datetime).getTime())
+          console.log(new Date(data[keys[i]].date).getTime())
+          if(user_email==user && title == data[keys[i]].title && img==data[keys[i]].img && new Date(datetime).getTime()===new Date(data[keys[i]].date).getTime()){
+            var attending = true
+          }
+        }
+        console.log("Attendance: ", attending)
+        this.setState({attendance: attending})
+      })
+      .catch((error) =>{
+        console.log("Failed to delete: ", error)
+      })
+
 
 
     const item = this.props.navigation.state.params.item;
-
     function myFunction(mystring){
         values = ['presented by:', 'presents:', 'present:']
         string_length = mystring.length
@@ -631,7 +664,6 @@ export default class ShowDetails extends Component {
           return false
         }
     }
-
     var startDate = new Date(item.datetime)
     var endDate = new Date(item.datetime)
     endDate.setHours(endDate.getHours() + 1)
@@ -1131,27 +1163,36 @@ export default class ShowDetails extends Component {
           console.log("Data: ")
           console.log(data)
           var data = JSON.parse(data)
-          var keys = Object.keys(data)
-          console.log("keys: ", keys)
-          for(i=0;i<keys.length;i++){
-            var user = data[keys[i]].user
-            if(user_email==user && title == data[keys[i]].title && img==data[keys[i]].img && new Date(datetime).getTime()===new Date(data[keys[i]].date).getTime()){
-              var delete_key = Object.keys(data)[Object.values(data).indexOf(data[keys[i]])];
-            }
+          if(data.name){
+            var username = data.name
+          } else {
+            var username = false
           }
-          db.ref(`attendance/${delete_key}`).remove()
+          if(data.avatar){
+            var avatar = data.avatar
+          } else {
+            var avatar = false
+          }
+          if(data.gender){
+            var gender = data.gender
+          } else {
+            var gender = false
+          }
+          var postData = {
+            title: title,
+            date: this.props.navigation.state.params.item['datetime'],
+            img: this.props.navigation.state.params.item['img'],
+            user: user_email,
+            username: username,
+            avatar: avatar,
+            gender: gender
+          };
+          var newPostKey = db.ref(`attendance`).push().key;
+          return db.ref(`attendance/${newPostKey}`).update(postData);
         })
         .catch((error) =>{
           console.log("Failed to delete: ", error)
         })
-      var postData = {
-        title: title,
-        date: this.props.navigation.state.params.item['datetime'],
-        img: this.props.navigation.state.params.item['img'],
-        user: user_email
-      };
-      var newPostKey = db.ref(`attendance`).push().key;
-      return db.ref(`attendance/${newPostKey}`).update(postData);
     }
   }
   toggle_attendance = (value)=>{this.setState({attendance: value}, ()=>{this.updateAttendance()})}
