@@ -1173,6 +1173,7 @@ export default class ShowDetails extends Component {
             title: title,
             date: this.props.navigation.state.params.item['datetime'],
             img: this.props.navigation.state.params.item['img'],
+            userId: user_id,
             user: user_email,
             username: username,
             avatar: avatar,
@@ -1431,12 +1432,12 @@ export default class ShowDetails extends Component {
                 <TouchableOpacity
                   style={styles.menuTabs}
                   onPress={() => {
-                    this.props.navigation.navigate('Concertgoers', {item})
+                    this.props.navigation.navigate('Attendees', {item})
                   }}
                 >
                   <View style={styles.menuTabText}>
                     <Text>
-                      Concertgoers
+                      Attendees
                     </Text>
                   </View>
                   <View style={styles.menuTabIcon}>

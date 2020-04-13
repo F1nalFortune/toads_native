@@ -12,9 +12,9 @@ import {
 import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
 
-export default class Concertgoers extends Component {
+export default class Attendees extends Component {
   state={
-    items: []
+    users: []
   }
   componentDidMount(){
     const this_event = this.props.navigation.state.params.item
@@ -36,20 +36,23 @@ export default class Concertgoers extends Component {
           var avatar = data[keys[i]].avatar;
           var gender = data[keys[i]].gender;
           var name = data[keys[i]].username;
+          var userId = data[keys[i]].userId;
 
-          console.log("Avatar: ", avatar)
           if(event_title==this_event.title&&event_date==this_event.datetime&&img==this_event.img){
-            var concertgoer={
-              email: email,
-              avatar: avatar,
-              gender: gender,
-              name: name
+            if(email!=firebase.auth().currentUser.email){
+              var concertgoer={
+                email: email,
+                avatar: avatar,
+                gender: gender,
+                name: name,
+                userId: userId
+              }
+              concertgoers.push(concertgoer)
             }
-            concertgoers.push(concertgoer)
           }
         }
         this.setState({
-          items: concertgoers
+          users: concertgoers
         })
       })
       .catch((error) =>{
@@ -71,19 +74,20 @@ export default class Concertgoers extends Component {
         }}
       />
     );
-    const ListPeople = ({item}) => (
+    const ListPeople = ({user}) => (
       <View
         style={{
           flex: 1,
           flexDirection: 'row'
         }}>
         <TouchableOpacity
-          onPress={() => this.props.navigation.push('PrivateMessage')}>
+          onPress={() => this.props.navigation.push('PrivateMessage', {user})}
+          id={user.userId}>
         {
-          item.avatar
+          user.avatar
           ?
           <Image
-            source={{uri: item.avatar}}
+            source={{uri: user.avatar}}
             style={styles.avatar}/>
           :
           <Image
@@ -92,11 +96,11 @@ export default class Concertgoers extends Component {
         }
         <View>
           {
-            item.name
+            user.name
             ?
-            <Text>{item.name}{"\n"}{item.email}</Text>
+            <Text>{user.name}{"\n"}{user.email}</Text>
             :
-            <Text>{item.email}</Text>
+            <Text>{user.email}</Text>
           }
         </View>
         </TouchableOpacity>
@@ -105,9 +109,9 @@ export default class Concertgoers extends Component {
     return (
     <ScrollView>
       {
-        this.state.items.length>0
+        this.state.users.length>0
         ?
-        this.state.items.map(item => <ListPeople item={item} key={this.state.items.indexOf(item)}/>)
+        this.state.users.map(user => <ListPeople user={user} key={this.state.users.indexOf(user)}/>)
         :
         <View></View>
       }
