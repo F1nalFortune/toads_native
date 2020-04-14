@@ -562,31 +562,8 @@ export default class Application extends Component {
         }
       },
       PrivateMessage: {
-        screen: PrivateMessage,
-        navigationOptions: {
-          title: "CHAT",
-          headerStyle: {
-            backgroundColor: "#000000cc",
-            opacity: .8,
-            borderBottomColor: 'green',
-            borderBottomWidth: 1
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            color: "#fff",
-            textShadowColor: "#66ff66",
-            textShadowOffset: {width: -1, height: 1},
-            textShadowRadius: 10,
-            shadowOpacity: .58,
-            textAlign: 'center',
-            fontFamily: "Merriweather-Bold",
-            textTransform: 'uppercase',
-            fontSize: 24,
-            padding: 10
-          }
-        }
-      },
-
+        screen: PrivateMessage
+      }
     });
 
     // This code let you hide the bottom app bar while "Details" is rendered

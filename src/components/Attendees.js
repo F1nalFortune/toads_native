@@ -9,12 +9,14 @@ import {
   ImageBackground,
   Dimensions
 } from 'react-native';
+import LoadingScreen from './LoadingScreen';
 import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
 
 export default class Attendees extends Component {
   state={
-    users: []
+    users: [],
+    loading:true
   }
   componentDidMount(){
     const this_event = this.props.navigation.state.params.item
@@ -32,10 +34,10 @@ export default class Attendees extends Component {
           var event_title = data[keys[i]].title;
           var event_date = data[keys[i]].date;
           var img = data[keys[i]].img;
-          var email = data[keys[i]].user;
-          var avatar = data[keys[i]].avatar;
-          var gender = data[keys[i]].gender;
-          var name = data[keys[i]].username;
+          var email = data[keys[i]].user ? data[keys[i]].user : false;
+          var avatar = data[keys[i]].avatar ? data[keys[i]].avatar : false;
+          var gender = data[keys[i]].gender ? data[keys[i]].gender : false;
+          var name = data[keys[i]].username ? data[keys[i]].username : false;
           var userId = data[keys[i]].userId;
 
           if(event_title==this_event.title&&event_date==this_event.datetime&&img==this_event.img){
@@ -48,6 +50,18 @@ export default class Attendees extends Component {
                 userId: userId
               }
               concertgoers.push(concertgoer)
+            } else {
+              var currentUser = {
+                email: email,
+                avatar: avatar,
+                gender: gender,
+                name: name,
+                userId: userId
+              }
+              this.setState({
+                currentUser: currentUser,
+                loading: false
+              })
             }
           }
         }
@@ -67,22 +81,21 @@ export default class Attendees extends Component {
         style={{
           borderBottomColor: color,
           borderBottomWidth: 1,
-          width: '90%',
-          paddingTop: 10,
+          width: '100%',
           marginLeft: 'auto',
           marginRight: 'auto'
         }}
       />
     );
     const ListPeople = ({user}) => (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row'
-        }}>
+      <View>
         <TouchableOpacity
-          onPress={() => this.props.navigation.push('PrivateMessage', {user})}
-          id={user.userId}>
+          onPress={() => this.props.navigation.push('PrivateMessage', {
+            user: user,
+            currentUser: this.state.currentUser
+          })}
+          id={user.userId}
+          style={styles.container}>
         {
           user.avatar
           ?
@@ -98,81 +111,43 @@ export default class Attendees extends Component {
           {
             user.name
             ?
-            <Text>{user.name}{"\n"}{user.email}</Text>
+            <Text
+              style={styles.text}>{user.name}{"\n"}{user.email}</Text>
             :
-            <Text>{user.email}</Text>
+            <Text
+              style={styles.text}>{user.email}</Text>
           }
         </View>
         </TouchableOpacity>
+        <ColoredLine color="green" />
       </View>
     );
-    return (
-    <ScrollView>
-      {
-        this.state.users.length>0
-        ?
-        this.state.users.map(user => <ListPeople user={user} key={this.state.users.indexOf(user)}/>)
-        :
-        <View></View>
-      }
-    </ScrollView>
-    );
+    if (this.state.loading){
+      return <LoadingScreen />;
+    }else {
+      return (
+        <ScrollView>
+            {this.state.users.map(user => <ListPeople user={user} key={this.state.users.indexOf(user)}/>)}
+        </ScrollView>
+      );
+    }
   }
 }
 
 
 const styles = StyleSheet.create({
   avatar:{
-    borderRadius: 50,
-    width: 100,
-    height: 100
-  },
-  header:{
-    fontSize: 24,
-    textAlign: 'center',
-    fontFamily: "Merriweather-Light"
-  },
-  subhead:{
-    textAlign: 'center',
-    fontFamily: "Merriweather-Light",
-    color: 'red',
-    paddingTop: 10
+    width: 75,
+    height: 75,
+    borderRadius: 50
   },
   container:{
-    paddingTop:20
-  },
-  button:{
-    borderColor: 'green',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    padding: 10,
-    textTransform: 'uppercase',
-    justifyContent: 'center',
+    flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
-    margin: 10
+    padding: 15
   },
-  imgWrapper:{
-    width: '100%'
-  },
-  info:{
-    padding: 25,
-    lineHeight: 20,
-    fontSize: 18,
-    textAlign: 'justify'
-  },
-  privateContainer:{
-    paddingTop: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  privateHeader:{
-    fontSize: 22,
-    fontWeight: 'bold',
-    fontFamily: "Merriweather-Bold",
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center'
+  text:{
+    paddingLeft: 15
   }
-})
+ })

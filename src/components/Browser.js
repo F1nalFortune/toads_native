@@ -16,6 +16,7 @@ export default class Browser extends Component {
       <WebView
           source={{uri: url}}
           startInLoadingState={true}
+          onMessage={(event)=> console.log(event.nativeEvent.data)}
           renderLoading={() => (
             <ActivityIndicator
               color='black'

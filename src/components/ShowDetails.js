@@ -1226,12 +1226,38 @@ export default class ShowDetails extends Component {
     const item = this.props.navigation.state.params.item;
     const url = item.ticket
     console.log("Ticket: ", url)
+    db.ref(`attendance`).once('value')
+      .then((dataSnapShot) => {
+        saved_events = []
+        var data = JSON.stringify(dataSnapShot, null, 2)
+        var data = JSON.parse(data)
+        var keys = Object.keys(data)
+        var attendees = false;
+        for(i=0;i<keys.length;i++){
+          var event_title = data[keys[i]].title;
+          var event_date = data[keys[i]].date;
+          var img = data[keys[i]].img;
+          var email = data[keys[i]].user ? data[keys[i]].user : false;
+          if(event_title==item.title&&event_date==item.datetime&&img==item.img){
+            if(email!=firebase.auth().currentUser.email){
+              var attendees=true;
+            }
+          }
+        }
+        this.setState({
+          attendees: attendees
+        })
+      })
+      .catch((error) =>{
+        console.log("Failed to fetch concertgoers: ", error)
+      })
     // console.log("ACTS")
     // console.log(item['acts'])
 
     if (this.state.isLoading) {
       return <LoadingScreen />;
     }
+    const { attendees } = this.state;
     return(
       <View style={styles.container}>
         <Animated.Image
@@ -1377,6 +1403,7 @@ export default class ShowDetails extends Component {
                       longitudeDelta: 0.0421
                     }}
                     customMapStyle={mapStyle}
+                    scrollEnabled={false}
                   >
                     <MapView.Marker
                       coordinate={{
@@ -1429,30 +1456,32 @@ export default class ShowDetails extends Component {
                   </View>
                 </TouchableOpacity>
                 <ColoredLine color="green" width="100%" padding={1}/>
-                <TouchableOpacity
-                  style={styles.menuTabs}
-                  onPress={() => {
-                    this.props.navigation.navigate('Attendees', {item})
-                  }}
-                >
-                  <View style={styles.menuTabText}>
-                    <Text>
-                      Attendees
-                    </Text>
-                  </View>
-                  <View style={styles.menuTabIcon}>
-                    <Icon
-                       style={styles.menuTabIcon}
-                      name={'chevron-right'}
-                      size={20}
-                      style={{
-                        width:20,
-                        height:20
-                      }}/>
-                  </View>
-                </TouchableOpacity>
-                <ColoredLine color="green" width="100%" padding={1}/>
-                <ColoredLine color="green" width="90%" padding={10}/>
+                {attendees ?
+                  <TouchableOpacity
+                    style={styles.menuTabs}
+                    onPress={() => {
+                      this.props.navigation.navigate('Attendees', {item})
+                    }}
+                  >
+                    <View style={styles.menuTabText}>
+                      <Text>
+                        Attendees
+                      </Text>
+                    </View>
+                    <View style={styles.menuTabIcon}>
+                      <Icon
+                         style={styles.menuTabIcon}
+                        name={'chevron-right'}
+                        size={20}
+                        style={{
+                          width:20,
+                          height:20
+                        }}/>
+                    </View>
+                  </TouchableOpacity>
+                :
+                <View></View> }
+                {attendees ? <ColoredLine color="green" width="100%" padding={1}/> : <View></View>}
                 {this.state.similarArtists.length > 0 ? <View style={[styles.wrapper,{paddingBottom: 300}]}>
                   <View style={{
                     width: '100%',

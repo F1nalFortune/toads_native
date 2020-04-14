@@ -427,6 +427,7 @@ export default class About extends Component {
                       longitudeDelta: 0.0421
                     }}
                     customMapStyle={mapStyle}
+                    scrollEnabled={false}
                   >
                     <MapView.Marker
                       coordinate={{
