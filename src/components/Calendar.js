@@ -14,6 +14,7 @@ import {
 import LoadingScreen from './LoadingScreen';
 import GallerySwiper from "react-native-gallery-swiper";
 import { SliderBox } from "react-native-image-slider-box";
+import { SearchBar } from 'react-native-elements';
 import cio from 'cheerio-without-node-native';
 import {useNetInfo} from "@react-native-community/netinfo";
 import firebase from 'react-native-firebase';
@@ -29,9 +30,14 @@ export default class Calendar extends Component {
     this.state = {
       items: [],
       isLoading: true,
-      tab: 'all'
+      tab: 'all',
+      search: ''
     }
   }
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
 
 
 
@@ -540,12 +546,22 @@ export default class Calendar extends Component {
           style={{backgroundColor: '#d3e6d7'}}
           refreshControl={this._refreshControl()}>
           <View>
+            <SearchBar
+              placeholder="Type Here..."
+              onChangeText={this.updateSearch}
+              value={this.state.search}
+              lightTheme={true}
+            />
             <SliderBox
               images={this.state.features}
               ImageComponentStyle={{
                 borderRadius: 15,
                 resizeMode: 'contain',
-              flex: 1}}
+                flex: 1,
+                margin: 25,
+                marginLeft: 25,
+                marginRight: 25
+              }}
               dotColor='#008000'
               autoplay
               circleLoop />

@@ -4,7 +4,6 @@ import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
 
 export default class PrivateMessage extends React.Component {
-
   state = {
     conversation: false,
     messages: [
@@ -131,6 +130,7 @@ export default class PrivateMessage extends React.Component {
         messages={this.state.messages}
         onSend={messages => this.onSend(messages)}
         user={user}
+        onPressAvatar={() => this.props.navigation.push('PublicProfile', {user})}
       />
     )
   }

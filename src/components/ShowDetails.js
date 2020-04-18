@@ -12,7 +12,8 @@ import {
   ImageBackground,
   Image,
   Animated,
-  Switch
+  Switch,
+  Platform
 } from 'react-native';
 import RNCalendarEvents from 'react-native-calendar-events';
 import Carousel from 'react-native-snap-carousel';
@@ -480,6 +481,31 @@ export default class ShowDetails extends Component {
   scrollAnimatedValue = new Animated.Value(0);
 
   componentDidMount(){
+    db.ref(`attendance`).once('value')
+      .then((dataSnapShot) => {
+        saved_events = []
+        var data = JSON.stringify(dataSnapShot, null, 2)
+        var data = JSON.parse(data)
+        var keys = Object.keys(data)
+        var attendees = false;
+        for(i=0;i<keys.length;i++){
+          var event_title = data[keys[i]].title;
+          var event_date = data[keys[i]].date;
+          var img = data[keys[i]].img;
+          var email = data[keys[i]].user ? data[keys[i]].user : false;
+          if(event_title==item.title&&event_date==item.datetime&&img==item.img){
+            if(email!=firebase.auth().currentUser.email){
+              var attendees=true;
+            }
+          }
+        }
+        this.setState({
+          attendees: attendees
+        })
+      })
+      .catch((error) =>{
+        console.log("Failed to fetch concertgoers: ", error)
+      })
     // iOS
     RNCalendarEvents.authorizationStatus()
      .then(status => {
@@ -1226,31 +1252,7 @@ export default class ShowDetails extends Component {
     const item = this.props.navigation.state.params.item;
     const url = item.ticket
     console.log("Ticket: ", url)
-    db.ref(`attendance`).once('value')
-      .then((dataSnapShot) => {
-        saved_events = []
-        var data = JSON.stringify(dataSnapShot, null, 2)
-        var data = JSON.parse(data)
-        var keys = Object.keys(data)
-        var attendees = false;
-        for(i=0;i<keys.length;i++){
-          var event_title = data[keys[i]].title;
-          var event_date = data[keys[i]].date;
-          var img = data[keys[i]].img;
-          var email = data[keys[i]].user ? data[keys[i]].user : false;
-          if(event_title==item.title&&event_date==item.datetime&&img==item.img){
-            if(email!=firebase.auth().currentUser.email){
-              var attendees=true;
-            }
-          }
-        }
-        this.setState({
-          attendees: attendees
-        })
-      })
-      .catch((error) =>{
-        console.log("Failed to fetch concertgoers: ", error)
-      })
+
     // console.log("ACTS")
     // console.log(item['acts'])
 

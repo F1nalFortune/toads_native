@@ -145,6 +145,8 @@ export default class InboxMessage extends React.Component {
     }
     return (
       <GiftedChat
+        isTyping={true}
+        alwaysShowSend={true}
         messages={this.state.messages}
         onSend={messages => this.onSend(messages)}
         user={user}

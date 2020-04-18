@@ -224,7 +224,7 @@ export default class Profile extends Component {
   render() {
     const { uploading, progress, defaultAvatar } = this.state;
     const { currentUser } = firebase.auth()
-    firebase.analytics().setCurrentScreen('profile');
+    firebase.analytics().setCurrentScreen('privateProfile');
     const ColoredLine = ({ color }) => (
       <View
         style={{

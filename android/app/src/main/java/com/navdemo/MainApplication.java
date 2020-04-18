@@ -4,16 +4,16 @@ import android.app.Application;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import java.util.List;
 
-import io.invertase.firebase.database.RNFirebaseDatabasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.database.RNFirebaseDatabasePackage;
+import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -33,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new RNFirebaseDatabasePackage());
       packages.add(new RNFirebaseAnalyticsPackage());
       packages.add(new RNFirebaseAuthPackage());
+      packages.add(new RNFirebaseStoragePackage());
 
       return packages;
     }
