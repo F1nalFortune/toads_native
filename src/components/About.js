@@ -350,6 +350,7 @@ export default class About extends Component {
 
   render() {
     firebase.analytics().setCurrentScreen('venueInfo');
+    const  merch_url = "https://www.toadsplacemerch.com/"
     return (
     <ScrollView style={styles.background}>
       <SafeAreaView>
@@ -632,7 +633,7 @@ export default class About extends Component {
 
                 <TouchableOpacity
                   style={styles.menuTabs}
-                  onPress={() => Linking.openURL("https://www.toadsplacemerch.com/")}>
+                  onPress={() => this.props.navigation.navigate('Browser', {merch_url})}>
                   <View style={styles.menuTabText}>
                     <Text>
                       Official Merch

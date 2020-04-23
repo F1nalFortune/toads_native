@@ -41,6 +41,7 @@ import Attendees from './Attendees'
 import PrivateMessage from './PrivateMessage'
 import Inbox from './Inbox'
 import InboxMessage from './InboxMessage'
+import Search from './Search'
 import cio from 'cheerio-without-node-native';
 import firebase from 'react-native-firebase';
 
@@ -481,7 +482,34 @@ export default class Application extends Component {
         }
       },
     });
-
+    const SearchStack = createStackNavigator({
+      Search: {
+        screen: Search,
+        navigationOptions: {
+          title: "Search",
+          headerStyle: {
+            backgroundColor: "#000000cc",
+            opacity: .8,
+            borderBottomColor: 'green',
+            borderBottomWidth: 1
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            color: "#fff",
+            textShadowColor: "#66ff66",
+            textShadowOffset: {width: -1, height: 1},
+            textShadowRadius: 10,
+            shadowOpacity: .58,
+            textAlign: 'center',
+            fontFamily: "Merriweather-Bold",
+            textTransform: 'uppercase',
+            fontSize: 24,
+            padding: 10
+          },
+          headerBackTitle: "Events"
+        }
+      }
+    });
     const CalendarStack = createStackNavigator({
       Calendar: {
         screen: Calendar,
@@ -698,6 +726,7 @@ export default class Application extends Component {
     const MainTabs = createBottomTabNavigator({
         Music: { screen: CalendarStack },
         Venue: { screen: VenueStack },
+        Search: {screen:SearchStack},
         Private: { screen: LillyStack},
         Gallery: { screen: GalleryStack},
         Settings: { screen: SettingsStack }
@@ -709,23 +738,18 @@ export default class Application extends Component {
           let iconName;
           if (routeName === 'Venue') {
             iconName = 'building';
-            icon = <Icon name={iconName} size={30} style={styles.glow}/>
-            // We want to add badges to home tab icon
-            // IconComponent = HomeIconWithBadge;
+          } else if (routeName === 'Search'){
+            iconName = 'search';
           } else if (routeName === 'Music') {
             iconName = 'music'
-            icon = <Icon name={iconName} size={30} style={styles.glow}/>
           } else if (routeName ==='Private'){
             iconName = 'glass-cheers';
-            icon = <Icon name={iconName} size={30} style={styles.glow}/>
           } else if(routeName ==='Gallery'){
             iconName= 'camera-retro';
-            icon = <Icon name={iconName} size={30} style={styles.glow}/>
           } else if (routeName === 'Settings'){
             iconName = 'user';
-            icon = <Icon name={iconName} size={30} style={styles.glow}/>
           }
-          return icon;
+          return <Icon name={iconName} size={25} style={styles.glow}/>;
         },
       }),
       tabBarOptions: {
