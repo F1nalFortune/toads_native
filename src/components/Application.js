@@ -214,7 +214,7 @@ export default class Application extends Component {
           }
         }
       },
-    })
+    },{headerLayoutPreset: 'center'})
     SettingsStack.navigationOptions = ({ navigation }) => {
       let tabBarVisible;
       if (navigation.state.routes.length > 1) {
@@ -481,7 +481,7 @@ export default class Application extends Component {
           }
         }
       },
-    });
+    },{headerLayoutPreset: 'center'});
     const SearchStack = createStackNavigator({
       Search: {
         screen: Search,
@@ -509,7 +509,7 @@ export default class Application extends Component {
           headerBackTitle: "Events"
         }
       }
-    });
+    },{headerLayoutPreset: 'center'});
     const CalendarStack = createStackNavigator({
       Calendar: {
         screen: Calendar,
@@ -690,7 +690,7 @@ export default class Application extends Component {
           headerBackTitle: "Back"
         }
       }
-    });
+    },{headerLayoutPreset: 'center'});
 
 
 
@@ -721,7 +721,7 @@ export default class Application extends Component {
           headerBackTitle: "Back"
         }
       }
-    })
+    },{headerLayoutPreset: 'center'})
 
     const MainTabs = createBottomTabNavigator({
         Music: { screen: CalendarStack },
