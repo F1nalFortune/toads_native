@@ -592,7 +592,7 @@ export default class Application extends Component {
       PrivateMessage: {
         screen: PrivateMessage
       }
-    });
+    },{headerLayoutPreset: 'center'});
 
     // This code let you hide the bottom app bar while "Details" is rendered
     CalendarStack.navigationOptions = ({ navigation }) => {

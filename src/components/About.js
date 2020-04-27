@@ -320,7 +320,7 @@ export default class About extends Component {
   }
   componentDidMount() {
     Geolocation.requestAuthorization((position) => {
-      console.log("Status: ", status)
+      console.log("Status: ", position)
     })
     Geolocation.getCurrentPosition(
       //Will give you the current location
@@ -460,7 +460,6 @@ export default class About extends Component {
                     <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Transit</Text>
                   </View>
                 </View>
-
                 <TouchableOpacity
                   onPress={() => {
                     Alert.alert(

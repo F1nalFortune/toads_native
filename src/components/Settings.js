@@ -14,7 +14,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { db } from '../../Firebase';
 
 
-
+// TODO
+// add terms of service for android users
 export default class Settings extends Component {
   state = {
     currentUser: null,

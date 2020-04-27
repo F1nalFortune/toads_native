@@ -4,6 +4,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   StyleSheet,
   Dimensions,
   Alert,
@@ -25,6 +26,11 @@ import { WebView } from 'react-native-webview';
 
 import firebase from 'react-native-firebase';
 import { db } from '../../Firebase';
+
+// TODO
+// add loading screen from directions button press
+// apply to venue info page
+
 
 const mapStyle = [
   {
@@ -1251,7 +1257,7 @@ export default class ShowDetails extends Component {
 
     const item = this.props.navigation.state.params.item;
     const url = item.ticket
-    console.log("Ticket: ", url)
+    console.log(JSON.stringify(this.state, null, 2))
 
     // console.log("ACTS")
     // console.log(item['acts'])
@@ -1277,6 +1283,7 @@ export default class ShowDetails extends Component {
               extrapolateRight: 'clamp',
             })},
           ],
+          zIndex:-1
         }]}
         blurRadius={6}/>
         <Animated.ScrollView
@@ -1294,7 +1301,8 @@ export default class ShowDetails extends Component {
           justifyContent: 'center',
           textAlign: 'center',
           flex: 1,
-          marginTop: -175
+          marginTop: -175,
+          zIndex: 20000
         }}>
           <TouchableOpacity
             onPress={() => this.handleAddEvent(this.state.item)}
@@ -1302,7 +1310,11 @@ export default class ShowDetails extends Component {
             <View>
               <Image
               source={{uri: item.img }}
-              style={{width: Dimensions.get('window').width*.75, height: 250, borderRadius: 5}}>
+              style={{
+                width: Dimensions.get('window').width*.75,
+                height: 250,
+                borderRadius: 5
+              }}>
               </Image>
             </View>
           </TouchableOpacity>
@@ -1372,53 +1384,6 @@ export default class ShowDetails extends Component {
                 </View>
                 <ColoredLine color="green" width="100%" padding={10}/>
                 <TouchableOpacity
-                  style={styles.menuTabs}
-                  onPress={() => {
-                    this.props.navigation.navigate('About', {info: 'tab'})
-                  }}>
-                  <View style={styles.menuTabText}>
-                    <Text style={styles.addressTitle}>Venue Information</Text>
-                    <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
-                  </View>
-                  <View style={styles.menuTabIcon}>
-                    <Icon
-                       style={styles.menuTabIcon}
-                      name={'chevron-right'}
-                      size={20}
-                      style={{
-                        width:20,
-                        height:20
-                      }}/>
-                  </View>
-                </TouchableOpacity>
-
-                  <MapView
-                    style={{
-                      height: 250,
-                      width: '100%'
-                    }}
-                    provider={PROVIDER_GOOGLE}
-                    region={{
-                      latitude: 41.304560,
-                      longitude: -72.934500,
-                      latitudeDelta: 0.0922,
-                      longitudeDelta: 0.0421
-                    }}
-                    customMapStyle={mapStyle}
-                    scrollEnabled={false}
-                  >
-                    <MapView.Marker
-                      coordinate={{
-                        latitude: 41.304560,
-                        longitude: -72.934500,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421
-                      }}>
-                      <Image source={require('../../assets/images/custom_marker.png')}/>
-                    </MapView.Marker>
-                  </MapView>
-
-                <TouchableOpacity
                   style={[styles.menuTabs, {
                     flexDirection: 'row',
                     flex: 1,
@@ -1438,26 +1403,6 @@ export default class ShowDetails extends Component {
                   </View>
                 </TouchableOpacity>
                 <ColoredLine color="green" width="100%" padding={10}/>
-                <TouchableOpacity
-                  style={styles.menuTabs}
-                  onPress={() => this.handleAddEvent(this.state.item)}>
-                  <View style={styles.menuTabText}>
-                    <Text>
-                      {this.state.buttonText}
-                    </Text>
-                  </View>
-                  <View style={styles.menuTabIcon}>
-                    <Icon
-                       style={styles.menuTabIcon}
-                      name={'chevron-right'}
-                      size={20}
-                      style={{
-                        width:20,
-                        height:20
-                      }}/>
-                  </View>
-                </TouchableOpacity>
-                <ColoredLine color="green" width="100%" padding={1}/>
                 {attendees ?
                   <TouchableOpacity
                     style={styles.menuTabs}
@@ -1484,6 +1429,186 @@ export default class ShowDetails extends Component {
                 :
                 <View></View> }
                 {attendees ? <ColoredLine color="green" width="100%" padding={1}/> : <View></View>}
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => this.handleAddEvent(this.state.item)}>
+                  <View style={styles.menuTabText}>
+                    <Text>
+                      {this.state.buttonText}
+                    </Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}
+                      style={{
+                        width:20,
+                        height:20
+                      }}/>
+                  </View>
+                </TouchableOpacity>
+                <ColoredLine color="green" width="100%" padding={10}/>
+                <TouchableOpacity
+                  style={styles.menuTabs}
+                  onPress={() => {
+                    this.props.navigation.navigate('About', {info: 'tab'})
+                  }}>
+                  <View style={styles.menuTabText}>
+                    <Text style={styles.addressTitle}>Venue Information</Text>
+                    <Text style={styles.address}>300 York Street{"\n"}New Haven, CT 06510</Text>
+                  </View>
+                  <View style={styles.menuTabIcon}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}
+                      style={{
+                        width:20,
+                        height:20
+                      }}/>
+                  </View>
+                </TouchableOpacity>
+                  <MapView
+                    style={{
+                      height: 250,
+                      width: '100%'
+                    }}
+                    provider={PROVIDER_GOOGLE}
+                    region={{
+                      latitude: 41.304560,
+                      longitude: -72.934500,
+                      latitudeDelta: 0.0922,
+                      longitudeDelta: 0.0421
+                    }}
+                    customMapStyle={mapStyle}
+                    scrollEnabled={false}
+                  >
+                    <MapView.Marker
+                      coordinate={{
+                        latitude: 41.304560,
+                        longitude: -72.934500,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421
+                      }}>
+                      <Image source={require('../../assets/images/custom_marker.png')}/>
+                    </MapView.Marker>
+                  </MapView>
+                <ColoredLine color="green" width="100%" padding={1}/>
+                <View style={{flexDirection:'row', justifyContent: 'center', flex:1, paddingTop: 10}}>
+                  <View style={{padding: 8}}>
+                    <Icon name={'blind'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                    <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Walking</Text>
+                  </View>
+                  <View style={{padding: 8}}>
+                    <Icon name={'car'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                    <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Driving</Text>
+                  </View>
+                  <View style={{padding: 8}}>
+                    <Icon name={'bicycle'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                    <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Bicycling</Text>
+                  </View>
+                  <View style={{padding: 8}}>
+                    <Icon name={'subway'} size={25} style={{color: 'green', textAlign: 'center'}}/>
+                    <Text style={{textAlign: 'center',fontFamily: "Merriweather-Light", fontSize: 10}}>Transit</Text>
+                  </View>
+                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    Alert.alert(
+                      'Get Directions',
+                      'Choose your travel method.',
+                      [
+                        {
+                          text: 'Driving',
+                          onPress: () => {
+                            try {
+                              var navDemo = NativeModules.NavDemo;
+                              navDemo.renderNaviDemo(
+                                (originLat = this.state.latitude),
+                                (originLon = this.state.longitude),
+                                (originName = 'Current Location'),
+                                (destinationLat = 41.311587),
+                                (destinationLon = -72.929541),
+                                (destinationName = "Toad's Place"),
+                              );
+                            } catch (error) {
+                              console.log("Error: ", error)
+                              try{
+                                Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=driving&dir_action=navigate")
+                              }catch(error){
+                                alert("Check internet connection and try again.")
+                              }
+                            }
+
+                          }
+                        },
+                        {text: 'Walking', onPress: () => {
+                          Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=walking")
+                        }},
+                        {text: 'Bicycling', onPress: () => {
+                          Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=bicycling")
+                        }},
+                        {text: 'Transit', onPress: () => {
+                          Linking.openURL("https://www.google.com/maps/dir/?api=1&destination=Toad's+Place,+300+York+St,+New+Haven,+CT+06511&travelmode=transit")
+                        }},
+                        {text: 'Cancel'}
+                      ]
+                    );
+                  }}>
+                  <Text style={{
+                    borderColor: 'green',
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    borderStyle: 'solid',
+                    padding: 15,
+                    textTransform: 'uppercase',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    color: 'white',
+                    backgroundColor: 'green',
+                    fontWeight: 'bold',
+                    margin: 15
+                  }}>DIRECTIONS</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    padding: 20
+                  }}
+                  onPress={() => Linking.openURL("https://m.uber.com/ul/?action=setPickup&client_id=cshc49dbbtH5MDBojbHt1KGGjc47pCmw&pickup=my_location&dropoff[formatted_address]=300%20York%20Street%2C%20New%20Haven%2C%20CT%2C%20USA&dropoff[latitude]=41.311553&dropoff[longitude]=-72.929597")}>
+                  <View style={{
+                    flexDirection: 'row',
+                    width: '80%'
+                  }}>
+                    <Icon
+                      name={'car'}
+                      size={20}
+                      style={{paddingRight: 20}}/>
+                    <Text>
+                      Ride w/ Uber to the show
+                    </Text>
+                  </View>
+                  <View style={{
+                    flex: 1,
+                    zIndex: 100000,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '20%'
+                  }}>
+                    <Icon
+                       style={styles.menuTabIcon}
+                      name={'chevron-right'}
+                      size={20}
+                      style={{
+                        width:20,
+                        height:20
+                      }}/>
+                  </View>
+                </TouchableOpacity>
+
                 {this.state.similarArtists.length > 0 ? <View style={[styles.wrapper,{paddingBottom: 300}]}>
                   <View style={{
                     width: '100%',

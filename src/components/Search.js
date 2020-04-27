@@ -232,9 +232,8 @@ export default class Calendar extends Component {
       </View>
     </View>);
       return(
-        <ScrollView
-          style={{backgroundColor: '#d3e6d7'}}>
-          <View>
+
+          <ScrollView>
             <SearchBar
               placeholder="Search for artists..."
               onChangeText={this.updateSearch}
@@ -249,8 +248,8 @@ export default class Calendar extends Component {
             <Text> Search for artists that are coming to the venue, or search
             for artists that you would like to see. </Text>
             {this.state.items ? this.state.items.map(item => <ListShows item={item} key={this.state.items.indexOf(item)}/>) :this.state.recommended.map(item => <ListShows item={item} key={this.state.recommended.indexOf(item)}/>)}
-          </View>
-        </ScrollView>
+          </ScrollView>
+
       )
   }
 

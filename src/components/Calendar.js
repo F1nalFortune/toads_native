@@ -21,167 +21,984 @@ import { db } from '../../Firebase';
 
 
 export default class Calendar extends Component {
-  constructor(props) {
-    super(props);
-    this.unsubscribe = null;
-    this.state = {
-      items: [],
-      isLoading: true,
-      tab: 'all',
-      search: ''
-    }
-  }
-
-  async componentDidMount() {
-    const fullDay = function(day) {
-      switch (day) {
-        case 'Fri': return "Friday";
-        case 'Sat': return "Saturday";
-        case 'Sun': return "Sunday";
-        case 'Mon': return "Monday";
-        case 'Tue': return "Tuesday";
-        case 'Wed': return "Wednesday";
-        case 'Thu': return "Thursday"
-      }
-    }
-    const fullMonth = function(month){
-      switch(month) {
-        case 'Jan': return "January";
-        case 'Feb': return "February";
-        case 'Mar': return "March";
-        case 'Apr': return "April";
-        case 'May': return "May";
-        case 'Jun': return "June";
-        case 'Jul': return "July";
-        case 'Aug': return "August";
-        case 'Sep': return "September";
-        case 'Oct': return "October";
-        case 'Nov': return "November";
-        case 'Dec': return "December"
-      }
-    }
-    function myFunction(mystring, variable){
-        values = ['presented by:', 'presents:', 'present:']
-        string_length = mystring.length
-        if (mystring.toLowerCase().includes(values[0])){
-          var presenter = mystring.toLowerCase().split(values[0])
-          presenter[0] = presenter[0].trim() + " " + values[0]
-          var show = presenter[1]
-
-          presenter = mystring.substring(0, presenter[0].length)
-          show = mystring.substring(presenter.length+1, mystring.length)
-          if(variable=='presenter'){
-            return presenter
-          }else if(variable=='show'){
-            return show
-          }
-        }else if(mystring.toLowerCase().includes(values[1])){
-          var presenter = mystring.toLowerCase().split(values[1])
-          presenter[0] = presenter[0].trim() + " " + values[1]
-          presenter = mystring.substring(0, presenter[0].length)
-          // console.log(presenter)
-          show = mystring.substring(presenter.length+1, mystring.length)
-          // console.log(show)
-          if(variable=='presenter'){
-            return presenter
-          }else if(variable=='show'){
-            return show
-          }
-        }else if(mystring.toLowerCase().includes(values[2])){
-          var presenter = mystring.toLowerCase().split(values[2])
-          presenter[0] = presenter[0].trim() + " " + values[2]
-
-          presenter = mystring.substring(0, presenter[0].length)
-          show = mystring.substring(presenter.length+1, mystring.length)
-          if(variable=='presenter'){
-            return presenter
-          }else if(variable=='show'){
-            return show
-          }
-        }else{
-          return false
+  state = {
+  "items": [
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/bearweb.jpg",
+      "information": [
+        "ADVANCE: $30.00",
+        "DAY OF SHOW: $35.00",
+        "DOORS OPEN @ 8:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sat Mar 14 2020 20:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "BEAR GRILLZ & PHISO",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "14",
+        "Sat"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "dubstep"
+      ],
+      "index": 0,
+      "presenter": "AZ Presents, Connecticut Live & Triple Threat Productions Present:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/03/buckweb.jpg",
+      "information": [
+        "ADVANCE: $n/a",
+        "DAY OF SHOW: $n/a",
+        "DOORS OPEN @ 8:00",
+        "SHOW STARTS @ 10:00",
+        "Show is 18+",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sun Mar 15 2020 20:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "SKIP MARLEY",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "15",
+        "Sun"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "reggae"
+      ],
+      "index": 1,
+      "presenter": "Hot 93.7 Reggae Riddimz Presents:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/01/rodwaveweb.jpg",
+      "information": [
+        "ADVANCE: $32.00",
+        "DAY OF SHOW: $35.00",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is 16+",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Thu Mar 19 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "ROD WAVE",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "19",
+        "Thu"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "hip_hop",
+        "rap"
+      ],
+      "index": 2,
+      "presenter": "Big Mike the Ruler Presents:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/pardisonweb.jpg",
+      "information": [
+        "ADVANCE: $18.00",
+        "DAY OF SHOW: $20.00",
+        "DOORS OPEN @ 8:00",
+        "SHOW STARTS @ 9:00",
+        "Show is 16+",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sun Mar 22 2020 20:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "PARDISON FONTAINE",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "22",
+        "Sun"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "hip_hop",
+        "rap"
+      ],
+      "index": 3
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2019/11/lilmoseyweb.jpg",
+      "information": [
+        "ADVANCE: $25.00",
+        "DAY OF SHOW: $30.00",
+        "DOORS OPEN @ 6:30",
+        "SHOW STARTS @ 7:30",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sun Mar 29 2020 18:30:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "Due to circumstances outside of our control, we regret to inform you that Lil Mosey: Certified Hitmaker Tour has been postponed until further notice. Hang on to your tickets, we'll email you as soon as a new date is announced."
+      ],
+      "title": " LIL MOSEY",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "29",
+        "Sun"
+      ],
+      "year": 2020,
+      "genre": [
+        "hip_hop",
+        "rap"
+      ],
+      "index": 4,
+      "presenter": "Live Nation Presents:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2018/04/zachdeputyweb.jpg",
+      "information": [
+        "ADVANCE: $17.00",
+        "DAY OF SHOW: $20.00",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Fri Apr 03 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "ZACH DEPUTY",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Apr",
+        "3",
+        "Fri"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "acoustic",
+        "funk",
+        "reggae"
+      ],
+      "index": 5
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/fettyweb.jpg",
+      "information": [
+        "ADVANCE: $25.00",
+        "DAY OF SHOW: $35.00",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is 16+",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Tue Apr 07 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "Due to circumstances outside of our control, we regret to inform you that Fetty Wap at Toad's Place has been postponed until further notice.Hang on to your tickets, we'll email you as soon as a new date is announced."
+      ],
+      "title": "FETTY WAP",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Apr",
+        "7",
+        "Tue"
+      ],
+      "year": 2020,
+      "genre": [
+        "hip_hop",
+        "rap",
+        "r_n_b"
+      ],
+      "index": 6,
+      "presenter": "Live Nation Presents:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2019/04/wybcxlogo.jpg",
+      "information": [
+        "ADVANCE: $5.00",
+        "DAY OF SHOW: $5.00",
+        "DOORS OPEN @ 8:00",
+        "SHOW STARTS @ 8:30",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Fri Apr 10 2020 20:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been cancelled.Refunds will be issued at point of purchase."
+      ],
+      "title": " YALE ANTE-FLING 2020 feat. JAPANESE BREAKFAST & ARMANI WHITE",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Apr",
+        "10",
+        "Fri"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**CANCELLED**"
+      ],
+      "genre": [
+        "dance"
+      ],
+      "index": 7,
+      "presenter": "WYBCx Presents:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/03/caspaweb.jpg",
+      "information": [
+        "ADVANCE: $30.00",
+        "DAY OF SHOW: $35.00",
+        "DOORS OPEN @ 8:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Fri Apr 24 2020 20:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "Stubbs",
+        "Abomnabl",
+        "Foreshadow"
+      ],
+      "title": "CASPA & BRIGHTSIDE",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Apr",
+        "24",
+        "Fri"
+      ],
+      "year": 2020,
+      "genre": [
+        "dubstep",
+        "emo"
+      ],
+      "index": 8,
+      "presenter": "AZ Presents, Connecticut Live & Triple Threat Productions Present:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/movementsweb.jpg",
+      "information": [
+        "ADVANCE: $20.00",
+        "DAY OF SHOW: $25.00",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sat May 09 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "Teenage Wrist",
+        "Queen of Jeans"
+      ],
+      "title": "MOVEMENTS",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "May",
+        "9",
+        "Sat"
+      ],
+      "year": 2020,
+      "genre": [
+        "emo"
+      ],
+      "index": 9
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/01/irationweb.jpg",
+      "information": [
+        "ADVANCE: $25.00",
+        "DAY OF SHOW: $30.00",
+        "DOORS OPEN @ 6:00",
+        "SHOW STARTS @ 6:30",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Wed May 13 2020 18:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "IRATION",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "May",
+        "13",
+        "Wed"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "reggae"
+      ],
+      "index": 10
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2019/11/aaweb.jpg",
+      "information": [
+        "ADVANCE: $n/a",
+        "DAY OF SHOW: $n/a",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sat May 30 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        ""
+      ],
+      "title": "ANGELS & AIRWAVES - **SOLD OUT**",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "May",
+        "30",
+        "Sat"
+      ],
+      "year": 2020,
+      "genre": [
+        "alternative_rock"
+      ],
+      "index": 11
+    },
+    {
+      "subtitle": [
+        "=LOVE IS NOT DYING TOUR="
+      ],
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/jeremyzuckerweb.jpg",
+      "information": [
+        "ADVANCE: $22.00",
+        "DAY OF SHOW: $27.00",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "title": "JEREMY ZUCKER",
+      "date": [
+        "Jun",
+        "13",
+        "Sat"
+      ],
+      "acts": [
+        "cehryl"
+      ],
+      "year": 2020,
+      "infoLinks": [
+        {
+          "link": "HERE!",
+          "text": "**A limited amount of Meet & Greet Packages are available ",
+          "href": "https://www.etix.com/ticket/p/4648667/live-nation-presentsjeremy-zucker-love-is-not-dying-tour-new-haven-toads-place-of-new-haven"
         }
+      ],
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "genre": [
+        "hip_hop",
+        "indie"
+      ],
+      "datetime": "Sat Jun 13 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "index": 12,
+      "presenter": "Live Nation Presents:"
     }
-    this.checkPermission();
-    this.createNotificationListeners();
-    uid = firebase.auth().currentUser.uid;
-    this.setState({
-      uid: uid
-    })
-    console.disableYellowBox = true;
-    await db.ref(`users/${uid}/genrePref`).once('value')
-      .then((dataSnapShot) => {
-        var string = JSON.stringify(dataSnapShot, null, 2)
-        try{
-          var object = JSON.parse(string)
-          var genres = Object.keys(object)
-          var preferences = Object.values(object)
-          genrePrefs = []
-          for (i=0;i<preferences.length;i++){
-            if(preferences[i]){
-              genrePrefs.push(genres[i])
-            }
-          }
-          // console.log(JSON.stringify(genrePrefs, null, 2))
-          this.setState({genrePrefs: genrePrefs})
-        }catch(e){
-          console.log("Error: ", e)
-          this.setState({genrePrefs: false})
+  ],
+  "isLoading": false,
+  "tab": "all",
+  "search": "",
+  "uid": "YDx3hopOJHcudUbwVx1vlyxokPH2",
+  "genrePrefs": [
+    "hip_hop",
+    "dubstep",
+    "rap"
+  ],
+  "features": [
+    "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+    "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+    "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+    "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+    "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+    "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+  ],
+  "recommended": [
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/bearweb.jpg",
+      "information": [
+        "ADVANCE: $30.00",
+        "DAY OF SHOW: $35.00",
+        "DOORS OPEN @ 8:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sat Mar 14 2020 20:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "BEAR GRILLZ & PHISO",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "14",
+        "Sat"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "dubstep"
+      ],
+      "index": 0,
+      "presenter": "AZ Presents, Connecticut Live & Triple Threat Productions Present:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/01/rodwaveweb.jpg",
+      "information": [
+        "ADVANCE: $32.00",
+        "DAY OF SHOW: $35.00",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is 16+",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Thu Mar 19 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "ROD WAVE",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "19",
+        "Thu"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "hip_hop",
+        "rap"
+      ],
+      "index": 2,
+      "presenter": "Big Mike the Ruler Presents:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/pardisonweb.jpg",
+      "information": [
+        "ADVANCE: $18.00",
+        "DAY OF SHOW: $20.00",
+        "DOORS OPEN @ 8:00",
+        "SHOW STARTS @ 9:00",
+        "Show is 16+",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sun Mar 22 2020 20:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "This show has been postponed.New date TBA.",
+        "All tickets for this event will be honored on the new date."
+      ],
+      "title": "PARDISON FONTAINE",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "22",
+        "Sun"
+      ],
+      "year": 2020,
+      "starInfo": [
+        "**POSTPONED**"
+      ],
+      "genre": [
+        "hip_hop",
+        "rap"
+      ],
+      "index": 3
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2019/11/lilmoseyweb.jpg",
+      "information": [
+        "ADVANCE: $25.00",
+        "DAY OF SHOW: $30.00",
+        "DOORS OPEN @ 6:30",
+        "SHOW STARTS @ 7:30",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Sun Mar 29 2020 18:30:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "Due to circumstances outside of our control, we regret to inform you that Lil Mosey: Certified Hitmaker Tour has been postponed until further notice. Hang on to your tickets, we'll email you as soon as a new date is announced."
+      ],
+      "title": " LIL MOSEY",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Mar",
+        "29",
+        "Sun"
+      ],
+      "year": 2020,
+      "genre": [
+        "hip_hop",
+        "rap"
+      ],
+      "index": 4,
+      "presenter": "Live Nation Presents:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/fettyweb.jpg",
+      "information": [
+        "ADVANCE: $25.00",
+        "DAY OF SHOW: $35.00",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is 16+",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Tue Apr 07 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "Due to circumstances outside of our control, we regret to inform you that Fetty Wap at Toad's Place has been postponed until further notice.Hang on to your tickets, we'll email you as soon as a new date is announced."
+      ],
+      "title": "FETTY WAP",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Apr",
+        "7",
+        "Tue"
+      ],
+      "year": 2020,
+      "genre": [
+        "hip_hop",
+        "rap",
+        "r_n_b"
+      ],
+      "index": 6,
+      "presenter": "Live Nation Presents:"
+    },
+    {
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/03/caspaweb.jpg",
+      "information": [
+        "ADVANCE: $30.00",
+        "DAY OF SHOW: $35.00",
+        "DOORS OPEN @ 8:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "datetime": "Fri Apr 24 2020 20:00:00 GMT-0400 (Eastern Daylight Time)",
+      "acts": [
+        "Stubbs",
+        "Abomnabl",
+        "Foreshadow"
+      ],
+      "title": "CASPA & BRIGHTSIDE",
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "date": [
+        "Apr",
+        "24",
+        "Fri"
+      ],
+      "year": 2020,
+      "genre": [
+        "dubstep",
+        "emo"
+      ],
+      "index": 8,
+      "presenter": "AZ Presents, Connecticut Live & Triple Threat Productions Present:"
+    },
+    {
+      "subtitle": [
+        "=LOVE IS NOT DYING TOUR="
+      ],
+      "ticket": "http://www.etix.com/ticket/v/677/toads-place-of-new-haven",
+      "img": "http://www.toadsplace.com/wp/wp-content/uploads/2020/02/jeremyzuckerweb.jpg",
+      "information": [
+        "ADVANCE: $22.00",
+        "DAY OF SHOW: $27.00",
+        "DOORS OPEN @ 7:00",
+        "SHOW STARTS @ 8:00",
+        "Show is All Ages",
+        "[ GET TIX ]"
+      ],
+      "title": "JEREMY ZUCKER",
+      "date": [
+        "Jun",
+        "13",
+        "Sat"
+      ],
+      "acts": [
+        "cehryl"
+      ],
+      "year": 2020,
+      "infoLinks": [
+        {
+          "link": "HERE!",
+          "text": "**A limited amount of Meet & Greet Packages are available ",
+          "href": "https://www.etix.com/ticket/p/4648667/live-nation-presentsjeremy-zucker-love-is-not-dying-tour-new-haven-toads-place-of-new-haven"
         }
-        db.ref('events').once('value')
-          .then((dataSnapShotTwo) => {
-            saved_shows = []
-            dataSnapShotTwo.forEach(function(childSnapshot) {
-              // childData will be the actual contents of the child
-              var childData = childSnapshot.val();
-              saved_shows.push(childData)
-            });
-            var items = saved_shows
-            var matches = []
-            for(i=0;i<items.length;i++){
-              var index = items.indexOf(items[i])
-              items[i]['index'] = index
-              if(myFunction(items[i].title, 'presenter')){
-                var title = myFunction(items[i].title, 'show')
-                var presenter = myFunction(items[i].title, 'presenter')
-                items[i].title = title
-                items[i].presenter = presenter
-              }
-              //find events with user genre preference
-              var genres = items[i]['genre']
-              genres = Object.values(genres)
-              try{
-                var match = this.state.genrePrefs.some(r=> genres.includes(r))
-                if(match){
-                  matches.push(items[i])
-                }
-                var features = items[0]['slides']
-                this.setState({
-                  items: items,
-                  isLoading: false,
-                  features: features,
-                  recommended: matches,
-                  tab: 'all'
-                })
-              }catch(e){
-                console.log("Error: ", e)
-                var features = items[0]['slides']
-                this.setState({
-                  items: items,
-                  isLoading: false,
-                  features: features,
-                  recommended: false,
-                  tab: 'all'
-                })
-              }
-            }
-            // console.log("Genre Preferences")
-            // console.log(JSON.stringify(this.state.genrePrefs, null, 2))
-            // console.log("Matched Shows")
-            // console.log(JSON.stringify(matches, null, 2))
-          })
-      })
+      ],
+      "slides": [
+        "http://toadsplace.com/2012/slide_images/index_jeremyzucker.jpg",
+        "http://toadsplace.com/2012/slide_images/index_rodwave.jpg",
+        "http://toadsplace.com/2012/slide_images/index_caspa.jpg",
+        "http://toadsplace.com/2012/slide_images/index_fettywap.jpg",
+        "http://toadsplace.com/2012/slide_images/index_bear.jpg",
+        "http://toadsplace.com/2012/slide_images/index_movements.jpg"
+      ],
+      "genre": [
+        "hip_hop",
+        "indie"
+      ],
+      "datetime": "Sat Jun 13 2020 19:00:00 GMT-0400 (Eastern Daylight Time)",
+      "index": 12,
+      "presenter": "Live Nation Presents:"
     }
+  ]
+}
+  // constructor(props) {
+  //   super(props);
+  //   this.unsubscribe = null;
+  //   this.state = {
+  //     items: [],
+  //     isLoading: true,
+  //     tab: 'all',
+  //     search: ''
+  //   }
+  // }
+
+  // async componentDidMount() {
+  //   const fullDay = function(day) {
+  //     switch (day) {
+  //       case 'Fri': return "Friday";
+  //       case 'Sat': return "Saturday";
+  //       case 'Sun': return "Sunday";
+  //       case 'Mon': return "Monday";
+  //       case 'Tue': return "Tuesday";
+  //       case 'Wed': return "Wednesday";
+  //       case 'Thu': return "Thursday"
+  //     }
+  //   }
+  //   const fullMonth = function(month){
+  //     switch(month) {
+  //       case 'Jan': return "January";
+  //       case 'Feb': return "February";
+  //       case 'Mar': return "March";
+  //       case 'Apr': return "April";
+  //       case 'May': return "May";
+  //       case 'Jun': return "June";
+  //       case 'Jul': return "July";
+  //       case 'Aug': return "August";
+  //       case 'Sep': return "September";
+  //       case 'Oct': return "October";
+  //       case 'Nov': return "November";
+  //       case 'Dec': return "December"
+  //     }
+  //   }
+  //   function myFunction(mystring, variable){
+  //       values = ['presented by:', 'presents:', 'present:']
+  //       string_length = mystring.length
+  //       if (mystring.toLowerCase().includes(values[0])){
+  //         var presenter = mystring.toLowerCase().split(values[0])
+  //         presenter[0] = presenter[0].trim() + " " + values[0]
+  //         var show = presenter[1]
+  //
+  //         presenter = mystring.substring(0, presenter[0].length)
+  //         show = mystring.substring(presenter.length+1, mystring.length)
+  //         if(variable=='presenter'){
+  //           return presenter
+  //         }else if(variable=='show'){
+  //           return show
+  //         }
+  //       }else if(mystring.toLowerCase().includes(values[1])){
+  //         var presenter = mystring.toLowerCase().split(values[1])
+  //         presenter[0] = presenter[0].trim() + " " + values[1]
+  //         presenter = mystring.substring(0, presenter[0].length)
+  //         // console.log(presenter)
+  //         show = mystring.substring(presenter.length+1, mystring.length)
+  //         // console.log(show)
+  //         if(variable=='presenter'){
+  //           return presenter
+  //         }else if(variable=='show'){
+  //           return show
+  //         }
+  //       }else if(mystring.toLowerCase().includes(values[2])){
+  //         var presenter = mystring.toLowerCase().split(values[2])
+  //         presenter[0] = presenter[0].trim() + " " + values[2]
+  //
+  //         presenter = mystring.substring(0, presenter[0].length)
+  //         show = mystring.substring(presenter.length+1, mystring.length)
+  //         if(variable=='presenter'){
+  //           return presenter
+  //         }else if(variable=='show'){
+  //           return show
+  //         }
+  //       }else{
+  //         return false
+  //       }
+  //   }
+  //   this.checkPermission();
+  //   this.createNotificationListeners();
+  //   uid = firebase.auth().currentUser.uid;
+  //   this.setState({
+  //     uid: uid
+  //   })
+  //   console.disableYellowBox = true;
+  //   await db.ref(`users/${uid}/genrePref`).once('value')
+  //     .then((dataSnapShot) => {
+  //       var string = JSON.stringify(dataSnapShot, null, 2)
+  //       try{
+  //         var object = JSON.parse(string)
+  //         var genres = Object.keys(object)
+  //         var preferences = Object.values(object)
+  //         genrePrefs = []
+  //         for (i=0;i<preferences.length;i++){
+  //           if(preferences[i]){
+  //             genrePrefs.push(genres[i])
+  //           }
+  //         }
+  //         // console.log(JSON.stringify(genrePrefs, null, 2))
+  //         this.setState({genrePrefs: genrePrefs})
+  //       }catch(e){
+  //         console.log("Error: ", e)
+  //         this.setState({genrePrefs: false})
+  //       }
+  //       db.ref('events').once('value')
+  //         .then((dataSnapShotTwo) => {
+  //           saved_shows = []
+  //           dataSnapShotTwo.forEach(function(childSnapshot) {
+  //             // childData will be the actual contents of the child
+  //             var childData = childSnapshot.val();
+  //             saved_shows.push(childData)
+  //           });
+  //           var items = saved_shows
+  //           var matches = []
+  //           for(i=0;i<items.length;i++){
+  //             var index = items.indexOf(items[i])
+  //             items[i]['index'] = index
+  //             if(myFunction(items[i].title, 'presenter')){
+  //               var title = myFunction(items[i].title, 'show')
+  //               var presenter = myFunction(items[i].title, 'presenter')
+  //               items[i].title = title
+  //               items[i].presenter = presenter
+  //             }
+  //             //find events with user genre preference
+  //             var genres = items[i]['genre']
+  //             genres = Object.values(genres)
+  //             try{
+  //               var match = this.state.genrePrefs.some(r=> genres.includes(r))
+  //               if(match){
+  //                 matches.push(items[i])
+  //               }
+  //               var features = items[0]['slides']
+  //               this.setState({
+  //                 items: items,
+  //                 isLoading: false,
+  //                 features: features,
+  //                 recommended: matches,
+  //                 tab: 'all'
+  //               })
+  //             }catch(e){
+  //               console.log("Error: ", e)
+  //               var features = items[0]['slides']
+  //               this.setState({
+  //                 items: items,
+  //                 isLoading: false,
+  //                 features: features,
+  //                 recommended: false,
+  //                 tab: 'all'
+  //               })
+  //             }
+  //           }
+  //           // console.log("Genre Preferences")
+  //           // console.log(JSON.stringify(this.state.genrePrefs, null, 2))
+  //           // console.log("Matched Shows")
+  //           // console.log(JSON.stringify(matches, null, 2))
+  //         })
+  //     })
+  //   }
 
 //Remove listeners allocated in createNotificationListeners()
   componentWillUnmount() {
@@ -529,6 +1346,7 @@ export default class Calendar extends Component {
         </TouchableOpacity>
       </View>
     </View>);
+    console.log(JSON.stringify(this.state, null, 2))
     if (this.state.isLoading) {
       return <LoadingScreen />;
     } else{
@@ -549,7 +1367,8 @@ export default class Calendar extends Component {
               }}
               dotColor='#008000'
               autoplay
-              circleLoop />
+              circleLoop
+              imageLoadingColor="#008000" />
 
           </View>
           <View>
